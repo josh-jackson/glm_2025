@@ -1,0 +1,6 @@
+---
+title: "Advanced Psychological Statistics"
+---
+
+
+Welcome to the first day of class! If you want to follow along with examples, head over to github for all of the code and data. https://github.com/josh-jackson/glm_2025

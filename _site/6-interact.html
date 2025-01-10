@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GLM 2024 - Interactions II</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GLM 2024</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./lectures.html" rel="" target="">
+ <span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./homework.html" rel="" target="">
+ <span class="menu-text">homework</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./syllabus.html" rel="" target="">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mixing-categorical-and-continuous" id="toc-mixing-categorical-and-continuous" class="nav-link active" data-scroll-target="#mixing-categorical-and-continuous">Mixing categorical and continuous</a></li>
+  <li><a href="#interpreting-slopes" id="toc-interpreting-slopes" class="nav-link" data-scroll-target="#interpreting-slopes">Interpreting slopes</a></li>
+  <li><a href="#visualizing" id="toc-visualizing" class="nav-link" data-scroll-target="#visualizing">Visualizing</a></li>
+  <li><a href="#visualizing-1" id="toc-visualizing-1" class="nav-link" data-scroll-target="#visualizing-1">Visualizing</a></li>
+  <li><a href="#interactions" id="toc-interactions" class="nav-link" data-scroll-target="#interactions">Interactions</a></li>
+  <li><a href="#visualizing-2" id="toc-visualizing-2" class="nav-link" data-scroll-target="#visualizing-2">Visualizing</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#pop-quiz" id="toc-pop-quiz" class="nav-link" data-scroll-target="#pop-quiz">Pop Quiz</a></li>
+  <li><a href="#model-summary-centering-predictors" id="toc-model-summary-centering-predictors" class="nav-link" data-scroll-target="#model-summary-centering-predictors">Model summary: centering predictors</a></li>
+  <li><a href="#plotting-results" id="toc-plotting-results" class="nav-link" data-scroll-target="#plotting-results">Plotting results</a></li>
+  <li><a href="#uncentered-plot" id="toc-uncentered-plot" class="nav-link" data-scroll-target="#uncentered-plot">Uncentered Plot</a></li>
+  <li><a href="#factorial-anova" id="toc-factorial-anova" class="nav-link" data-scroll-target="#factorial-anova">Factorial ANOVA</a></li>
+  <li><a href="#terminology" id="toc-terminology" class="nav-link" data-scroll-target="#terminology">Terminology</a></li>
+  <li><a href="#terminology-1" id="toc-terminology-1" class="nav-link" data-scroll-target="#terminology-1">Terminology</a></li>
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
+  <li><a href="#marginal-means" id="toc-marginal-means" class="nav-link" data-scroll-target="#marginal-means">Marginal means</a></li>
+  <li><a href="#marginal-means-1" id="toc-marginal-means-1" class="nav-link" data-scroll-target="#marginal-means-1">Marginal means</a></li>
+  <li><a href="#the-linear-model-way" id="toc-the-linear-model-way" class="nav-link" data-scroll-target="#the-linear-model-way">The Linear Model Way</a></li>
+  <li><a href="#mean-differences" id="toc-mean-differences" class="nav-link" data-scroll-target="#mean-differences">Mean differences</a></li>
+  <li><a href="#interpretation-of-significance-tests" id="toc-interpretation-of-significance-tests" class="nav-link" data-scroll-target="#interpretation-of-significance-tests">Interpretation of significance tests</a></li>
+  <li><a href="#cell-contrasts" id="toc-cell-contrasts" class="nav-link" data-scroll-target="#cell-contrasts">Cell contrasts</a></li>
+  <li><a href="#marginal-contrasts" id="toc-marginal-contrasts" class="nav-link" data-scroll-target="#marginal-contrasts">Marginal contrasts</a></li>
+  <li><a href="#effect-sizes" id="toc-effect-sizes" class="nav-link" data-scroll-target="#effect-sizes">effect sizes</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="6-interact.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Interactions II</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="mixing-categorical-and-continuous" class="level2">
+<h2 class="anchored" data-anchor-id="mixing-categorical-and-continuous">Mixing categorical and continuous</h2>
+<p>Consider the case where D is a variable representing two groups. In a univariate regression, how do we interpret the coefficient for D?</p>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}D\]</span></p>
+</section>
+<section id="interpreting-slopes" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-slopes">Interpreting slopes</h2>
+<p>Extending this to the multivariate case, where X is continuous and D is a dummy code representing two groups.</p>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}D + b_2X\]</span></p>
+<p>How do we interpret <span class="math inline">\(b_1?\)</span></p>
+</section>
+<section id="visualizing" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing">Visualizing</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">022520</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">each =</span> <span class="dv">10</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">20</span>) <span class="sc">+</span> D</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span>D <span class="sc">+</span> X <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(X,Y,D)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>means <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(D) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">M =</span> <span class="fu">mean</span>(Y))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">=</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X <span class="sc">+</span> D, <span class="at">data =</span> df)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>pmod <span class="ot">=</span> <span class="fu">predict</span>(mod)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>predict<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(X)<span class="sc">+</span>.<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">D =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>predict<span class="fl">.2</span><span class="sc">$</span>Y <span class="ot">=</span> <span class="fu">predict</span>(mod, <span class="at">newdata =</span> predict<span class="fl">.2</span>) </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>predict<span class="fl">.2</span> <span class="ot">=</span> <span class="fu">cbind</span>(predict<span class="fl">.2</span>[<span class="dv">1</span>,], predict<span class="fl">.2</span>[<span class="dv">2</span>,])</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(predict<span class="fl">.2</span>) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"x1"</span>, <span class="st">"d1"</span>, <span class="st">"y1"</span>, <span class="st">"x2"</span>, <span class="st">"d2"</span>, <span class="st">"y2"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(X,Y, <span class="at">color =</span> <span class="fu">as.factor</span>(D))) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">y =</span> pmod), <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> F)<span class="sc">+</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"D"</span>) <span class="sc">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> y1, <span class="at">xend =</span> x2, <span class="at">yend =</span> y2), <span class="at">data =</span> predict<span class="fl">.2</span>, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">inherit.aes =</span> F, <span class="at">size =</span> <span class="fl">1.5</span>)<span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="visualizing-1" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-1">Visualizing</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="interactions" class="level2">
+<h2 class="anchored" data-anchor-id="interactions">Interactions</h2>
+<p>Now extend this example to include joint effects, not just additive effects:</p>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}D + b_2X + b_3DX\]</span></p>
+<p>How do we interpret <span class="math inline">\(b_1?\)</span>, <span class="math inline">\(b_2\)</span>, <span class="math inline">\(b_3?\)</span>?</p>
+</section>
+<section id="visualizing-2" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-2">Visualizing</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(X,Y, <span class="at">color =</span> <span class="fu">as.factor</span>(D))) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> F)<span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"D"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<p>Where should we draw the segment to compare means?</p>
+<p>???</p>
+<p>Where you draw the segment changes the difference in means. That’s why <span class="math inline">\(b_1\)</span> can only be interpreted as the difference in means when X = 0.</p>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>Wash U is interested in understanding how undergraduates’ academic performance and choice of major impacts their career success. They contact 150 alumni between the ages of 25 and 35 and collect their current salary (in thousands of dollars), their primary undergraduate major, and their GPA upon graduating.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:ggplot2':
+
+    %+%, alpha</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(inc_data<span class="sc">$</span>major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   Econ English   Psych 
+     50      50      50 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(inc_data[,<span class="fu">c</span>(<span class="st">"gpa"</span>, <span class="st">"income"</span>)], <span class="at">fast =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       vars   n  mean   sd median   min    max  range  skew kurtosis   se
+gpa       1 150  3.36  0.4   3.36  2.44   4.19   1.74 -0.22    -0.65 0.03
+income    2 150 84.35 34.0  82.23 24.67 160.27 135.60  0.15    -0.90 2.78</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>career.mod <span class="ot">=</span> <span class="fu">lm</span>(income <span class="sc">~</span> gpa<span class="sc">*</span>major, <span class="at">data =</span> inc_data)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(career.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = income ~ gpa * major, data = inc_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-42.625 -11.869   0.376   9.301  40.942 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       -59.181     22.902  -2.584   0.0108 *  
+gpa                59.660      7.705   7.743 1.58e-12 ***
+majorEnglish      -81.747     37.149  -2.201   0.0294 *  
+majorPsych       -175.314     35.462  -4.944 2.10e-06 ***
+gpa:majorEnglish   -4.562     11.089  -0.411   0.6814    
+gpa:majorPsych     29.545     10.949   2.698   0.0078 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 14.91 on 144 degrees of freedom
+Multiple R-squared:  0.8142,    Adjusted R-squared:  0.8077 
+F-statistic: 126.2 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="pop-quiz" class="level2">
+<h2 class="anchored" data-anchor-id="pop-quiz">Pop Quiz</h2>
+<p>For the model just defined in the previous slide…</p>
+<ul>
+<li>Write out the regression equation</li>
+<li>Interpret each term</li>
+<li>Where is Econ?</li>
+</ul>
+</section>
+<section id="model-summary-centering-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="model-summary-centering-predictors">Model summary: centering predictors</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inc_data<span class="sc">$</span>gpa_c <span class="ot">=</span> inc_data<span class="sc">$</span>gpa <span class="sc">-</span> <span class="fu">mean</span>(inc_data<span class="sc">$</span>gpa)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>career.mod_c <span class="ot">=</span> <span class="fu">lm</span>(income <span class="sc">~</span> gpa_c<span class="sc">*</span>major, <span class="at">data =</span> inc_data)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(career.mod_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = income ~ gpa_c * major, data = inc_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-42.625 -11.869   0.376   9.301  40.942 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)         141.428      3.752  37.691  &lt; 2e-16 ***
+gpa_c                59.660      7.705   7.743 1.58e-12 ***
+majorEnglish        -97.086      4.907 -19.783  &lt; 2e-16 ***
+majorPsych          -75.965      4.384 -17.327  &lt; 2e-16 ***
+gpa_c:majorEnglish   -4.562     11.089  -0.411   0.6814    
+gpa_c:majorPsych     29.545     10.949   2.698   0.0078 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 14.91 on 144 degrees of freedom
+Multiple R-squared:  0.8142,    Adjusted R-squared:  0.8077 
+F-statistic: 126.2 on 5 and 144 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="plotting-results" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-results">Plotting results</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>predictedvals <span class="ot">=</span> <span class="fu">ggpredict</span>(<span class="at">model =</span> career.mod_c, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"gpa_c"</span>, <span class="st">"major"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Some of the focal terms are of type `character`. This may lead to
+  unexpected results. It is recommended to convert these variables to
+  factors before fitting the model.
+  The following variables are of type character: `major`</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> predictedvals, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">group =</span> group)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> conf.high,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> group,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> group),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">stat =</span> <span class="st">"identity"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GPA"</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Income (in thousands of dollars)"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"I am in the wrong profession"</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Undergraduate Major"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Undergraduate Major"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">group =</span> <span class="st">"Undergraduate Major"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="uncentered-plot" class="level2">
+<h2 class="anchored" data-anchor-id="uncentered-plot">Uncentered Plot</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>predictedvals <span class="ot">=</span> <span class="fu">ggpredict</span>(<span class="at">model =</span> career.mod, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"gpa"</span>, <span class="st">"major"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Some of the focal terms are of type `character`. This may lead to
+  unexpected results. It is recommended to convert these variables to
+  factors before fitting the model.
+  The following variables are of type character: `major`</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> predictedvals, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">group =</span> group)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> conf.high,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> group,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> group),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">stat =</span> <span class="st">"identity"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GPA"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Income (in thousands of dollars)"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"I am in the wrong profession"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Undergraduate Major"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Undergraduate Major"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">group =</span> <span class="st">"Undergraduate Major"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="factorial-anova" class="level2">
+<h2 class="anchored" data-anchor-id="factorial-anova">Factorial ANOVA</h2>
+<p>The interaction of two or more categorical variables in a general linear model is formally known as <strong>Factorial ANOVA</strong>.</p>
+<p>A factorial design is used when there is an interest in how two or more variables (or factors) affect the outcome.</p>
+<ul>
+<li><p>Rather than conduct separate one-way ANOVAs for each factor, they are all included in one analysis.</p></li>
+<li><p>The unique and important advantage to a factorial ANOVA over separate one-way ANOVAs is the ability to examine interactions.</p></li>
+</ul>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>SD<span class="ot">=</span><span class="dv">120</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>DV_Slow_N <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">600</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal distribution</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>DV_Slow_C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">590</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal distribution</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>DV_Slow_U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">585</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal distribution</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>DV_Med_N <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">550</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>DV_Med_C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">450</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>DV_Med_U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">300</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>DV_Fast_N <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">310</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>DV_Fast_C <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">305</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>DV_Fast_U <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">290</span>,<span class="at">sd=</span>SD) <span class="co"># draw 20 from normal</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># put DVs together in a data frame; specify Speed and Noise Values</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">Time =</span> <span class="fu">c</span>(DV_Slow_N,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>                           DV_Slow_C,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                           DV_Slow_U,</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>                           DV_Med_N,</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>                           DV_Med_C,</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>                           DV_Med_U,</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>                           DV_Fast_N,</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>                           DV_Fast_C,</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>                           DV_Fast_U),</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Speed =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Slow"</span>, <span class="st">"Medium"</span>, <span class="st">"Fast"</span>), <span class="at">each =</span> <span class="dv">60</span>),</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Noise =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Controllable"</span>, <span class="st">"Uncontrollable"</span>), </span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">each =</span> <span class="dv">20</span>), <span class="dv">3</span>)) <span class="co">#repeat each label 20 times, then repeat that whole sequence 3 times</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>Data<span class="sc">$</span>Speed <span class="ot">=</span> <span class="fu">factor</span>(Data<span class="sc">$</span>Speed, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Slow"</span>, <span class="st">"Medium"</span>, <span class="st">"Fast"</span>)) <span class="co"># set order of levels as I want them presented</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>Data<span class="sc">$</span>Noise <span class="ot">=</span> <span class="fu">factor</span>(Data<span class="sc">$</span>Noise, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Controllable"</span>, <span class="st">"Uncontrollable"</span>)) <span class="co"># set order of levels as I want them presented</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ul>
+<li>The example data are from a simulated study in which 180 participants performed an eye-hand coordination task in which they were required to keep a mouse pointer on a red dot that moved in a circular motion.</li>
+</ul>
+<p><img src="dot.jpg" class="img-fluid"></p>
+<ul>
+<li>The outcome was the time of the 10th failure. The experiment used a completely crossed, 3 x 3 factorial design. One factor was dot speed: .5, 1, or 1.5 revolutions per second. The second factor was noise condition. Some participants performed the task without any noise; others were subjected to periodic and unpredictable 3-second bursts of 85 dB white noise played over earphones. Of those subjected to noise, half could do nothing to stop the noise (uncontrollable noise); half believed they could stop the noise by pressing a button (controllable noise).</li>
+</ul>
+</section>
+<section id="terminology" class="level2">
+<h2 class="anchored" data-anchor-id="terminology">Terminology</h2>
+<p>In a <strong>completely crossed</strong> factorial design, each level of one factor occurs in combination with each level of the other factor.</p>
+<p>If equal numbers of participants occur in each combination, the design is <strong>balanced</strong>. This has some distinct advantages (described later).</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">Slow</th>
+<th style="text-align: center;">Medium</th>
+<th style="text-align: center;">Fast</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No Noise</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Controllable Noise</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Uncontrollable Noise</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="terminology-1" class="level2">
+<h2 class="anchored" data-anchor-id="terminology-1">Terminology</h2>
+<p>We describe the factorial ANOVA design by the number of <strong>levels</strong> of each <strong>factor.</strong></p>
+<ul>
+<li><p>Factor: a variable that is being manipulated or in which there are two or more groups</p></li>
+<li><p>Level: the different groups within a factor</p></li>
+</ul>
+<p>In this case, we have a 3 x 3 ANOVA (“three by three”), because our first factor (speed) has three levels (slow, medium, and fast) and our second factor (noise) also has three levels (none, controllable, and uncontrollable)</p>
+</section>
+<section id="questions" class="level2">
+<h2 class="anchored" data-anchor-id="questions">Questions</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mean.summary <span class="ot">=</span> Data <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Noise, Speed) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Time =</span> <span class="fu">mean</span>(Time)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(<span class="st">"Speed"</span>, <span class="st">"Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Noise'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mean.summary<span class="sc">$</span>Noise <span class="ot">=</span> <span class="fu">as.character</span>(mean.summary<span class="sc">$</span>Noise)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>mean.summary<span class="sc">$</span>Marginal <span class="ot">=</span> <span class="fu">rowMeans</span>(mean.summary[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>mean.summary[<span class="dv">4</span>,<span class="dv">1</span>] <span class="ot">=</span> <span class="st">"Marginal"</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>mean.summary[<span class="dv">4</span>,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">colMeans</span>(mean.summary[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">na.rm=</span>T)[<span class="dv">1</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>mean.summary[<span class="dv">4</span>,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">colMeans</span>(mean.summary[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">na.rm=</span>T)[<span class="dv">2</span>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>mean.summary[<span class="dv">4</span>,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">colMeans</span>(mean.summary[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">na.rm=</span>T)[<span class="dv">3</span>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>mean.summary[<span class="dv">4</span>,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">colMeans</span>(mean.summary[<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">na.rm=</span>T)[<span class="dv">4</span>]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'
+
+The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mean.summary, <span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>() <span class="sc">%&gt;%</span> <span class="fu">group_rows</span>(<span class="at">start_row =</span> <span class="dv">1</span>, <span class="at">end_row =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Noise</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Slow</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Medium</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Fast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Marginal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid"><strong></strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">None</td>
+<td style="text-align: right;">630.72</td>
+<td style="text-align: right;">525.29</td>
+<td style="text-align: right;">329.28</td>
+<td style="text-align: right;">495.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Controllable</td>
+<td style="text-align: right;">576.67</td>
+<td style="text-align: right;">492.72</td>
+<td style="text-align: right;">287.23</td>
+<td style="text-align: right;">452.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Uncontrollable</td>
+<td style="text-align: right;">594.44</td>
+<td style="text-align: right;">304.62</td>
+<td style="text-align: right;">268.16</td>
+<td style="text-align: right;">389.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marginal</td>
+<td style="text-align: right;">600.61</td>
+<td style="text-align: right;">440.88</td>
+<td style="text-align: right;">294.89</td>
+<td style="text-align: right;">445.46</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbarplot</span>(<span class="at">data =</span> Data, <span class="at">x =</span> <span class="st">"Speed"</span>, <span class="at">y =</span> <span class="st">"Time"</span>, <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"mean_ci"</span>), <span class="at">fill =</span> <span class="st">"#562457"</span>, <span class="at">xlab =</span> <span class="st">"Speed Condition"</span>, <span class="at">ylab =</span> <span class="st">"Mean Seconds (95% CI)"</span>, <span class="at">title =</span> <span class="st">"Failure time as a function of</span><span class="sc">\n</span><span class="st">speed condition"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Looks like the mean differences are substantial. The ANOVA will be able to tell us if the means are significantly different and the magnitude of those differences in terms of variance accounted for.</p>
+</section>
+<section id="marginal-means" class="level2">
+<h2 class="anchored" data-anchor-id="marginal-means">Marginal means</h2>
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Noise</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Slow</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Medium</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Fast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Marginal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid"><strong></strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">None</td>
+<td style="text-align: right;">630.72</td>
+<td style="text-align: right;">525.29</td>
+<td style="text-align: right;">329.28</td>
+<td style="text-align: right; font-weight: bold; color: white !important; background-color: rgba(86, 36, 87, 255) !important;">495.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Controllable</td>
+<td style="text-align: right;">576.67</td>
+<td style="text-align: right;">492.72</td>
+<td style="text-align: right;">287.23</td>
+<td style="text-align: right; font-weight: bold; color: white !important; background-color: rgba(86, 36, 87, 255) !important;">452.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Uncontrollable</td>
+<td style="text-align: right;">594.44</td>
+<td style="text-align: right;">304.62</td>
+<td style="text-align: right;">268.16</td>
+<td style="text-align: right; font-weight: bold; color: white !important; background-color: rgba(86, 36, 87, 255) !important;">389.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marginal</td>
+<td style="text-align: right;">600.61</td>
+<td style="text-align: right;">440.88</td>
+<td style="text-align: right;">294.89</td>
+<td style="text-align: right; font-weight: bold; color: white !important; background-color: rgba(86, 36, 87, 255) !important;">445.46</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<p>Regardless of dot speed, does noise condition affect performance? Performance declines in the presence of noise, especially if the noise is uncontrollable.</p>
+<p>Here, too adding information about variability allows us a sense of whether these are significant and meaningful differences…</p>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggbarplot</span>(<span class="at">data =</span> Data, <span class="at">x =</span> <span class="st">"Noise"</span>, <span class="at">y =</span> <span class="st">"Time"</span>, <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"mean_ci"</span>), <span class="at">fill =</span> <span class="st">"#562457"</span>, <span class="at">xlab =</span> <span class="st">"Noise Condition"</span>, <span class="at">ylab =</span> <span class="st">"Mean Seconds (95% CI)"</span>, <span class="at">title =</span> <span class="st">"Failure time as a function of</span><span class="sc">\n</span><span class="st">noise condition"</span>) <span class="sc">+</span> cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>(<span class="at">font_size =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The mean differences are not as apparent for this factor</p>
+</section>
+<section id="marginal-means-1" class="level2">
+<h2 class="anchored" data-anchor-id="marginal-means-1">Marginal means</h2>
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Noise</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Slow</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Medium</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Fast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Marginal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid"><strong></strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">None</td>
+<td style="text-align: right;">630.72</td>
+<td style="text-align: right;">525.29</td>
+<td style="text-align: right;">329.28</td>
+<td style="text-align: right;">495.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Controllable</td>
+<td style="text-align: right;">576.67</td>
+<td style="text-align: right;">492.72</td>
+<td style="text-align: right;">287.23</td>
+<td style="text-align: right;">452.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Uncontrollable</td>
+<td style="text-align: right;">594.44</td>
+<td style="text-align: right;">304.62</td>
+<td style="text-align: right;">268.16</td>
+<td style="text-align: right;">389.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marginal</td>
+<td style="text-align: right;">600.61</td>
+<td style="text-align: right;">440.88</td>
+<td style="text-align: right;">294.89</td>
+<td style="text-align: right;">445.46</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<p>The <strong>marginal mean differences</strong> correspond to main effects. They tell us what impact a particular factor has, ignoring the impact of the other factor.</p>
+<p>The remaining effect in a factorial design, and it primary advantage over separate one-way ANOVAs, is the ability to examine <strong>conditional mean differences</strong>.</p>
+</section>
+<section id="the-linear-model-way" class="level2">
+<h2 class="anchored" data-anchor-id="the-linear-model-way">The Linear Model Way</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Time <span class="sc">~</span> Noise<span class="sc">*</span>Speed, <span class="at">data =</span> Data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Time ~ Noise * Speed, data = Data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-316.23  -70.82    4.99   79.87  244.40 
+
+Coefficients:
+                                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                       630.72      25.32  24.908  &lt; 2e-16 ***
+NoiseControllable                 -54.05      35.81  -1.509  0.13305    
+NoiseUncontrollable               -36.28      35.81  -1.013  0.31243    
+SpeedMedium                      -105.44      35.81  -2.944  0.00369 ** 
+SpeedFast                        -301.45      35.81  -8.418 1.49e-14 ***
+NoiseControllable:SpeedMedium      21.48      50.64   0.424  0.67201    
+NoiseUncontrollable:SpeedMedium  -184.39      50.64  -3.641  0.00036 ***
+NoiseControllable:SpeedFast        12.01      50.64   0.237  0.81287    
+NoiseUncontrollable:SpeedFast     -24.84      50.64  -0.490  0.62448    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 113.2 on 171 degrees of freedom
+Multiple R-squared:  0.6109,    Adjusted R-squared:  0.5927 
+F-statistic: 33.56 on 8 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="mean-differences" class="level2">
+<h2 class="anchored" data-anchor-id="mean-differences">Mean differences</h2>
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Noise</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Slow</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Medium</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Fast</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Marginal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" data-grouplength="3">
+<td colspan="5" style="border-bottom: 1px solid"><strong></strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">None</td>
+<td style="text-align: right; background-color: rgba(238, 202, 202, 255) !important;">630.72</td>
+<td style="text-align: right; background-color: rgba(178, 212, 235, 255) !important;">525.29</td>
+<td style="text-align: right; background-color: rgba(255, 255, 197, 255) !important;">329.28</td>
+<td style="text-align: right; color: white !important; background-color: grey !important;">495.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Controllable</td>
+<td style="text-align: right; background-color: rgba(238, 202, 202, 255) !important;">576.67</td>
+<td style="text-align: right; background-color: rgba(178, 212, 235, 255) !important;">492.72</td>
+<td style="text-align: right; background-color: rgba(255, 255, 197, 255) !important;">287.23</td>
+<td style="text-align: right; color: white !important; background-color: grey !important;">452.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding-left: 2em;" data-indentlevel="1">Uncontrollable</td>
+<td style="text-align: right; background-color: rgba(238, 202, 202, 255) !important;">594.44</td>
+<td style="text-align: right; background-color: rgba(178, 212, 235, 255) !important;">304.62</td>
+<td style="text-align: right; background-color: rgba(255, 255, 197, 255) !important;">268.16</td>
+<td style="text-align: right; color: white !important; background-color: grey !important;">389.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; background-color: white !important;">Marginal</td>
+<td style="text-align: right; background-color: rgba(238, 202, 202, 255) !important; background-color: white !important;">600.61</td>
+<td style="text-align: right; background-color: rgba(178, 212, 235, 255) !important; background-color: white !important;">440.88</td>
+<td style="text-align: right; background-color: rgba(255, 255, 197, 255) !important; background-color: white !important;">294.89</td>
+<td style="text-align: right; color: white !important; background-color: grey !important; background-color: white !important;">445.46</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<p>Are the marginal mean differences for noise condition a good representation of what is happening within each of the dot speed conditions?</p>
+<p>If not, then we would need to say that the noise condition effect depends upon (is conditional on) dot speed. We would have an interaction between noise condition and dot speed condition.</p>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">lm</span>(Time <span class="sc">~</span>Speed<span class="sc">*</span>Noise, <span class="at">data =</span> Data)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>model.data <span class="ot">=</span> <span class="fu">plot_model</span>(model, <span class="at">type =</span> <span class="st">"int"</span>)<span class="sc">$</span>data</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> predicted, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">8</span>), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">width =</span> .<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high), <span class="at">width =</span> .<span class="dv">3</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="st">"Speed Condition"</span>, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Slow"</span>, <span class="st">"Medium"</span>, <span class="st">"Fast"</span>)) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Mean Seconds (95% CI)"</span>, <span class="at">fill =</span> <span class="st">"Noise Condition"</span>, <span class="at">title =</span> <span class="st">"Failure time as a function of</span><span class="sc">\n</span><span class="st">noise condition and speed condition"</span>) <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>(<span class="at">font_size =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="6-interact_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The noise condition means are most distinctly different in the medium speed condition. The noise condition means are clearly not different in the fast speed condition.</p>
+</section>
+<section id="interpretation-of-significance-tests" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-of-significance-tests">Interpretation of significance tests</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">=</span> <span class="fu">lm</span>(Time <span class="sc">~</span> Speed<span class="sc">*</span>Noise, <span class="at">data =</span> Data)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: Time
+             Df  Sum Sq Mean Sq  F value    Pr(&gt;F)    
+Speed         2 2805871 1402936 109.3975 &lt; 2.2e-16 ***
+Noise         2  341315  170658  13.3075 4.252e-06 ***
+Speed:Noise   4  295720   73930   5.7649 0.0002241 ***
+Residuals   171 2192939   12824                       
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>All three null hypotheses are rejected. This only tells us that systemic differences among the means are present; follow-up comparisons are necessary to determine the nature of the differences.</p>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Time ~ Speed * Noise, data = Data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-316.23  -70.82    4.99   79.87  244.40 
+
+Coefficients:
+                                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                       630.72      25.32  24.908  &lt; 2e-16 ***
+SpeedMedium                      -105.44      35.81  -2.944  0.00369 ** 
+SpeedFast                        -301.45      35.81  -8.418 1.49e-14 ***
+NoiseControllable                 -54.05      35.81  -1.509  0.13305    
+NoiseUncontrollable               -36.28      35.81  -1.013  0.31243    
+SpeedMedium:NoiseControllable      21.48      50.64   0.424  0.67201    
+SpeedFast:NoiseControllable        12.01      50.64   0.237  0.81287    
+SpeedMedium:NoiseUncontrollable  -184.39      50.64  -3.641  0.00036 ***
+SpeedFast:NoiseUncontrollable     -24.84      50.64  -0.490  0.62448    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 113.2 on 171 degrees of freedom
+Multiple R-squared:  0.6109,    Adjusted R-squared:  0.5927 
+F-statistic: 33.56 on 8 and 171 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>em <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, <span class="sc">~</span> Speed <span class="sc">:</span> Noise )</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>em </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Speed  Noise          emmean   SE  df lower.CL upper.CL
+ Slow   None              631 25.3 171      581      681
+ Medium None              525 25.3 171      475      575
+ Fast   None              329 25.3 171      279      379
+ Slow   Controllable      577 25.3 171      527      627
+ Medium Controllable      493 25.3 171      443      543
+ Fast   Controllable      287 25.3 171      237      337
+ Slow   Uncontrollable    594 25.3 171      544      644
+ Medium Uncontrollable    305 25.3 171      255      355
+ Fast   Uncontrollable    268 25.3 171      218      318
+
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+<section id="cell-contrasts" class="level2">
+<h2 class="anchored" data-anchor-id="cell-contrasts">Cell contrasts</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(em)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast                                    estimate   SE  df t.ratio p.value
+ Slow None - Medium None                        105.4 35.8 171   2.944  0.0856
+ Slow None - Fast None                          301.4 35.8 171   8.418  &lt;.0001
+ Slow None - Slow Controllable                   54.1 35.8 171   1.509  0.8498
+ Slow None - Medium Controllable                138.0 35.8 171   3.854  0.0051
+ Slow None - Fast Controllable                  343.5 35.8 171   9.592  &lt;.0001
+ Slow None - Slow Uncontrollable                 36.3 35.8 171   1.013  0.9842
+ Slow None - Medium Uncontrollable              326.1 35.8 171   9.106  &lt;.0001
+ Slow None - Fast Uncontrollable                362.6 35.8 171  10.124  &lt;.0001
+ Medium None - Fast None                        196.0 35.8 171   5.473  &lt;.0001
+ Medium None - Slow Controllable                -51.4 35.8 171  -1.435  0.8828
+ Medium None - Medium Controllable               32.6 35.8 171   0.910  0.9922
+ Medium None - Fast Controllable                238.1 35.8 171   6.648  &lt;.0001
+ Medium None - Slow Uncontrollable              -69.2 35.8 171  -1.931  0.5933
+ Medium None - Medium Uncontrollable            220.7 35.8 171   6.162  &lt;.0001
+ Medium None - Fast Uncontrollable              257.1 35.8 171   7.180  &lt;.0001
+ Fast None - Slow Controllable                 -247.4 35.8 171  -6.908  &lt;.0001
+ Fast None - Medium Controllable               -163.4 35.8 171  -4.564  0.0003
+ Fast None - Fast Controllable                   42.0 35.8 171   1.174  0.9609
+ Fast None - Slow Uncontrollable               -265.2 35.8 171  -7.405  &lt;.0001
+ Fast None - Medium Uncontrollable               24.7 35.8 171   0.689  0.9989
+ Fast None - Fast Uncontrollable                 61.1 35.8 171   1.707  0.7417
+ Slow Controllable - Medium Controllable         84.0 35.8 171   2.344  0.3219
+ Slow Controllable - Fast Controllable          289.4 35.8 171   8.082  &lt;.0001
+ Slow Controllable - Slow Uncontrollable        -17.8 35.8 171  -0.496  0.9999
+ Slow Controllable - Medium Uncontrollable      272.1 35.8 171   7.597  &lt;.0001
+ Slow Controllable - Fast Uncontrollable        308.5 35.8 171   8.615  &lt;.0001
+ Medium Controllable - Fast Controllable        205.5 35.8 171   5.738  &lt;.0001
+ Medium Controllable - Slow Uncontrollable     -101.7 35.8 171  -2.841  0.1114
+ Medium Controllable - Medium Uncontrollable    188.1 35.8 171   5.252  &lt;.0001
+ Medium Controllable - Fast Uncontrollable      224.6 35.8 171   6.271  &lt;.0001
+ Fast Controllable - Slow Uncontrollable       -307.2 35.8 171  -8.579  &lt;.0001
+ Fast Controllable - Medium Uncontrollable      -17.4 35.8 171  -0.486  0.9999
+ Fast Controllable - Fast Uncontrollable         19.1 35.8 171   0.533  0.9998
+ Slow Uncontrollable - Medium Uncontrollable    289.8 35.8 171   8.093  &lt;.0001
+ Slow Uncontrollable - Fast Uncontrollable      326.3 35.8 171   9.111  &lt;.0001
+ Medium Uncontrollable - Fast Uncontrollable     36.5 35.8 171   1.018  0.9837
+
+P value adjustment: tukey method for comparing a family of 9 estimates </code></pre>
+</div>
+</div>
+</section>
+<section id="marginal-contrasts" class="level2">
+<h2 class="anchored" data-anchor-id="marginal-contrasts">Marginal contrasts</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> Speed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: Results may be misleading due to involvement in interactions</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$emmeans
+ Speed  emmean   SE  df lower.CL upper.CL
+ Slow      601 14.6 171      572      629
+ Medium    441 14.6 171      412      470
+ Fast      295 14.6 171      266      324
+
+Results are averaged over the levels of: Noise 
+Confidence level used: 0.95 
+
+$contrasts
+ contrast      estimate   SE  df t.ratio p.value
+ Slow - Medium      160 20.7 171   7.726  &lt;.0001
+ Slow - Fast        306 20.7 171  14.787  &lt;.0001
+ Medium - Fast      146 20.7 171   7.061  &lt;.0001
+
+Results are averaged over the levels of: Noise 
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+</div>
+</section>
+<section id="effect-sizes" class="level2">
+<h2 class="anchored" data-anchor-id="effect-sizes">effect sizes</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>em.ef <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, pairwise <span class="sc">~</span> Speed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: Results may be misleading due to involvement in interactions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eff_size</span>(em.ef, <span class="at">sigma =</span> <span class="fu">sigma</span>(fit), <span class="at">edf =</span> <span class="dv">171</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Since 'object' is a list, we are using the contrasts already present.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast        effect.size    SE  df lower.CL upper.CL
+ (Slow - Medium)        1.41 0.198 171    1.020     1.80
+ (Slow - Fast)          2.70 0.234 171    2.238     3.16
+ (Medium - Fast)        1.29 0.195 171    0.903     1.67
+
+Results are averaged over the levels of: Noise 
+sigma used for effect sizes: 113.2 
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

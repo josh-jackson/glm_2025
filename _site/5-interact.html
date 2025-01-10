@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>GLM 2024 - Interactions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">GLM 2024</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./lectures.html" rel="" target="">
+ <span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./homework.html" rel="" target="">
+ <span class="menu-text">homework</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./syllabus.html" rel="" target="">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#today" id="toc-today" class="nav-link active" data-scroll-target="#today">Today</a></li>
+  <li><a href="#what-are-interactions" id="toc-what-are-interactions" class="nav-link" data-scroll-target="#what-are-interactions">What are interactions?</a></li>
+  <li><a href="#what-are-interactions-1" id="toc-what-are-interactions-1" class="nav-link" data-scroll-target="#what-are-interactions-1">What are interactions?</a></li>
+  <li><a href="#univariate-regression" id="toc-univariate-regression" class="nav-link" data-scroll-target="#univariate-regression">Univariate regression</a></li>
+  <li><a href="#multivariate-regression" id="toc-multivariate-regression" class="nav-link" data-scroll-target="#multivariate-regression">Multivariate regression</a></li>
+  <li><a href="#multivariate-regression-with-an-interaction" id="toc-multivariate-regression-with-an-interaction" class="nav-link" data-scroll-target="#multivariate-regression-with-an-interaction">Multivariate regression with an interaction</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#conceptual-interpretation" id="toc-conceptual-interpretation" class="nav-link" data-scroll-target="#conceptual-interpretation">Conceptual interpretation</a></li>
+  <li><a href="#conceptual-interpretation-1" id="toc-conceptual-interpretation-1" class="nav-link" data-scroll-target="#conceptual-interpretation-1">Conceptual interpretation</a></li>
+  <li><a href="#conceptual-interpretation-2" id="toc-conceptual-interpretation-2" class="nav-link" data-scroll-target="#conceptual-interpretation-2">Conceptual interpretation</a></li>
+  <li><a href="#conceptual-interpretation-3" id="toc-conceptual-interpretation-3" class="nav-link" data-scroll-target="#conceptual-interpretation-3">Conceptual interpretation</a></li>
+  <li><a href="#conditional-effects-and-simple-slopes" id="toc-conditional-effects-and-simple-slopes" class="nav-link" data-scroll-target="#conditional-effects-and-simple-slopes">Conditional effects and simple slopes</a></li>
+  <li><a href="#interaction-shapes" id="toc-interaction-shapes" class="nav-link" data-scroll-target="#interaction-shapes">Interaction shapes</a></li>
+  <li><a href="#ordinal-interactions" id="toc-ordinal-interactions" class="nav-link" data-scroll-target="#ordinal-interactions">Ordinal interactions</a></li>
+  <li><a href="#cross-over-disordinal-interactions" id="toc-cross-over-disordinal-interactions" class="nav-link" data-scroll-target="#cross-over-disordinal-interactions">Cross-over (disordinal) interactions</a></li>
+  <li><a href="#pop-quiz" id="toc-pop-quiz" class="nav-link" data-scroll-target="#pop-quiz">Pop Quiz</a></li>
+  <li><a href="#simple-slopes---significance-tests" id="toc-simple-slopes---significance-tests" class="nav-link" data-scroll-target="#simple-slopes---significance-tests">Simple slopes - Significance tests</a></li>
+  <li><a href="#simple-slopes---significance-tests-1" id="toc-simple-slopes---significance-tests-1" class="nav-link" data-scroll-target="#simple-slopes---significance-tests-1">Simple slopes - Significance tests</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1">Example</a></li>
+  <li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering">Centering</a></li>
+  <li><a href="#standardized-regression-equation" id="toc-standardized-regression-equation" class="nav-link" data-scroll-target="#standardized-regression-equation">Standardized regression equation</a></li>
+  <li><a href="#standardized-regression-equation-1" id="toc-standardized-regression-equation-1" class="nav-link" data-scroll-target="#standardized-regression-equation-1">Standardized regression equation</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="5-interact.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Interactions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="today" class="level2">
+<h2 class="anchored" data-anchor-id="today">Today</h2>
+<p>Interactions/moderation</p>
+</section>
+<section id="what-are-interactions" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-interactions">What are interactions?</h2>
+<p>When we have two variables, A and B, in a regression model, we are testing whether these variables have <strong>additive effects</strong> on our outcome, Y. That is, the effect of A on Y is constant over all values of B.</p>
+<ul>
+<li>Example: Drinking coffee and hours of sleep have additive effects on alertness; no matter how any hours I slept the previous night, drinking one cup of coffee will make me .5 SD more awake than not drinking coffee.</li>
+</ul>
+</section>
+<section id="what-are-interactions-1" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-interactions-1">What are interactions?</h2>
+<p>However, we may hypothesize that two variables have <strong>joint effects</strong>, or interact with each other. In this case, the effect of A on Y changes as a function of B.</p>
+<ul>
+<li>Example: Chronic stress has a negative impact on health but only for individuals who receive little or no social support; for individuals with high social support, chronic stress has no impact on health.</li>
+<li>This is also referred to as <strong>moderation.</strong></li>
+</ul>
+</section>
+<section id="univariate-regression" class="level2">
+<h2 class="anchored" data-anchor-id="univariate-regression">Univariate regression</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">022020</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y  <span class="ot">=</span> x<span class="sc">*</span>z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(x,y) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>, <span class="at">se =</span> F) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="multivariate-regression" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-regression">Multivariate regression</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visreg)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">=</span> x</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">=</span> z</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>mr.model <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg2d</span>(mr.model,<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="at">plot.type =</span> <span class="st">"persp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="multivariate-regression-with-an-interaction" class="level2">
+<h2 class="anchored" data-anchor-id="multivariate-regression-with-an-interaction">Multivariate regression with an interaction</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mr.model2 <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1<span class="sc">*</span>x2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg2d</span>(mr.model2,<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="at">plot.type =</span> <span class="st">"persp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<p>We shall return to the data we used in the multiple regression model with two continuous variables. Here we have an outcome (Stress) that we are interested in predicting from trait Anxiety and levels of Social Support.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/jackson/Library/CloudStorage/Box-Box/GLM_3890/2025</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stress.data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"stress.csv"</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'psych'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:ggplot2':
+
+    %+%, alpha</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(stress.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        vars   n   mean     sd median trimmed    mad  min    max  range  skew
+id         1 118 488.65 295.95 462.50  485.76 372.13 2.00 986.00 984.00  0.10
+Anxiety    2 118   7.61   2.49   7.75    7.67   2.26 0.70  14.64  13.94 -0.18
+Stress     3 118   5.18   1.88   5.27    5.17   1.65 0.62  10.32   9.71  0.08
+Support    4 118   8.73   3.28   8.52    8.66   3.16 0.02  17.34  17.32  0.18
+group*     5 118   1.53   0.50   2.00    1.53   0.00 1.00   2.00   1.00 -0.10
+        kurtosis    se
+id         -1.29 27.24
+Anxiety     0.28  0.23
+Stress      0.22  0.17
+Support     0.19  0.30
+group*     -2.01  0.05</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>i.model1 <span class="ot">=</span> <span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety <span class="sc">+</span> Support <span class="sc">+</span> Anxiety<span class="sc">:</span>Support, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> stress.data)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>i.model2 <span class="ot">=</span> <span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety<span class="sc">*</span>Support, <span class="at">data =</span> stress.data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Both methods of specifying the interaction above will work in R. Using the <code>*</code> tells R to create both the (partial) main effects and interaction effect. Note, however that the following code <em>gives you the wrong results</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>imodel_bad <span class="ot">=</span> <span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety<span class="sc">:</span>Support, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> stress.data) <span class="co"># this does not create main effects. </span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#It is VERY WRONG</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>i.model1 <span class="ot">=</span> <span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety<span class="sc">*</span>Support, <span class="at">data =</span> stress.data)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(i.model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Stress ~ Anxiety * Support, data = stress.data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.8163 -1.0783  0.0373  0.9200  3.6109 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     -2.73966    1.12101  -2.444  0.01606 *  
+Anxiety          0.61561    0.13010   4.732 6.44e-06 ***
+Support          0.66697    0.09547   6.986 2.02e-10 ***
+Anxiety:Support -0.04174    0.01309  -3.188  0.00185 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.462 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+</section>
+<section id="conceptual-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-interpretation">Conceptual interpretation</h2>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\]</span></p>
+<p>You can interpret the interaction term in the same way you normally interpret a slope coefficient – this is the effect of the interaction controlling for other variables in the model.</p>
+<p>You can also interpret the intercept the same way as before (the expected value of Y when all predictors are 0).</p>
+<p>But here, <span class="math inline">\(b_1\)</span> is the effect of X on Y when Z is equal to 0.</p>
+</section>
+<section id="conceptual-interpretation-1" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-interpretation-1">Conceptual interpretation</h2>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\]</span></p>
+<p><strong>Lower-order terms</strong> change depending on the values of the higher-order terms. The value of <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2\)</span> will change depending on the value of <span class="math inline">\(b_3\)</span>.</p>
+<ul>
+<li>These values represent “conditional effects” (because the value is conditional on the level of the other variable). In many cases, the value and significance test with these terms is either meaningless (if Z is never equal to 0) or unhelpful, as these values and significance change across the data.</li>
+</ul>
+</section>
+<section id="conceptual-interpretation-2" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-interpretation-2">Conceptual interpretation</h2>
+<p><span class="math display">\[\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\]</span></p>
+<p><strong>Higher-order terms</strong> are those terms that represent interactions. <span class="math inline">\(b_3\)</span> is a higher-order term. - This value represents how much the slope of X changes for every 1-unit increase in Z AND how much the slope of Z changes for everyone 1-unit increase in X.</p>
+<p>???</p>
+<p>Is <span class="math inline">\(b_0\)</span> a higher-order or lower-order term?</p>
+<p>Ask what values <span class="math inline">\(b_0\)</span> depends on – both intercept and slope. Maybe be helpful to use paper to represent plane.</p>
+</section>
+<section id="conceptual-interpretation-3" class="level2">
+<h2 class="anchored" data-anchor-id="conceptual-interpretation-3">Conceptual interpretation</h2>
+<p>Higher-order interaction terms represent: - the change in the slope of X as a function of Z - the degree of curvature in the regression plane - the linear effect of the product of independent variables</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stress.data<span class="sc">$</span>AxS <span class="ot">=</span> stress.data<span class="sc">$</span>Anxiety<span class="sc">*</span>stress.data<span class="sc">$</span>Support</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stress.data[,<span class="fu">c</span>(<span class="st">"Anxiety"</span>, <span class="st">"Support"</span>, <span class="st">"AxS"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Anxiety Support       AxS
+1 10.18520  6.1602  62.74287
+2  5.58873  8.9069  49.77826
+3  6.58500 10.5433  69.42763
+4  8.95430 11.4605 102.62076
+5  7.59910  5.5516  42.18716
+6  8.15600  7.5117  61.26543</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety <span class="sc">+</span> Support <span class="sc">+</span> AxS, <span class="at">data =</span> stress.data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Stress ~ Anxiety + Support + AxS, data = stress.data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.8163 -1.0783  0.0373  0.9200  3.6109 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -2.73966    1.12101  -2.444  0.01606 *  
+Anxiety      0.61561    0.13010   4.732 6.44e-06 ***
+Support      0.66697    0.09547   6.986 2.02e-10 ***
+AxS         -0.04174    0.01309  -3.188  0.00185 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.462 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety<span class="sc">*</span>Support, <span class="at">data =</span> stress.data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Stress ~ Anxiety * Support, data = stress.data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.8163 -1.0783  0.0373  0.9200  3.6109 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     -2.73966    1.12101  -2.444  0.01606 *  
+Anxiety          0.61561    0.13010   4.732 6.44e-06 ***
+Support          0.66697    0.09547   6.986 2.02e-10 ***
+Anxiety:Support -0.04174    0.01309  -3.188  0.00185 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.462 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+<p>They’re the same!!</p>
+</section>
+<section id="conditional-effects-and-simple-slopes" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-effects-and-simple-slopes">Conditional effects and simple slopes</h2>
+<p>The regression line estimated in this model is quite difficult to interpret on its own. A good strategy is to decompose the regression equation into <strong>simple slopes</strong>, which are determined by calculating the conditional effects at a specific level of the moderating variable.</p>
+<ul>
+<li><p>Simple slope: the equation for Y on X at different levels of Z; but also refers to only the coefficient for X in this equation</p></li>
+<li><p>Conditional effect: the slope coefficients in the full regression model which can change. These are the lower-order terms associated with a variable. E.g., X has a conditional effect on Y.</p></li>
+</ul>
+<p>Which variable is the “predictor” (X) and which is the “moderator” (Z)?</p>
+<hr>
+<p>The conditional nature of these effects is easiest to see by “plugging in” different values for one of your variables. Return to the regression equation estimated in our stress data:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>imodel <span class="ot">=</span> <span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety<span class="sc">*</span>Support, <span class="at">data =</span> stress.data)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>C.vector <span class="ot">=</span> <span class="fu">coef</span>(<span class="fu">summary</span>(imodel))[,<span class="dv">1</span>]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>C.round <span class="ot">=</span> <span class="fu">round</span>(C.vector,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p><span class="math display">\[\hat{Stress} = -2.74 + 0.62(\text{Anx})+ 0.67(\text{Sup})+ -0.04(\text{Anx} \times \text{Sup})\]</span></p>
+<hr>
+<p><strong>Set Support to 5</strong> <span class="math display">\[
+\begin{aligned}
+\hat{Stress} &amp;= -2.74 + 0.62(\text{Anx})+ 0.67(5)+ -0.04(\text{Anx} \times 5) \\
+&amp;= -2.74 + 0.62(\text{Anx})+ 3.35+ -0.2(\text{Anx}) \\
+&amp;= 0.61 + 0.42(\text{Anx})
+\end{aligned}
+\]</span></p>
+<hr>
+<p><strong>Set Support to 10</strong> <span class="math display">\[
+\begin{aligned}
+\hat{Stress} &amp;= -2.74 + 0.62(\text{Anx})+ 0.67(10)+ -0.04(\text{Anx} \times 10) \\
+&amp;= -2.74 + 0.62(\text{Anx})+ 6.7+ -0.4(\text{Anx}) \\
+&amp;= 3.96 + 0.22(\text{Anx})
+\end{aligned}
+\]</span></p>
+</section>
+<section id="interaction-shapes" class="level2">
+<h2 class="anchored" data-anchor-id="interaction-shapes">Interaction shapes</h2>
+<p>Often we graph the simple slopes as a way to understand the interaction. Interpreting the shape of an interaction can be done using the numbers alone, but it requires a lot of calculation and mental rotation. For those reasons, consider it a requirement that you graph interactions in order to interpret them.</p>
+</section>
+<section id="ordinal-interactions" class="level2">
+<h2 class="anchored" data-anchor-id="ordinal-interactions">Ordinal interactions</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">=</span> .<span class="dv">7</span> <span class="sc">+</span> .<span class="dv">9</span><span class="sc">*</span>x</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">=</span> .<span class="dv">6</span> <span class="sc">+</span> .<span class="dv">2</span><span class="sc">*</span>x</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>y3 <span class="ot">=</span> .<span class="dv">5</span> <span class="sc">-</span> .<span class="dv">4</span><span class="sc">*</span>x</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(x, <span class="dv">3</span>), <span class="at">y =</span> <span class="fu">c</span>(y1,y2,y3), <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>),<span class="at">each =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x,y,<span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Y"</span>, <span class="at">color =</span> <span class="st">"Z"</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cn">NULL</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">15</span>)) <span class="sc">+</span> cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>(<span class="at">font_size =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="cross-over-disordinal-interactions" class="level2">
+<h2 class="anchored" data-anchor-id="cross-over-disordinal-interactions">Cross-over (disordinal) interactions</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">=</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">+</span> .<span class="dv">9</span><span class="sc">*</span>x</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">=</span> <span class="fl">1.6</span> <span class="sc">-</span> .<span class="dv">2</span><span class="sc">*</span>x</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">rep</span>(x, <span class="dv">2</span>), <span class="at">y =</span> <span class="fu">c</span>(y1,y2), <span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>),<span class="at">each =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x,y,<span class="at">color =</span> <span class="fu">as.factor</span>(group))) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Y"</span>, <span class="at">color =</span> <span class="st">"Z"</span>) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="cn">NULL</span>, <span class="at">limit =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">10</span>)) <span class="sc">+</span> cowplot<span class="sc">::</span><span class="fu">theme_cowplot</span>(<span class="at">font_size =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(imodel, <span class="at">type =</span> <span class="st">"int"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(imodel, <span class="at">type =</span> <span class="st">"int"</span>, <span class="at">mdrt.values =</span> <span class="st">"meansd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(imodel, <span class="at">type =</span> <span class="st">"pred"</span>, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Support"</span>, <span class="st">"Anxiety[5,10]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_model</span>(imodel, <span class="at">type =</span> <span class="st">"pred"</span>, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"Support"</span>, <span class="st">"Anxiety"</span>), <span class="at">mdrt.values =</span> <span class="st">"meansd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="5-interact_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pop-quiz" class="level2">
+<h2 class="anchored" data-anchor-id="pop-quiz">Pop Quiz</h2>
+<p>You are interested in the effects of “brain games” (or cognitive training) and sleep on the development of Alzheimer’s disease. You hypothesize that cognitive training might aid in slowing the progression of AD if participants are well rested.</p>
+<ul>
+<li>Write out the regression equation. Which variable is the moderator?</li>
+<li>Interpret the coefficients.</li>
+<li>Sketch out a plot of the simple slopes. There are different ways of doing this reflecting different hypotheses, but make sure the hypothesis stated above is somehow shown. You can do this on a post-it/scratch paper (I don’t have real data for this, so there’s nothing to make in R unless you want to simulate your own data…but that’s a bit much for a 0-point pop quiz)</li>
+</ul>
+</section>
+<section id="simple-slopes---significance-tests" class="level2">
+<h2 class="anchored" data-anchor-id="simple-slopes---significance-tests">Simple slopes - Significance tests</h2>
+<p>Recall that the slope at any particular value is a combination of both <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_3\)</span> <span class="math display">\[\large \hat{Y} = (b_{0} + b_{2}Z) + (b_{1} + b_{3}Z)X\]</span> <span class="math display">\[\large se_{b@z} = \sqrt{se_{b_1}^2 + (2 * Z * cov_{b_1b_3})+ (Z^2 se_{b_3}^2)}\]</span> In this formula, <span class="math inline">\(cov_{b_1b_3}\)</span> refers to the covariance of the coefficients, not the covariance of the variables. This may seem a strange concept, as we only ever have one value for <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_3\)</span> – the covariance of these coefficients refer to idea that if we randomly sample from a population, estimate the coefficients each time, and then examine the covariance of coefficients across random samples, it will not be 0.</p>
+</section>
+<section id="simple-slopes---significance-tests-1" class="level2">
+<h2 class="anchored" data-anchor-id="simple-slopes---significance-tests-1">Simple slopes - Significance tests</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">vcov</span>(imodel),<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                (Intercept) Anxiety Support Anxiety:Support
+(Intercept)          1.2567 -0.1330 -0.0966          0.0100
+Anxiety             -0.1330  0.0169  0.0110         -0.0015
+Support             -0.0966  0.0110  0.0091         -0.0011
+Anxiety:Support      0.0100 -0.0015 -0.0011          0.0002</code></pre>
+</div>
+</div>
+<hr>
+<p>We can use the standard error of the slope to estimate whether or not it is significanly different from 0.</p>
+<p><span class="math display">\[\large \hat{Y} = (b_{0} + b_{2}Z) + (b_{1} + b_{3}Z)X\]</span> <span class="math display">\[\large t = \frac{(b_{1} + b_{3}Z)}{se_{b@z}}\]</span> <span class="math display">\[df = N-p-1\]</span></p>
+</section>
+<section id="example-1" class="level2">
+<h2 class="anchored" data-anchor-id="example-1">Example</h2>
+<p><span class="math display">\[\hat{Stress} = -2.74 + 0.62(\text{Anx})+ 0.67(\text{Sup})+ -0.04(\text{Anx} \times \text{Sup})\]</span></p>
+<p>We want to know whether anxiety is a significant predictor of stress at different levels of support.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reghelper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'reghelper'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:psych':
+
+    ICC</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    beta</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">simple_slopes</span>(imodel, <span class="at">levels =</span> <span class="fu">list</span>(<span class="at">Support =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">12</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Anxiety Support Test Estimate Std. Error t value  df  Pr(&gt;|t|) Sig.
+1  sstest       4        0.4486     0.0886  5.0617 114 1.610e-06  ***
+2  sstest       6        0.3652     0.0733  4.9791 114 2.289e-06  ***
+3  sstest       8        0.2817     0.0654  4.3095 114 3.488e-05  ***
+4  sstest      10        0.1982     0.0674  2.9424 114  0.003946   **
+5  sstest      12        0.1147     0.0786  1.4600 114  0.147036     </code></pre>
+</div>
+</div>
+<p>If you don’t list levels, then this function will test simple slopes at the mean and 1 SD above and below the mean.</p>
+</section>
+<section id="centering" class="level2">
+<h2 class="anchored" data-anchor-id="centering">Centering</h2>
+<p>The regression equation built using the raw data is not only difficult to interpret, but often the terms displayed are not relevant to the hypotheses we’re interested. - <span class="math inline">\(b_0\)</span> is the expected value when all predictors are 0, but this may never happen in real life - <span class="math inline">\(b_1\)</span> is the slope of X when Z is equal to 0, but this may not ever happen either.</p>
+<p><strong>Centering</strong> your variables by subtracting the mean from all values can improve the interpretation of your results. - Remember, a linear transformation does not change associations (correlations) between variables. In this case, it only changes the interpretation for some coefficients</p>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>stress.data <span class="ot">=</span> stress.data <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Anxiety.c =</span> Anxiety <span class="sc">-</span> <span class="fu">mean</span>(Anxiety),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Support.c =</span> Support <span class="sc">-</span> <span class="fu">mean</span>(Support))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stress.data[,<span class="fu">c</span>(<span class="st">"Anxiety"</span>, <span class="st">"Anxiety.c"</span>, <span class="st">"Support"</span>, <span class="st">"Support.c"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Anxiety   Anxiety.c Support  Support.c
+1 10.18520  2.57086873  6.1602 -2.5697997
+2  5.58873 -2.02560127  8.9069  0.1769003
+3  6.58500 -1.02933127 10.5433  1.8133003
+4  8.95430  1.33996873 11.4605  2.7305003
+5  7.59910 -0.01523127  5.5516 -3.1783997
+6  8.15600  0.54166873  7.5117 -1.2182997</code></pre>
+</div>
+</div>
+<p>Why did we not center Y (Stress)?</p>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(Stress <span class="sc">~</span> Anxiety.c<span class="sc">*</span>Support.c, <span class="at">data =</span> stress.data))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Stress ~ Anxiety.c * Support.c, data = stress.data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.8163 -1.0783  0.0373  0.9200  3.6109 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          4.99580    0.14647  34.108  &lt; 2e-16 ***
+Anxiety.c            0.25122    0.06489   3.872 0.000181 ***
+Support.c            0.34914    0.05238   6.666 9.82e-10 ***
+Anxiety.c:Support.c -0.04174    0.01309  -3.188 0.001850 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.462 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+<hr>
+<p>What changed? What stayed the same?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(imodel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Stress ~ Anxiety * Support, data = stress.data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.8163 -1.0783  0.0373  0.9200  3.6109 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     -2.73966    1.12101  -2.444  0.01606 *  
+Anxiety          0.61561    0.13010   4.732 6.44e-06 ***
+Support          0.66697    0.09547   6.986 2.02e-10 ***
+Anxiety:Support -0.04174    0.01309  -3.188  0.00185 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.462 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+</section>
+<section id="standardized-regression-equation" class="level2">
+<h2 class="anchored" data-anchor-id="standardized-regression-equation">Standardized regression equation</h2>
+<p>So far, we’ve only discussed the unstandardized regression equation. If you’re interested in getting the standardized regression equation, you can follow the same procedure of standardizing your variables first and then entering them into your linear model.</p>
+<p>An important note: You must take the product of the Z-scores, not the Z-score of the products to get the correct regression model.</p>
+</section>
+<section id="standardized-regression-equation-1" class="level2">
+<h2 class="anchored" data-anchor-id="standardized-regression-equation-1">Standardized regression equation</h2>
+<p>This is okay:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Y <span class="sc">~</span> <span class="fu">z</span>(X) <span class="sc">+</span> <span class="fu">z</span>(Z) <span class="sc">+</span> <span class="fu">z</span>(X)<span class="sc">*</span><span class="fu">z</span>(Z) </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>Y <span class="sc">~</span> <span class="fu">z</span>(X)<span class="sc">*</span><span class="fu">z</span>(Z) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is not OK:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>Y <span class="sc">~</span> <span class="fu">z</span>(X) <span class="sc">+</span> <span class="fu">z</span>(Z) <span class="sc">+</span> <span class="fu">z</span>(X<span class="sc">*</span>Z) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>stress.data <span class="ot">=</span> stress.data <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">zStress =</span> <span class="fu">scale</span>(Stress), </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">zAnxiety =</span> <span class="fu">scale</span>(Anxiety), </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">zSupport =</span> <span class="fu">scale</span>(Support))</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stress.data[,<span class="fu">c</span>(<span class="st">"zStress"</span>, <span class="st">"zAnxiety"</span>, <span class="st">"zSupport"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      zStress     zAnxiety    zSupport
+1 -1.05630148  1.033649700 -0.78410538
+2  0.97450140 -0.814418147  0.05397639
+3  0.52978175 -0.413855421  0.55327992
+4  1.87547440  0.538751068  0.83313888
+5  0.04640497 -0.006123922 -0.96980334
+6 -0.02939564  0.217784639 -0.37173144</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>zmodel <span class="ot">=</span> <span class="fu">lm</span>(zStress <span class="sc">~</span> zAnxiety<span class="sc">*</span>zSupport, stress.data)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(zmodel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = zStress ~ zAnxiety * zSupport, data = stress.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.03400 -0.57471  0.01989  0.49037  1.92453 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)       -0.09818    0.07807  -1.258 0.211093    
+zAnxiety           0.33302    0.08602   3.872 0.000181 ***
+zSupport           0.60987    0.09149   6.666 9.82e-10 ***
+zAnxiety:zSupport -0.18134    0.05688  -3.188 0.001850 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.7792 on 114 degrees of freedom
+Multiple R-squared:  0.4084,    Adjusted R-squared:  0.3928 
+F-statistic: 26.23 on 3 and 114 DF,  p-value: 5.645e-13</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,21 @@
+---
+title: "homework"
+---
+
+-   [Homework 9](9-hw.qmd)
+
+-   [Homework 8](8-hw.qmd)
+
+-   [Homework 7](7-hw.qmd)
+
+-   [Homework 6](6-HW.qmd)
+
+-   [Homework 5](hw-5.qmd)
+
+-   [Homework 4](4-HW.qmd)
+
+-   [Homework 3](3-HW.qmd)
+
+-   [Homework 2](2-HW.qmd)
+
+-   [Homework 1](1-HW.qmd)
