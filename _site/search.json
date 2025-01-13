@@ -1412,5 +1412,12 @@
     "title": "R-Refresher",
     "section": "",
     "text": "The activity below is a way for us to get re-acquainted with R. You are welcome to work with others in class. You will give it a shot, and then as a class we’ll come back and work through each part.\nThose of you who took the Applied Statistical Analysis with R class might remember this dataset from your final project. These are data from the Human Connectome Project (HCP), however they have been pared down to make it a little more cohesive. Let’s get going.\nEveryone needs to import the dataset. https://raw.githubusercontent.com/josh-jackson/glm_2025/refs/heads/main/hcp-data.csv\n\n\nGet the mean and standard deviation of the Card Sorting task, PMAT 24 task, and List Sorting task per combination of age category and gender category. Use tidyverse so that you are not calculating all of these manually.\n\n\n\nMake the following 3 figures on any of the variables of your choosing (they do not have to be the same variable(s) per figure):\n\nOverlapping density distrubtion 1 variable per level of a categorical variable\nScatter plot with a best fit line\nA combination of violin plot and box plot (raw dat points optional)\n\nAll figures must have axes lables that are not the original variable name (aka, make them more readable). Colors should be chosen by you and not the default colors. You must change the theme in at least 1 of the 3 figures.\n\n\n\nTo calculate a correlation by hand, the formula looks like this: \\[ \\frac{\\Sigma z_x z_y}{n-1}\\]\nThat is, you take the \\(z\\)-scores of variable \\(x\\) times the \\(z\\)-scores of variable \\(y\\), and add up those cross products. Then divide that sum of cross products by \\(n-1\\). Pick 2 variables and do this for yourself. After, use the \\(cor\\) function to see if your hand calculation matches the function’s calculation."
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "Download syllabus"
   }
 ]
