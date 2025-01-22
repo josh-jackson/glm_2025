@@ -137,7 +137,7 @@
     "href": "12-ml.html#example-10-fold-cross-validation",
     "title": "ML-2",
     "section": "Example: 10-fold cross validation",
-    "text": "Example: 10-fold cross validation\n\n\nCode\nlibrary(caret)\n# set control parameters\nctrl &lt;- trainControl(method=\"cv\", number=10)\n# use train() instead of lm()\ncv.model &lt;- train(Stress ~ Anxiety*Support*group, \n               data = stress.data, \n               trControl=ctrl, # what are the control parameters\n               method=\"lm\") # what kind of model\ncv.model\n\n\nLinear Regression \n\n118 samples\n  3 predictor\n\nNo pre-processing\nResampling: Cross-Validated (10 fold) \nSummary of sample sizes: 106, 106, 106, 106, 106, 107, ... \nResampling results:\n\n  RMSE      Rsquared   MAE     \n  1.541479  0.3708104  1.248871\n\nTuning parameter 'intercept' was held constant at a value of TRUE"
+    "text": "Example: 10-fold cross validation\n\n\nCode\nlibrary(caret)\n# set control parameters\nctrl &lt;- trainControl(method=\"cv\", number=10)\n# use train() instead of lm()\ncv.model &lt;- train(Stress ~ Anxiety*Support*group, \n               data = stress.data, \n               trControl=ctrl, # what are the control parameters\n               method=\"lm\") # what kind of model\ncv.model\n\n\nLinear Regression \n\n118 samples\n  3 predictor\n\nNo pre-processing\nResampling: Cross-Validated (10 fold) \nSummary of sample sizes: 106, 106, 106, 106, 106, 106, ... \nResampling results:\n\n  RMSE      Rsquared  MAE     \n  1.536794  0.36408   1.240742\n\nTuning parameter 'intercept' was held constant at a value of TRUE"
   },
   {
     "objectID": "12-ml.html#cross-validation-summary",
@@ -213,8 +213,8 @@
     "objectID": "11-ml.html#today",
     "href": "11-ml.html#today",
     "title": "bootstrapping",
-    "section": "",
-    "text": "Start looking at topics related to machine learning\nWe are going to start off with Resampling methods"
+    "section": "Today",
+    "text": "Today\n\nStart looking at topics related to machine learning\nWe are going to start off with Resampling methods"
   },
   {
     "objectID": "11-ml.html#first.-sampling",
@@ -228,7 +228,7 @@
     "href": "11-ml.html#problems-with-sampling",
     "title": "bootstrapping",
     "section": "Problems with Sampling",
-    "text": "Problems with Sampling\nSingle Estimate of the Population Parameter\n\nEstimate the population mean\nSampling distribution of mean derived from sample statistics\nBuilt a 95% confidence interval around the sample mean\nWe’ve been relying on a single estimate of the population parameter (except for with Bayesian methods).\n\n\nWe make assumptions about the sample (e.g., representative sample, large sample size, normality), which may or may not be true."
+    "text": "Problems with Sampling\nSingle Estimate of the Population Parameter\n\nEstimate the population mean\nSampling distribution of mean derived from sample statistics\nBuilt a 95% confidence interval around the sample mean\nWe’ve been relying on a single estimate of the population parameter (except for with Bayesian methods)."
   },
   {
     "objectID": "11-ml.html#introduction-to-resampling",
@@ -249,7 +249,7 @@
     "href": "11-ml.html#types-of-resampling",
     "title": "bootstrapping",
     "section": "Types of Resampling",
-    "text": "Types of Resampling\n\nBootstrapping\nJackknife method (just a glimpse)\nPermutation testing (just a glimpse)\n\n\npull yourself up by your bootstraps\nImprove yourself/overcome (often impossible) obstacles without aid or assistance from anyone else. Use your own resources to improve your standing."
+    "text": "Types of Resampling\n\nBootstrapping\nJackknife method (just a glimpse)\nPermutation testing (just a glimpse)"
   },
   {
     "objectID": "11-ml.html#bootstrapping",
@@ -263,14 +263,14 @@
     "href": "11-ml.html#illustration-of-bootstrapping",
     "title": "bootstrapping",
     "section": "Illustration of Bootstrapping",
-    "text": "Illustration of Bootstrapping\nImagine we are trying to estimate the height of a cohort of friends. But you only have 6. Specifically, these 6 friends.\n\n\nTo estimate their height, you decide to perform bootstrapping, meaning you draw many samples from this group of 6 people, with replacement, each time calculating the average height of the sample.\n\n\nCode\nfriends = c('Monica', 'Rachel', 'Ross', 'Joey', 'Phoebe', 'Chandler')\nheights = c(165, 165, 178, 170, 172, 173)\nnames(heights) = friends\n\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Monica\"   \"Joey\"     \"Phoebe\"   \"Ross\"     \"Joey\"     \"Chandler\"\n\n\n[1] \"Mean height of this sample: 171.333333333333\"\n\n\n\nThe number of friends that we randomly sample is 6, the same number of friends inside the initial sample.\nWithin the same sample, there can be duplicates. This is what it means to randomly sample with replacement."
+    "text": "Illustration of Bootstrapping\nImagine we are trying to estimate the height of a cohort of friends. But you only have 6. Specifically, these 6 friends."
   },
   {
     "objectID": "11-ml.html#repeat",
     "href": "11-ml.html#repeat",
     "title": "bootstrapping",
     "section": "Repeat",
-    "text": "Repeat\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Rachel\"   \"Joey\"     \"Joey\"     \"Phoebe\"   \"Monica\"   \"Chandler\"\n\n\n[1] \"Mean height of this sample: 169.166666666667\"\n\n\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Joey\"     \"Chandler\" \"Phoebe\"   \"Phoebe\"   \"Joey\"     \"Monica\"  \n\n\n[1] \"Mean height of this sample: 170.333333333333\"\n\n\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Phoebe\" \"Phoebe\" \"Ross\"   \"Phoebe\" \"Rachel\" \"Phoebe\"\n\n\n[1] \"Mean height of this sample: 171.833333333333\""
+    "text": "Repeat\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Ross\"     \"Ross\"     \"Chandler\" \"Chandler\" \"Ross\"     \"Joey\"    \n\n\n[1] \"Mean height of this sample: 175\"\n\n\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Monica\"   \"Chandler\" \"Chandler\" \"Joey\"     \"Joey\"     \"Chandler\"\n\n\n[1] \"Mean height of this sample: 170.666666666667\"\n\n\n\n\nCode\n(sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))\n\n\n[1] \"Joey\"   \"Monica\" \"Phoebe\" \"Monica\" \"Phoebe\" \"Ross\"  \n\n\n[1] \"Mean height of this sample: 170.333333333333\""
   },
   {
     "objectID": "11-ml.html#bootstrap-10000-times",
@@ -291,7 +291,7 @@
     "href": "11-ml.html#comparison",
     "title": "bootstrapping",
     "section": "Comparison",
-    "text": "Comparison\n\n\nCode\nlibrary(ggpubr)\n\n\nLoading required package: ggplot2\n\n\nCode\nmu = mean(heights)\nsem = sd(heights)/sqrt(length(heights))\ncv_t = qt(p = .975, df = length(heights)-1)\n\nbootstrapped = data.frame(means = sample_means) %&gt;%\n  ggplot(aes(x = means)) + \n  geom_histogram(color = \"white\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(sample_means), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(sample_means), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(sample_means, probs = .025), color = \"Lower 2.5%\"), \n             linewidth = 2) +\n    geom_vline(aes(xintercept = quantile(sample_means, probs = .975), color = \"Upper 2.5%\"), \n               linewidth = 2) +\n  scale_x_continuous(limits = c(mu-3*sem, mu+3*sem))+\n  ggtitle(\"Bootstrapped distribution\") +\n  cowplot::theme_cowplot()\n\nfrom_prob = data.frame(means = seq(from = min(sample_means), to = max(sample_means))) %&gt;%\n  ggplot(aes(x = means)) +\n  stat_function(fun = function(x) dnorm(x, m = mu, sd = sem)) + \n  geom_vline(aes(xintercept = mean(heights), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(heights), color = \"median\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = mu-cv_t*sem, color = \"Lower 2.5%\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = mu+cv_t*sem, color = \"Upper 2.5%\"), \n             linewidth = 2) + \n  scale_x_continuous(limits = c(mu-3*sem, mu+3*sem))+  \n  ggtitle(\"Distribution from probability theory\") +\n  cowplot::theme_cowplot()\n\nggarrange(bootstrapped, from_prob, ncol = 1)\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 3 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\nWarning: Removed 3 rows containing non-finite outside the scale range\n(`stat_density()`).\n\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_bar()`).\n\n\n\n\n\n\nThere are several candidates for central tendency (e.g., mean, median) and for variability (e.g., standard deviation, interquartile range). Some of these do not have well understood theoretical sampling distributions.\nFor the mean and standard deviation, we have theoretical sampling distributions to help us, provided we think the mean and standard deviation are the best indices. For the others, we can use bootstrapping."
+    "text": "Comparison\n\n\nCode\nlibrary(ggpubr)\nmu = mean(heights)\nsem = sd(heights)/sqrt(length(heights))\ncv_t = qt(p = .975, df = length(heights)-1)\n\nbootstrapped = data.frame(means = sample_means) %&gt;%\n  ggplot(aes(x = means)) + \n  geom_histogram(color = \"white\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(sample_means), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(sample_means), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(sample_means, probs = .025), color = \"Lower 2.5%\"), \n             linewidth = 2) +\n    geom_vline(aes(xintercept = quantile(sample_means, probs = .975), color = \"Upper 2.5%\"), \n               linewidth = 2) +\n  scale_x_continuous(limits = c(mu-3*sem, mu+3*sem))+\n  ggtitle(\"Bootstrapped distribution\") +\n  cowplot::theme_cowplot()\n\nfrom_prob = data.frame(means = seq(from = min(sample_means), to = max(sample_means))) %&gt;%\n  ggplot(aes(x = means)) +\n  stat_function(fun = function(x) dnorm(x, m = mu, sd = sem)) + \n  geom_vline(aes(xintercept = mean(heights), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(heights), color = \"median\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = mu-cv_t*sem, color = \"Lower 2.5%\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = mu+cv_t*sem, color = \"Upper 2.5%\"), \n             linewidth = 2) + \n  scale_x_continuous(limits = c(mu-3*sem, mu+3*sem))+  \n  ggtitle(\"Distribution from probability theory\") +\n  cowplot::theme_cowplot()\n\nggarrange(bootstrapped, from_prob, ncol = 1)"
   },
   {
     "objectID": "11-ml.html#example-2",
@@ -305,21 +305,21 @@
     "href": "11-ml.html#visualize-data",
     "title": "bootstrapping",
     "section": "Visualize Data",
-    "text": "Visualize Data\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ lubridate 1.9.4     ✔ tibble    3.2.1\n✔ purrr     1.0.2     ✔ tidyr     1.3.1\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\nset.seed(1048596)\nresponse = rf(n = 216, 3, 50) \nresponse = response * 500 + rnorm(n = 216, mean = 200, sd = 100)\n\nvalues = quantile(response, \n                  probs = c(.025, .5, .975))\nmean_res = mean(response)\n\ndata.frame(x = response) %&gt;%\n  ggplot(aes(x)) +\n  geom_histogram(aes(y = ..density..), \n                 binwidth = 150, \n                 fill = \"lightgrey\",\n                 color = \"black\")+\n  geom_density()+\n  geom_vline(aes(xintercept = values[1], \n                 color = \"Lower 2.5%\"), linewidth = 2)+\n  geom_vline(aes(xintercept = values[2], color = \"Median\"), \n             linewidth = 2)+\n  geom_vline(aes(xintercept = values[3], color = \"Upper 2.5%\"),\n             linewidth = 2)+\n  geom_vline(aes(xintercept = mean_res, color = \"Mean\"), \n             linewidth = 2)+\n  labs(x = \"Reponse time (ms)\", title = \"Response Time Distribution\") + cowplot::theme_cowplot(font_size = 20)\n\n\nWarning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.\nℹ Please use `after_stat(density)` instead.\n\n\n\n\n\n\n\n\nCode\nset.seed(5067) # Set random seed\nboot &lt;- 10000 # Set number of bootstrap samples\n\nresponse_means &lt;- NULL # Initialize list of mean values\n\nfor(i in 1:boot){\n  sample_response &lt;- sample(response, size = 216, replace = T)\n  response_means &lt;- c(response_means, mean(sample_response))\n}\n\n\nWhat is the bootstrap mean and its 95% CI?\n\n\nCode\nmean(response_means)\n\n\n[1] 682.5499\n\n\nCode\nquantile(response_means, probs = c(.025, .975))\n\n\n    2.5%    97.5% \n633.2482 732.0461"
+    "text": "Visualize Data\n\n\nCode\nlibrary(tidyverse)\n\nset.seed(1048596)\nresponse = rf(n = 216, 3, 50) \nresponse = response * 500 + rnorm(n = 216, mean = 200, sd = 100)\n\nvalues = quantile(response, \n                  probs = c(.025, .5, .975))\nmean_res = mean(response)\n\ndata.frame(x = response) %&gt;%\n  ggplot(aes(x)) +\n  geom_histogram(aes(y = ..density..), \n                 binwidth = 150, \n                 fill = \"lightgrey\",\n                 color = \"black\")+\n  geom_density()+\n  geom_vline(aes(xintercept = values[1], \n                 color = \"Lower 2.5%\"), linewidth = 2)+\n  geom_vline(aes(xintercept = values[2], color = \"Median\"), \n             linewidth = 2)+\n  geom_vline(aes(xintercept = values[3], color = \"Upper 2.5%\"),\n             linewidth = 2)+\n  geom_vline(aes(xintercept = mean_res, color = \"Mean\"), \n             linewidth = 2)+\n  labs(x = \"Reponse time (ms)\", title = \"Response Time Distribution\") + cowplot::theme_cowplot(font_size = 20)"
   },
   {
     "objectID": "11-ml.html#distribution-of-means",
     "href": "11-ml.html#distribution-of-means",
     "title": "bootstrapping",
     "section": "Distribution of Means",
-    "text": "Distribution of Means\n\n\nCode\ndata.frame(means = response_means) %&gt;%\n  ggplot(aes(x = means)) + \n  geom_histogram(color = \"white\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(response_means), color = \"mean\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(response_means), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_means, probs = .025), \n                 color = \"Lower 2.5%\"), linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_means, probs = .975), \n                 color = \"Upper 2.5%\"), linewidth = 2) +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\nset.seed(5067)\nboot &lt;- 10000\nresponse_med &lt;- NULL\n\nfor(i in 1:boot){\n  sample_response &lt;- sample(response, size = 216, replace = T)\n  response_med &lt;- c(response_med, median(sample_response))}\n\n\n\n\nCode\ndata.frame(medians = response_med) %&gt;%\n  ggplot(aes(x = medians)) + \n  geom_histogram(aes(y = ..density..),\n                 color = \"white\", fill = \"grey\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(response_med), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(response_med), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_med, probs = .025), color = \"Lower 2.5%\"), linewidth = 2) +\n    geom_vline(aes(xintercept = quantile(response_med, probs = .975), color = \"Upper 2.5%\"), linewidth = 2) +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\nmean(response_med)\n\n[1] 600.4248\n\nmedian(response_med)\n\n[1] 598.9464\n\nquantile(response_med, \n         probs = c(.025, .975))\n\n    2.5%    97.5% \n542.0469 665.4593 \n\n\n\n\nset.seed(5067)\nboot &lt;- 10000\nresponse_sd &lt;- NULL\n\nfor(i in 1:boot){\n  sample_response &lt;- sample(response, size = 216, replace = T)\n  response_sd &lt;- c(response_sd, sd(sample_response))}\n\n\n\n\nCode\ndata.frame(sds = response_sd) %&gt;%\n  ggplot(aes(x = sds)) + \n  geom_histogram(aes(y = ..density..),color = \"white\", fill = \"grey\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(response_sd), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(response_sd), \n                 color = \"median\"), linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_sd, probs = .025), \n                 color = \"Lower 2.5%\"), linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_sd, probs = .975), \n                 color = \"Upper 2.5%\"), linewidth = 2) +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\nCode\nmean(response_sd)\n\n\n[1] 374.7614\n\n\nCode\nmedian(response_sd)\n\n\n[1] 374.299\n\n\nCode\nquantile(response_sd, \n         probs = c(.025, .975))\n\n\n    2.5%    97.5% \n326.6762 425.9399"
+    "text": "Distribution of Means\n\n\nCode\ndata.frame(means = response_means) %&gt;%\n  ggplot(aes(x = means)) + \n  geom_histogram(color = \"white\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(response_means), color = \"mean\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(response_means), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_means, probs = .025), \n                 color = \"Lower 2.5%\"), linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(response_means, probs = .975), \n                 color = \"Upper 2.5%\"), linewidth = 2) +\n  cowplot::theme_cowplot()"
   },
   {
     "objectID": "11-ml.html#other-estimators",
     "href": "11-ml.html#other-estimators",
     "title": "bootstrapping",
     "section": "Other Estimators?",
-    "text": "Other Estimators?\nYou can bootstrap estimates and 95% confidence intervals for any statistics you’ll need to estimate.\nThings you should learn how to do in R:\n\nlearn to read a for loop.\nlearn to write your own function.\n\n\nThe boot package and function provides some help to speed this process along. Things you should learn how to do in R:\n\nlibrary(boot)\n\n# function to obtain R-Squared from the data\nrsq &lt;- function(data, indices) {\n  d &lt;- data[indices,] # allows boot to select sample\n  fit &lt;- lm(mpg ~ wt + disp, data = d) # this is the code you would have run\n  return(summary(fit)$r.square)\n}\n\nresults &lt;- boot(data = mtcars, statistic = rsq, R = 10000)\n\n\n\n\nCode\ndata.frame(rsq = results$t) %&gt;%\n  ggplot(aes(x = rsq)) +\n  geom_histogram(color = \"white\", bins = 30) \n\n\n\n\n\n\n\n\nCode\nmedian(results$t)\n\n\n[1] 0.7972849\n\n\nCode\nboot.ci(results, type = \"perc\")\n\n\nBOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS\nBased on 10000 bootstrap replicates\n\nCALL : \nboot.ci(boot.out = results, type = \"perc\")\n\nIntervals : \nLevel     Percentile     \n95%   ( 0.6862,  0.8771 )  \nCalculations and Intervals on Original Scale"
+    "text": "Other Estimators?\nYou can bootstrap estimates and 95% confidence intervals for any statistics you’ll need to estimate.\nThings you should learn how to do in R:\n\nlearn to read a for loop.\nlearn to write your own function."
   },
   {
     "objectID": "11-ml.html#another-example",
@@ -333,21 +333,21 @@
     "href": "11-ml.html#inspect-verizon-data-1",
     "title": "bootstrapping",
     "section": "Inspect Verizon Data 1",
-    "text": "Inspect Verizon Data 1\n\n\nCode\nVerizon %&gt;%\n  ggplot(aes(x = Time, fill = Group)) + \n  geom_histogram(bins = 30) + \n  guides(fill = \"none\") +\n  facet_wrap(~Group, scales = \"free_y\")\n\n\n\n\n\n\nLeft is the distribution of waiting times of Non-Verizon (CLEC) customers and right is the distribution of waiting times of Verizon (ILEC) customers"
+    "text": "Inspect Verizon Data 1\n\n\nCode\nVerizon %&gt;%\n  ggplot(aes(x = Time, fill = Group)) + \n  geom_histogram(bins = 30) + \n  guides(fill = \"none\") +\n  facet_wrap(~Group, scales = \"free_y\")\n\n\n\n\nLeft is the distribution of waiting times of Non-Verizon (CLEC) customers and right is the distribution of waiting times of Verizon (ILEC) customers"
   },
   {
     "objectID": "11-ml.html#inspect-verizon-data-2",
     "href": "11-ml.html#inspect-verizon-data-2",
     "title": "bootstrapping",
     "section": "Inspect Verizon Data 2",
-    "text": "Inspect Verizon Data 2\n\n\nCode\nVerizon %&gt;%\n  ggplot(aes(x = Time, fill = Group)) + \n  geom_histogram(bins = 50, position = \"dodge\") + \n  guides(fill = \"none\") +\n  theme_bw()\n\n\n\n\n\n\n\nCode\ntable(Verizon$Group)\n\n\n\nCLEC ILEC \n  23 1664"
+    "text": "Inspect Verizon Data 2\n\n\nCode\nVerizon %&gt;%\n  ggplot(aes(x = Time, fill = Group)) + \n  geom_histogram(bins = 50, position = \"dodge\") + \n  guides(fill = \"none\") +\n  theme_bw()\n\n\n\n\n\nCode\ntable(Verizon$Group)\n\n\n\nCLEC ILEC \n  23 1664"
   },
   {
     "objectID": "11-ml.html#analysis-plan-and-justification",
     "href": "11-ml.html#analysis-plan-and-justification",
     "title": "bootstrapping",
     "section": "Analysis Plan and Justification",
-    "text": "Analysis Plan and Justification\nIt seems that the data do not meet the typical assumptions of an independent samples \\(t\\)-test.\nIn this case, to estimate mean differences we can use bootstrapping.\nHere, we’ll resample with replacement separately from the two samples and calculate their difference in means.\n\n\n\nCode\n# Set random seed and number of bootstrap samples\nset.seed(5067)\nboot &lt;- 10000\n\nresponse_means &lt;- NULL\n\nfor(i in 1:boot){\n  sample_response &lt;- sample(response, size = 216, replace = T)\n  response_means &lt;- c(response_means,mean(sample_response))\n}\n\n\nInside the For Loop\n\nSample (with replacement) Verizon group (ILEC) customers\nSample (with replacement) non-Verizon group (CLEC) customers\nCalculate the difference in means between the two groups\nAppend the difference value to a list"
+    "text": "Analysis Plan and Justification\nIt seems that the data do not meet the typical assumptions of an independent samples \\(t\\)-test.\nIn this case, to estimate mean differences we can use bootstrapping.\nHere, we’ll resample with replacement separately from the two samples and calculate their difference in means."
   },
   {
     "objectID": "11-ml.html#one-solution",
@@ -375,14 +375,14 @@
     "href": "11-ml.html#bootstrap-distribution-of-differences",
     "title": "bootstrapping",
     "section": "Bootstrap Distribution of Differences",
-    "text": "Bootstrap Distribution of Differences\n\n\nCode\ndata.frame(differences = difference) %&gt;%\n  ggplot(aes(x = differences)) + \n  geom_histogram(aes(y = ..density..),color = \"white\", fill = \"grey\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(differences), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(differences), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(differences, probs = .025), color = \"Lower 2.5%\"), \n             linewidth = 2) +\n    geom_vline(aes(xintercept = quantile(differences, probs = .975), color = \"Upper 2.5%\"), \n               linewidth = 2) +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\nThe difference in means is 7.64 \\([1.66,16.98]\\). What would this mean?\n\nBootstrapping is useful when:\n\nViolated assumptions of the test (e.g., normality)\nYou have good reason to believe the sampling distribution is not normal, but don’t know what it is (e.g., median)\nOddities in your data, like very unbalanced samples\n\nThis allows you to create a confidence interval around any statistic you want. You can test whether these statistics are significantly different from any other value.\n\nBootstrapping will NOT help you deal with:\n\nDependence between observations – for this, you’ll need to explicitly model dependence\nImproperly specified models or forms – use theory to guide you here\nMeasurement error – why bother?\nCaveats: representativeness of the sample, outliers"
+    "text": "Bootstrap Distribution of Differences\n\n\nCode\ndata.frame(differences = difference) %&gt;%\n  ggplot(aes(x = differences)) + \n  geom_histogram(aes(y = ..density..),color = \"white\", fill = \"grey\") +\n  geom_density() +\n  geom_vline(aes(xintercept = mean(differences), color = \"mean\"), \n             linewidth = 2) +\n  geom_vline(aes(xintercept = median(differences), color = \"median\"),\n             linewidth = 2) +\n  geom_vline(aes(xintercept = quantile(differences, probs = .025), color = \"Lower 2.5%\"), \n             linewidth = 2) +\n    geom_vline(aes(xintercept = quantile(differences, probs = .975), color = \"Upper 2.5%\"), \n               linewidth = 2) +\n  cowplot::theme_cowplot()\n\n\n\nThe difference in means is 7.64 \\([1.66,16.98]\\). What would this mean?"
   },
   {
     "objectID": "11-ml.html#jackknife-resampling",
     "href": "11-ml.html#jackknife-resampling",
     "title": "bootstrapping",
     "section": "Jackknife Resampling",
-    "text": "Jackknife Resampling\nJackknife Resampling is a method where researchers generate n sub-samples, each leaving out one observation. The method is very similar to bootstrapping except the way that we create the sub-samples.\n\nFriends Example. If you decide to jackknife their heights, you would draw six sub-samples and calculate their respective mean height.\n\n\nCode\nfriends = c('Monica', 'Rachel', 'Ross', 'Joey', 'Phoebe', 'Chandler')\nheights = c(165, 165, 178, 170, 172, 173)\nnames(heights) = friends\n\n\n\n\nCode\npaste(\"First Sub-sample: \", toString(friends[-1]))\n\n\n[1] \"First Sub-sample:  Rachel, Ross, Joey, Phoebe, Chandler\"\n\n\n\n\nCode\npaste(\"Second Sub-sample: \", toString(friends[-2]))\n\n\n[1] \"Second Sub-sample:  Monica, Ross, Joey, Phoebe, Chandler\"\n\n\n\n\n[1] \"Third Sub-sample:  Monica, Rachel, Joey, Phoebe, Chandler\"\n\n\n\n\n[1] \"Fourth Sub-sample:  Monica, Rachel, Ross, Phoebe, Chandler\"\n\n\n\n\n[1] \"Fifth Sub-sample:  Monica, Rachel, Ross, Joey, Chandler\"\n\n\n\n\n[1] \"Sixth Sub-sample:  Monica, Rachel, Ross, Joey, Phoebe\"\n\n\nNotice that there are 6 sub-samples of size 5."
+    "text": "Jackknife Resampling\nJackknife Resampling is a method where researchers generate n sub-samples, each leaving out one observation. The method is very similar to bootstrapping except the way that we create the sub-samples."
   },
   {
     "objectID": "11-ml.html#jack-of-all-trades-master-of-none---jackknife",
@@ -410,7 +410,7 @@
     "href": "11-ml.html#permutation-example-restaurants-1",
     "title": "bootstrapping",
     "section": "Permutation Example: Restaurants",
-    "text": "Permutation Example: Restaurants\nThe observed difference is…\n\n\n                   name group rating\n1    Pappy's Smokehouse     A      7\n2               Mai Lee     A      8\n3 Adriana's on the Hill     A      8\n\n\n\n\n[1] 7.666667\n\n\n\n\n          name group rating\n1 Salt & Smoke     B      4\n2  Chilli Spot     B      6\n3      BLK MKT     B      7\n\n\n\n\n[1] 5.666667\n\n\n\nperm_df %&gt;% filter(group == 'A') %&gt;% pull(rating) %&gt;% mean() - perm_df %&gt;% filter(group == 'B') %&gt;% pull(rating) %&gt;% mean()\n\n[1] 2\n\n\n\nInitially, the three restaurants in group A were:\n\n\n                   name group rating\n1    Pappy's Smokehouse     A      7\n2               Mai Lee     A      8\n3 Adriana's on the Hill     A      8\n\n\n\nNow, we are going to randomly assign restaurants to group A and group B, and calculate the mean difference in ratings.\n\n\nCode\nrandom_indices &lt;- sample.int(nrow(perm_df), 3)\nrandom_A &lt;- perm_df[random_indices,]\nrandom_B &lt;- perm_df[-random_indices,]\n\nrandom_A %&gt;% pull(name)\n\n\n[1] \"Salt & Smoke\" \"Mai Lee\"      \"Chilli Spot\" \n\n\n\n\nCode\nrandom_A %&gt;% pull(rating) %&gt;% mean() - random_B %&gt;% pull(rating) %&gt;% mean()\n\n\n[1] -1.333333\n\n\n\nRepeat the previous step numerous times to impose a null distribution of mean differences\n\nobserved_diff &lt;- perm_df %&gt;% filter(group == 'A') %&gt;% pull(rating) %&gt;% mean() - perm_df %&gt;% filter(group == 'B') %&gt;% pull(rating) %&gt;% mean()\n\nset.seed(5067) # Set random seed\nperm = 20 # Set number of permutations\n\ndifferences &lt;- NULL\n\nfor (i in c(1:perm)){\n  random_indices &lt;- sample.int(nrow(perm_df), 3)\n  random_A &lt;- perm_df[random_indices,]\n  random_B &lt;- perm_df[-random_indices,]\n  \n  differences &lt;- c(random_A %&gt;% pull(rating) %&gt;% mean() - random_B %&gt;% pull(rating) %&gt;% mean(), differences)\n}\n\n\n\n\nCode\ndiff_df = data.frame(diff = differences)\n\nggplot(diff_df, aes(x = diff)) +\n  geom_histogram(color = \"white\") + \n  geom_vline(aes(xintercept = observed_diff, color = \"observed\"), \n             linewidth = 1) +\n  ggtitle(\"Empirical Null Distribution of Differences\") +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\nCount the number of permutations that have larger test statistic value than the observed difference, equivalent to the \\(p\\)-value (or the probability that a test statistic is greater than or equal to the observed value, under the null)."
+    "text": "Permutation Example: Restaurants\nThe observed difference is…\n\n\n                   name group rating\n1    Pappy's Smokehouse     A      7\n2               Mai Lee     A      8\n3 Adriana's on the Hill     A      8\n\n\n\n\n[1] 7.666667\n\n\n\n\n          name group rating\n1 Salt & Smoke     B      4\n2  Chilli Spot     B      6\n3      BLK MKT     B      7\n\n\n\n\n[1] 5.666667\n\n\n\nperm_df %&gt;% filter(group == 'A') %&gt;% pull(rating) %&gt;% mean() - perm_df %&gt;% filter(group == 'B') %&gt;% pull(rating) %&gt;% mean()\n\n[1] 2"
   },
   {
     "objectID": "11-ml.html#lets-try",
@@ -424,7 +424,7 @@
     "href": "11-ml.html#second-step",
     "title": "bootstrapping",
     "section": "Second Step",
-    "text": "Second Step\nWe are going to randomly shuffle the labels of groups (previous CLEC and ILEC labels don’t matter!). Label 23 random customers as CLEC and 1,664 random customers as ILEC 1,000 times, and store the mean difference in waiting time between the two groups inside a list.\n\nOne iteration would look something like this:\n\nrandom_indices &lt;- sample.int(nrow(Verizon), 23)\nrandom_CLEC &lt;- Verizon[random_indices,]\nrandom_ILEC &lt;- Verizon[-random_indices,]\n\n(mean(random_CLEC$Time) - mean(random_ILEC$Time))\n\n[1] 2.394109"
+    "text": "Second Step\nWe are going to randomly shuffle the labels of groups (previous CLEC and ILEC labels don’t matter!). Label 23 random customers as CLEC and 1,664 random customers as ILEC 1,000 times, and store the mean difference in waiting time between the two groups inside a list."
   },
   {
     "objectID": "11-ml.html#repeat-1000-times-to-derive-the-p-value",
@@ -452,14 +452,14 @@
     "href": "11-ml.html#one-way-to-do-this-1",
     "title": "bootstrapping",
     "section": "One Way to do this",
-    "text": "One Way to do this\n\nsubsample_CLEC = Verizon %&gt;% filter(Group == \"CLEC\")\nsubsample_ILEC = Verizon %&gt;% filter(Group == \"ILEC\")\nobserved_diff &lt;- mean(subsample_CLEC$Time) - mean(subsample_ILEC$Time)\n\nset.seed(1048596) # Set random seed\nperm = 1000 # Set number of permutations\n\ndifferences &lt;- NULL\n\nfor (i in 1:perm){\n  random_indices &lt;- sample.int(nrow(Verizon), 23)\n  random_CLEC &lt;- Verizon[random_indices,]\n  random_ILEC &lt;- Verizon[-random_indices,]\n  \n  differences &lt;- c(differences, #&lt;&lt;\n                   mean(random_CLEC$Time) - mean(random_ILEC$Time)) #&lt;&lt;\n}\n\n\n\nsubsample_CLEC = Verizon %&gt;% filter(Group == \"CLEC\")\nsubsample_ILEC = Verizon %&gt;% filter(Group == \"ILEC\")\nobserved_diff &lt;- mean(subsample_CLEC$Time) - mean(subsample_ILEC$Time)\n\nset.seed(1048596) # Set random seed\nperm = 1000 # Set number of permutations\n\ndifferences &lt;- NULL\n\nfor (i in 1:perm){\n  random_indices &lt;- sample.int(nrow(Verizon), 23)\n  random_CLEC &lt;- Verizon[random_indices,]\n  random_ILEC &lt;- Verizon[-random_indices,]\n  \n  differences &lt;- c(differences, \n                   mean(random_CLEC$Time) - mean(random_ILEC$Time))\n}\n\npaste(\"Number of mean differences greater than observed difference: \", sum(differences &gt; observed_diff)) #&lt;&lt;\n\n[1] \"Number of mean differences greater than observed difference:  24\"\n\npaste(\"p-value: \", sum(differences &gt; observed_diff)/length(differences)) #&lt;&lt;\n\n[1] \"p-value:  0.024\""
+    "text": "One Way to do this\n\nsubsample_CLEC = Verizon %&gt;% filter(Group == \"CLEC\")\nsubsample_ILEC = Verizon %&gt;% filter(Group == \"ILEC\")\nobserved_diff &lt;- mean(subsample_CLEC$Time) - mean(subsample_ILEC$Time)\n\nset.seed(1048596) # Set random seed\nperm = 1000 # Set number of permutations\n\ndifferences &lt;- NULL\n\nfor (i in 1:perm){\n  random_indices &lt;- sample.int(nrow(Verizon), 23)\n  random_CLEC &lt;- Verizon[random_indices,]\n  random_ILEC &lt;- Verizon[-random_indices,]\n  \n  differences &lt;- c(differences, #&lt;&lt;\n                   mean(random_CLEC$Time) - mean(random_ILEC$Time)) #&lt;&lt;\n}"
   },
   {
     "objectID": "11-ml.html#visualization",
     "href": "11-ml.html#visualization",
     "title": "bootstrapping",
     "section": "Visualization",
-    "text": "Visualization\n\n\nCode\nperm_df = data.frame(diff = differences)\n\nggplot(perm_df, aes(x = diff)) +\n  geom_histogram(color = \"white\") + \n  geom_vline(aes(xintercept = mean(diff), color = \"mean\"), \n             linewidth = 1) +\n  geom_vline(aes(xintercept = median(diff), color = \"median\"), \n             linewidth = 1) +\n  geom_vline(aes(xintercept = observed_diff, color = \"observed\"), \n             linewidth = 1) +\n  ggtitle(\"Empirical Distribution of Differences under the Null\") +\n  cowplot::theme_cowplot()\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`."
+    "text": "Visualization\n\n\nCode\nperm_df = data.frame(diff = differences)\n\nggplot(perm_df, aes(x = diff)) +\n  geom_histogram(color = \"white\") + \n  geom_vline(aes(xintercept = mean(diff), color = \"mean\"), \n             linewidth = 1) +\n  geom_vline(aes(xintercept = median(diff), color = \"median\"), \n             linewidth = 1) +\n  geom_vline(aes(xintercept = observed_diff, color = \"observed\"), \n             linewidth = 1) +\n  ggtitle(\"Empirical Distribution of Differences under the Null\") +\n  cowplot::theme_cowplot()"
   },
   {
     "objectID": "11-ml.html#permutation-testing-summary",
@@ -794,8 +794,8 @@
     "objectID": "9-logistic.html#this-whole-semester-has-been-linear-regression-on-steroids",
     "href": "9-logistic.html#this-whole-semester-has-been-linear-regression-on-steroids",
     "title": "Logistic",
-    "section": "",
-    "text": "We’ve had continuous IVs (regression)\nWe’ve had categorical IVs (factorial ANOVA)\nWe’ve had a mixture of continuous/categorical IVs (more regression)\nBut we’ve never had a DV variable that is categorical… in comes Logistic Regression"
+    "section": "This whole semester has been linear regression (on steroids)",
+    "text": "This whole semester has been linear regression (on steroids)\n\nWe’ve had continuous IVs (regression)\nWe’ve had categorical IVs (factorial ANOVA)\nWe’ve had a mixture of continuous/categorical IVs (more regression)\nBut we’ve never had a DV variable that is categorical… in comes Logistic Regression"
   },
   {
     "objectID": "9-logistic.html#linear-regression",
@@ -830,7 +830,7 @@
     "href": "9-logistic.html#logistic-regression-1",
     "title": "Logistic",
     "section": "Logistic Regression",
-    "text": "Logistic Regression\nUsed when your DV is binary (0,1)\n- Clinical diagnosis\n- Disease prevalence\n- Experiences (Yes/No) - Correct/Incorrect\n\nThe mean of the distribution is the same as the proportion of 1’s in the distribution. - Out of 100 people, 27 have PTSD (1) and 73 do not have PTSD (0) - The mean of the distribution is .27 - Probability of getting a 1 is .27\n\nIf we plotted these points, they are either 1’s or 0’s\n\n\nIf we plotted our OLS regression line. It doesn’t make sense! Predicted values can go above 1 or below 0…yikes\n\n\nInstead, we fit this non-linear function. None of our data fall on the line!"
+    "text": "Logistic Regression\nUsed when your DV is binary (0,1)\n- Clinical diagnosis\n- Disease prevalence\n- Experiences (Yes/No) - Correct/Incorrect"
   },
   {
     "objectID": "9-logistic.html#where-is-the-line",
@@ -900,14 +900,14 @@
     "href": "9-logistic.html#sigmoid-function",
     "title": "Logistic",
     "section": "Sigmoid function",
-    "text": "Sigmoid function\n\\[f(x) = \\frac{1}{1+e^{-X}}\\]\n… where \\(e\\) is Euler’s number\n\nexp(1)\n\n[1] 2.718282\n\n\n\nThe y-axis is the “rolling mean” of the DV (or the proportion of 1’s). This logistic curve relates \\(X\\) (the IV) to our \\(P(\\bar{Y})\\)"
+    "text": "Sigmoid function\n\\[f(x) = \\frac{1}{1+e^{-X}}\\]\n… where \\(e\\) is Euler’s number\n\nexp(1)\n\n[1] 2.718282"
   },
   {
     "objectID": "9-logistic.html#sigmoid-function-cont.",
     "href": "9-logistic.html#sigmoid-function-cont.",
     "title": "Logistic",
     "section": "Sigmoid function (cont.)",
-    "text": "Sigmoid function (cont.)\nFor the Sigmoid function, as x approaches \\(\\infty\\), it reaches a natural limit at 1.\nAs x approaches \\(-\\infty\\), it reaches a natural limit of 0\nThis all keeps the limits within the 0, 1 range.\n\n\\[f(x) = \\frac{1}{1+e^{-X}}\\] \\[\\hat{p} = \\frac{1}{1+e^{-b_{0}+b_{1}X}}\\] - The form of the logistic function is still nonlinear (because probabilities can only range from 0 to 1)\n\nSince it’s nonlinear, \\(b\\) can’t be interpreted as easily as we’ve been doing with OLS regression.\nSo in order to interpret our model parameter, we need to convert to odds\n\n\nwhere P is the probability of a 1 (the proportion of 1s, the mean of Y), e is the base of the natural logarithm (about 2.718) and a and b are the parameters of the model. The value of a yields P when X is zero, and b adjusts how quickly the probability changes with changing X a single unit (we can have standardized and unstandardized b weights in logistic regression, just as in ordinary linear regression). Because the relation between X and P is nonlinear, b does not have a straightforward interpretation in this model as it does in ordinary linear regression"
+    "text": "Sigmoid function (cont.)\nFor the Sigmoid function, as x approaches \\(\\infty\\), it reaches a natural limit at 1.\nAs x approaches \\(-\\infty\\), it reaches a natural limit of 0\nThis all keeps the limits within the 0, 1 range."
   },
   {
     "objectID": "9-logistic.html#odds",
@@ -998,7 +998,7 @@
     "href": "9-logistic.html#glm-in-r",
     "title": "Logistic",
     "section": "GLM in R",
-    "text": "GLM in R\n\nglm(formula,\n    family = gaussian(link=\"identity\"), #&lt;&lt;\n    data,\n    weights,\n    subset,\n    na.action,\n    start = NULL,\n    etastart,\n    mustart,\n    offset, \n    control = glm.control(...),\n    model = TRUE,\n    method = ”glm.fit”,\n    x = FALSE, \n    y = TRUE,\n    contrasts = NULL, ...)\n\n\nThe family argument specifies the distribution. In R, families have default links."
+    "text": "GLM in R\n\nglm(formula,\n    family = gaussian(link=\"identity\"), #&lt;&lt;\n    data,\n    weights,\n    subset,\n    na.action,\n    start = NULL,\n    etastart,\n    mustart,\n    offset, \n    control = glm.control(...),\n    model = TRUE,\n    method = ”glm.fit”,\n    x = FALSE, \n    y = TRUE,\n    contrasts = NULL, ...)"
   },
   {
     "objectID": "9-logistic.html#glm-in-r-1",
@@ -1033,7 +1033,7 @@
     "href": "9-logistic.html#example",
     "title": "Logistic",
     "section": "Example",
-    "text": "Example\n\n# 1 = not premature\nmortality\n\n# A tibble: 300 × 4\n   Intelligence_Self Intelligence_Mate premature.d NOT.premature\n               &lt;dbl&gt;             &lt;dbl&gt; &lt;fct&gt;               &lt;dbl&gt;\n 1                22                19 normal                  1\n 2                22                18 normal                  1\n 3                21                21 normal                  1\n 4                22                17 normal                  1\n 5                19                18 normal                  1\n 6                19                20 premature               0\n 7                16                18 normal                  1\n 8                15                11 premature               0\n 9                16                21 normal                  1\n10                19                22 normal                  1\n# ℹ 290 more rows\n\n\n\n\ndeath.1 &lt;- lm(NOT.premature ~ Intelligence_Self , data = mortality)\nsummary(death.1)\n\n\nCall:\nlm(formula = NOT.premature ~ Intelligence_Self, data = mortality)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-0.9030  0.1084  0.1538  0.1907  0.3355 \n\nCoefficients:\n                  Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)       0.641769   0.098636   6.506 3.25e-10 ***\nIntelligence_Self 0.011357   0.005807   1.956   0.0514 .  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.3745 on 298 degrees of freedom\nMultiple R-squared:  0.01267,   Adjusted R-squared:  0.009362 \nF-statistic: 3.826 on 1 and 298 DF,  p-value: 0.05141\n\n\n\n\ndeath.2 &lt;- glm(NOT.premature ~ Intelligence_Self , data = mortality)\nsummary(death.2)\n\n\nCall:\nglm(formula = NOT.premature ~ Intelligence_Self, data = mortality)\n\nCoefficients:\n                  Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)       0.641769   0.098636   6.506 3.25e-10 ***\nIntelligence_Self 0.011357   0.005807   1.956   0.0514 .  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for gaussian family taken to be 0.1402466)\n\n    Null deviance: 42.330  on 299  degrees of freedom\nResidual deviance: 41.793  on 298  degrees of freedom\nAIC: 266.05\n\nNumber of Fisher Scoring iterations: 2\n\n\n\n\ndeath.3 &lt;- glm(NOT.premature ~ Intelligence_Self,\n               family = binomial, data = mortality)\nsummary(death.3)\n\n\nCall:\nglm(formula = NOT.premature ~ Intelligence_Self, family = binomial, \n    data = mortality)\n\nCoefficients:\n                  Estimate Std. Error z value Pr(&gt;|z|)  \n(Intercept)        0.28695    0.67490   0.425   0.6707  \nIntelligence_Self  0.08012    0.04143   1.934   0.0532 .\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n(Dispersion parameter for binomial family taken to be 1)\n\n    Null deviance: 273.53  on 299  degrees of freedom\nResidual deviance: 269.75  on 298  degrees of freedom\nAIC: 273.75\n\nNumber of Fisher Scoring iterations: 4"
+    "text": "Example\n\n# 1 = not premature\nmortality\n\n# A tibble: 300 × 4\n   Intelligence_Self Intelligence_Mate premature.d NOT.premature\n               &lt;dbl&gt;             &lt;dbl&gt; &lt;fct&gt;               &lt;dbl&gt;\n 1                22                19 normal                  1\n 2                22                18 normal                  1\n 3                21                21 normal                  1\n 4                22                17 normal                  1\n 5                19                18 normal                  1\n 6                19                20 premature               0\n 7                16                18 normal                  1\n 8                15                11 premature               0\n 9                16                21 normal                  1\n10                19                22 normal                  1\n# ℹ 290 more rows"
   },
   {
     "objectID": "9-logistic.html#interpretation",
@@ -1054,7 +1054,7 @@
     "href": "9-logistic.html#probit",
     "title": "Logistic",
     "section": "Probit",
-    "text": "Probit\nWe can have different link functions. When your response variable (DV) is truly binary – the data generating process generates legit binary data – logit is your pick.\n\nWhat if your response variable is binary, but the underlying construct you are trying to measure is likely Gaussian? Ex: depressed vs. not depressed. But the underlying latent construct is continuous. More appropriate then is the probit link function.\nStack exchange thread if you’re going down this route"
+    "text": "Probit\nWe can have different link functions. When your response variable (DV) is truly binary – the data generating process generates legit binary data – logit is your pick."
   },
   {
     "objectID": "9-logistic.html#probit-1",
@@ -1074,8 +1074,8 @@
     "objectID": "10-bayes.html#reassurance-before-we-get-to-the-three-steps",
     "href": "10-bayes.html#reassurance-before-we-get-to-the-three-steps",
     "title": "Bayes",
-    "section": "",
-    "text": "Not drastically different!\nYou get to keep everything you like\nYour models stay the same!!"
+    "section": "Reassurance, before we get to the three steps",
+    "text": "Reassurance, before we get to the three steps\n\nNot drastically different!\nYou get to keep everything you like\nYour models stay the same!!"
   },
   {
     "objectID": "10-bayes.html#glm",
@@ -1103,7 +1103,7 @@
     "href": "10-bayes.html#standard-way",
     "title": "Bayes",
     "section": "Standard way",
-    "text": "Standard way\n\n\nCode\nlibrary(tidyverse)\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nCode\ngalton.data &lt;- psychTools::galton\n\n\n\n\n\n\n\n\n\n\nCode\nfit.1 &lt;- lm(child ~ parent, data = galton.data)\nsummary(fit.1)\n\n\n\nCall:\nlm(formula = child ~ parent, data = galton.data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-7.8050 -1.3661  0.0487  1.6339  5.9264 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept) 23.94153    2.81088   8.517   &lt;2e-16 ***\nparent       0.64629    0.04114  15.711   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 2.239 on 926 degrees of freedom\nMultiple R-squared:  0.2105,    Adjusted R-squared:  0.2096 \nF-statistic: 246.8 on 1 and 926 DF,  p-value: &lt; 2.2e-16"
+    "text": "Standard way\n\n\nCode\nlibrary(tidyverse)\ngalton.data &lt;- psychTools::galton"
   },
   {
     "objectID": "10-bayes.html#fisher-scoring",
@@ -1117,14 +1117,14 @@
     "href": "10-bayes.html#maximum-likelihood",
     "title": "Bayes",
     "section": "Maximum likelihood",
-    "text": "Maximum likelihood\n\n\nThis is lavaan 0.6-19\nlavaan is FREE software! Please report any bugs.\n\n\nlavaan 0.6-19 ended normally after 1 iteration\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                         3\n\n  Number of observations                           928\n\nModel Test User Model:\n                                                      \n  Test statistic                                 0.000\n  Degrees of freedom                                 0\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n  child ~                                             \n    parent            0.646    0.041   15.728    0.000\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .child            23.942    2.808    8.527    0.000\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .child             5.000    0.232   21.541    0.000"
+    "text": "Maximum likelihood\n\n\nlavaan 0.6-19 ended normally after 1 iteration\n\n  Estimator                                         ML\n  Optimization method                           NLMINB\n  Number of model parameters                         3\n\n  Number of observations                           928\n\nModel Test User Model:\n                                                      \n  Test statistic                                 0.000\n  Degrees of freedom                                 0\n\nParameter Estimates:\n\n  Standard errors                             Standard\n  Information                                 Expected\n  Information saturated (h1) model          Structured\n\nRegressions:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n  child ~                                             \n    parent            0.646    0.041   15.728    0.000\n\nIntercepts:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .child            23.942    2.808    8.527    0.000\n\nVariances:\n                   Estimate  Std.Err  z-value  P(&gt;|z|)\n   .child             5.000    0.232   21.541    0.000"
   },
   {
     "objectID": "10-bayes.html#bayesian-way",
     "href": "10-bayes.html#bayesian-way",
     "title": "Bayes",
     "section": "Bayesian way",
-    "text": "Bayesian way\n\n\nCode\nlibrary(brms)\n\n\nLoading required package: Rcpp\n\n\nLoading 'brms' package (version 2.22.0). Useful instructions\ncan be found by typing help('brms'). A more detailed introduction\nto the package is available through vignette('brms_overview').\n\n\n\nAttaching package: 'brms'\n\n\nThe following object is masked from 'package:stats':\n\n    ar\n\n\nCode\nfit.1.bayesian &lt;- brm(child ~ parent, data = galton.data, backend = \"cmdstanr\", file = \"fit.1.b\")\n\n\n\nsummary(fit.1.bayesian)\n\nLoading required package: rstan\n\n\nLoading required package: StanHeaders\n\n\n\nrstan version 2.36.0.9000 (Stan version 2.35.0)\n\n\nFor execution on a local, multicore CPU with excess RAM we recommend calling\noptions(mc.cores = parallel::detectCores()).\nTo avoid recompilation of unchanged Stan programs, we recommend calling\nrstan_options(auto_write = TRUE)\nFor within-chain threading using `reduce_sum()` or `map_rect()` Stan functions,\nchange `threads_per_chain` option:\nrstan_options(threads_per_chain = 1)\n\n\n\nAttaching package: 'rstan'\n\n\nThe following object is masked from 'package:tidyr':\n\n    extract\n\n\n Family: gaussian \n  Links: mu = identity; sigma = identity \nFormula: child ~ parent \n   Data: galton.data (Number of observations: 928) \n  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;\n         total post-warmup draws = 4000\n\nRegression Coefficients:\n          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nIntercept    24.00      2.79    18.54    29.38 1.00     3554     3112\nparent        0.65      0.04     0.57     0.73 1.00     3545     3112\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma     2.24      0.05     2.14     2.34 1.00     3880     3058\n\nDraws were sampled using sample(hmc). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1).\n\n\n\n\n\nCode\nplot(conditional_effects(fit.1.bayesian), points = TRUE)"
+    "text": "Bayesian way\n\n\nCode\nlibrary(brms)\nfit.1.bayesian &lt;- brm(child ~ parent, data = galton.data, backend = \"cmdstanr\", file = \"fit.1.b\")\n\n\n\nsummary(fit.1.bayesian)\n\n Family: gaussian \n  Links: mu = identity; sigma = identity \nFormula: child ~ parent \n   Data: galton.data (Number of observations: 928) \n  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;\n         total post-warmup draws = 4000\n\nRegression Coefficients:\n          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nIntercept    24.00      2.79    18.54    29.38 1.00     3554     3112\nparent        0.65      0.04     0.57     0.73 1.00     3545     3112\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma     2.24      0.05     2.14     2.34 1.00     3880     3058\n\nDraws were sampled using sample(hmc). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1)."
   },
   {
     "objectID": "10-bayes.html#step-1-is-easy",
@@ -1138,7 +1138,7 @@
     "href": "10-bayes.html#think-of-results-in-terms-of-distributions",
     "title": "Bayes",
     "section": "2. Think of results in terms of distributions",
-    "text": "2. Think of results in terms of distributions\n\nWhat are results?\n\n\n\nEstimate and an SE\nIndicates a “best guess” ie mean/median/mode and the imprecision related to it\nIf this guess is far away from zero (and imprecision not large), then it is significant\nWe know that if we repeated this again we won’t get the same answer (estimate), but likely in between our CIs\nHow do we convey the “best guess?”\n\n\n\n\n\nCode\nlibrary(tidybayes)\n\n\n\nAttaching package: 'tidybayes'\n\n\nThe following objects are masked from 'package:brms':\n\n    dstudent_t, pstudent_t, qstudent_t, rstudent_t\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nselect(b_parent) %&gt;% \n  mode_hdi(.width = c(.95)) %&gt;%  \nggplot(aes(y = as.factor(.width), x = b_parent, xmin = .lower, xmax = .upper)) + geom_pointinterval() + ylab(\"\")\n\n\n\n\n\n\n\nThe problem is they obscure information\n\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nggplot(aes(x = b_parent)) +\n  stat_halfeye()"
+    "text": "2. Think of results in terms of distributions\n\nWhat are results?\n\n\n\nEstimate and an SE\nIndicates a “best guess” ie mean/median/mode and the imprecision related to it\nIf this guess is far away from zero (and imprecision not large), then it is significant\nWe know that if we repeated this again we won’t get the same answer (estimate), but likely in between our CIs\nHow do we convey the “best guess?”"
   },
   {
     "objectID": "10-bayes.html#posterior-distribution-ie-results",
@@ -1166,14 +1166,14 @@
     "href": "10-bayes.html#what-do-you-mean-by-likely",
     "title": "Bayes",
     "section": "What do you mean by likely?",
-    "text": "What do you mean by likely?\nYou’ve done this before last semester. Three parameters in a binomial distribution (# successes, # of trials, probability of success). Often you would fix #trials and probability of success to see what # successes are most/least likely.\n\n\nCode\ndata.frame(heads = 0:10, prob = dbinom(x = 0:10, size = 10, prob = .5)) %&gt;% \n  ggplot(aes(x = factor(heads), y = prob)) +\n  geom_col(fill = \"#562457\") +\n  geom_text(aes(label = round(prob, 2), y = prob + .01),\n            position = position_dodge(.9),\n            size = 5, \n            vjust = 0) +\n  labs(title = \"Binomial Distribution of Coin Flips\",\n       subtitle = \"n = 10, p = .5\",\n       x = \"Number of Successes (Heads)\",\n       y = \"Density\") +\n  theme_classic(base_size = 16)\n\n\n\n\n\n\n\nBut we often don’t know what P is. That is the parameter we want to estimate. But we collected data! So we can look at what p is consistent (or not) with our data (2 successes in 10 trials).\nThis is basically what our current ML algorithms do.\n\n\n\nCode\np &lt;- seq(0.01, 0.99, by = 0.01)\nloglike &lt;- dbinom(2, size = 10, prob = p)\nplot(loglike)\n\n\n\n\n\n\n\nThe Bayesian (MCMC) algorithm tries out a bunch of parameter values. The one’s that are more likely will appear more often.\nWhat do I mean “appear” more often. The algorithm lands on that just as our coin flipping example finds .2 to be most likely.\n\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nggplot(aes(x = b_parent)) +\n  stat_dotsinterval()\n\n\n\n\n\n\nOur posterior is literally made up of educated guesses by the algorithm\n\ntidy_draws(fit.1.bayesian)\n\n# A tibble: 4,000 × 14\n   .chain .iteration .draw b_Intercept b_parent sigma lprior   lp__\n    &lt;int&gt;      &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1      1          1     1        21.4    0.684  2.18  -3.83 -2068.\n 2      1          2     2        22.5    0.667  2.13  -3.82 -2069.\n 3      1          3     3        18.2    0.730  2.22  -3.84 -2069.\n 4      1          4     4        27.0    0.602  2.24  -3.85 -2068.\n 5      1          5     5        20.3    0.699  2.24  -3.85 -2068.\n 6      1          6     6        27.7    0.592  2.23  -3.84 -2068.\n 7      1          7     7        25.6    0.622  2.22  -3.84 -2067.\n 8      1          8     8        25.9    0.618  2.28  -3.86 -2067.\n 9      1          9     9        24.4    0.638  2.35  -3.88 -2070.\n10      1         10    10        23.9    0.648  2.12  -3.82 -2070.\n# ℹ 3,990 more rows\n# ℹ 6 more variables: accept_stat__ &lt;dbl&gt;, treedepth__ &lt;dbl&gt;, stepsize__ &lt;dbl&gt;,\n#   divergent__ &lt;dbl&gt;, n_leapfrog__ &lt;dbl&gt;, energy__ &lt;dbl&gt;"
+    "text": "What do you mean by likely?\nYou’ve done this before last semester. Three parameters in a binomial distribution (# successes, # of trials, probability of success). Often you would fix #trials and probability of success to see what # successes are most/least likely.\n\n\nCode\ndata.frame(heads = 0:10, prob = dbinom(x = 0:10, size = 10, prob = .5)) %&gt;% \n  ggplot(aes(x = factor(heads), y = prob)) +\n  geom_col(fill = \"#562457\") +\n  geom_text(aes(label = round(prob, 2), y = prob + .01),\n            position = position_dodge(.9),\n            size = 5, \n            vjust = 0) +\n  labs(title = \"Binomial Distribution of Coin Flips\",\n       subtitle = \"n = 10, p = .5\",\n       x = \"Number of Successes (Heads)\",\n       y = \"Density\") +\n  theme_classic(base_size = 16)"
   },
   {
     "objectID": "10-bayes.html#more-intuituion",
     "href": "10-bayes.html#more-intuituion",
     "title": "Bayes",
     "section": "More intuituion",
-    "text": "More intuituion\n\nThink of the algorithm as picking out marbles from a sack, with replacement, to figure out the distribution of colors.\nOr us doing rnorm with me hiding what the mean and SD are, but then figuring out what the mean and SD are through counting the samples.\n\n\n\n\nCode\nsack &lt;- as_tibble(rnorm(1000000, mean = 100, sd = 15))\nggplot(sack, aes(x=value)) + \n  geom_density()"
+    "text": "More intuituion\n\nThink of the algorithm as picking out marbles from a sack, with replacement, to figure out the distribution of colors.\nOr us doing rnorm with me hiding what the mean and SD are, but then figuring out what the mean and SD are through counting the samples."
   },
   {
     "objectID": "10-bayes.html#bayesian-analysis-is-just-counting",
@@ -1201,14 +1201,14 @@
     "href": "10-bayes.html#cis-around-a-particular-value",
     "title": "Bayes",
     "section": "CIs around a particular value",
-    "text": "CIs around a particular value\nWith your current knowledge, calculate a 95% CI around parent = 72 inches, to tell you what is possible for the sample mean at that hight.\n\\[  \\hat{Y}\\pm t_{critical} * se_{residual}*\\sqrt{\\frac {1}{n}+\\frac{(X-\\bar{X})^2}{(n-1)s_{X}^2}}  \\]\n\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \n  select(b_Intercept,b_parent) %&gt;% \n  mutate(mu_at_72 = b_Intercept + (b_parent * 72)) %&gt;%  ggplot(aes(x = mu_at_72)) +\n  stat_halfeye() +\n  xlab(expression(mu[\"C-height at parent 72\"]))"
+    "text": "CIs around a particular value\nWith your current knowledge, calculate a 95% CI around parent = 72 inches, to tell you what is possible for the sample mean at that hight.\n\\[  \\hat{Y}\\pm t_{critical} * se_{residual}*\\sqrt{\\frac {1}{n}+\\frac{(X-\\bar{X})^2}{(n-1)s_{X}^2}}  \\]"
   },
   {
     "objectID": "10-bayes.html#be-comfortable-integrating-prior-knowledge",
     "href": "10-bayes.html#be-comfortable-integrating-prior-knowledge",
     "title": "Bayes",
     "section": "3. Be comfortable integrating prior knowledge",
-    "text": "3. Be comfortable integrating prior knowledge\n\nPriors insert knowledge you have outside of your data into your model\nThis can seem “subjective” as opposed to the more “objective” way of letting the data speak.\n\n\n\nWe will mostly not “tip the scales” towards an outcome we want.\nMost of the time the prior knowledge constrains plausible or implausible range of values e.g. we know an effect size of a million is very unlikely.\nOften priors don’t matter…\n\n\n\n\nTake our height example where we are fitting \\(\\Large Child = b_{0} + b_{1}Parent +e\\)\nWe need to put priors on each parameter we want to estimate, here \\(b_{0}\\) & \\(b_{1}\\) (and e).\n\\(b_{0}\\) is the intercept and reflect average child height when parent height is centered.\nWe know, roughly, what average height of adults are so we can create a distribution, say ~N(66 (5.5 ft), 5). That means we are pretty sure (95%) the average height is between ~4’8 and 6`4\n\n\n\n\nCode\np.0 &lt;-\n  tibble(x = seq(from = 40, to = 100, by = .1)) %&gt;% \n  \n  ggplot(aes(x = x, y = dnorm(x, mean = 66, sd = 5))) +\n  geom_line() +\n  scale_x_continuous(breaks = seq(from = 40, to = 100, by = 10)) +\n  labs(title = \"mu ~ dnorm(66, 5)\",\n       y = \"density\")\n\np.0\n\n\n\n\n\n\n\nWe could argue that the \\(b_{1}\\) parameter (which indexes the strength of association between parent and child height) is positive. But we don’t want to stack the deck.\nLet’s center it around zero, saying that the most plausible estimate is no association, but that we are willing to entertain some strong effects in either direction.\n\n\n\n\nCode\np.1 &lt;-\n  tibble(x = seq(from = -15, to = 15, by = .1)) %&gt;% \n  \n  ggplot(aes(x = x, y = dnorm(x, mean = 0, sd = 5))) +\n  geom_line() +\n  scale_x_continuous(breaks = seq(from = -15, to = 15, by = 3)) +\n  labs(title = \"mu ~ dnorm(0, 5)\",\n       y = \"density\")\n\np.1"
+    "text": "3. Be comfortable integrating prior knowledge\n\nPriors insert knowledge you have outside of your data into your model\nThis can seem “subjective” as opposed to the more “objective” way of letting the data speak.\n\n\n\nWe will mostly not “tip the scales” towards an outcome we want.\nMost of the time the prior knowledge constrains plausible or implausible range of values e.g. we know an effect size of a million is very unlikely.\nOften priors don’t matter…"
   },
   {
     "objectID": "10-bayes.html#okay-so-what-does-this-mean",
@@ -1559,5 +1559,474 @@
     "title": "GLM basics II",
     "section": "Residuals Summary",
     "text": "Residuals Summary\n\nResiduals are not correlated with \\(X\\) and \\(\\hat{Y}\\) because those two are perfectly correlated with one another (that is, \\(r_{\\text{fitted,x}} = 1\\) )\n\\(X\\) and \\(\\hat{Y}\\) represent the same information. We use our model ( \\(X\\) ) to make a prediction ( \\(\\hat{Y}\\) ). These predictions are entirely based on the model.\nThere is no correlation between residuals with \\(X\\) and \\(\\hat{Y}\\) because they are created by subtracting them out of \\(Y\\). That is, ( \\(\\epsilon = Y - \\hat{Y}\\) )\nSigma ( \\(\\sigma\\) ; the SD of residuals) can be thought of as how much left over in \\(Y\\) after we take out all of the information our model provides."
+  },
+  {
+    "objectID": "4-HW.html",
+    "href": "4-HW.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
+  },
+  {
+    "objectID": "4-HW.html#instructions",
+    "href": "4-HW.html#instructions",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
+  },
+  {
+    "objectID": "4-HW.html#homework-questions",
+    "href": "4-HW.html#homework-questions",
+    "title": "Homework 4",
+    "section": "Homework Questions",
+    "text": "Homework Questions\n\nPerform a multiple regression where health is regressed on (predicted by) friends, SES, and happiness. Interpret each regression coefficient.\nGraph the (2-d) relationship between health and happiness as found in the above regression. Make sure the association controls for the remaining variables in the model. Include data points in your graph and a confidence band.\nDescribe why the confidence band looks like a bow tie in the above graph.\nFor the above regression, calculate the variance explained using the ANOVA table and interpret the residual standard error.\nAdd the group variable mood.group into the regression model from #2. Then answer the following:\n\nInterpret the coefficients\nIs there a significant increase in variance explained compared to the initial regression in #1? If so, what is the estimate?"
+  },
+  {
+    "objectID": "5-interact.html#today",
+    "href": "5-interact.html#today",
+    "title": "Interactions",
+    "section": "Today",
+    "text": "Today\nInteractions/moderation"
+  },
+  {
+    "objectID": "5-interact.html#what-are-interactions",
+    "href": "5-interact.html#what-are-interactions",
+    "title": "Interactions",
+    "section": "What are interactions?",
+    "text": "What are interactions?\nWhen we have two variables, A and B, in a regression model, we are testing whether these variables have additive effects on our outcome, Y. That is, the effect of A on Y is constant over all values of B.\n\nExample: Drinking coffee and hours of sleep have additive effects on alertness; no matter how any hours I slept the previous night, drinking one cup of coffee will make me .5 SD more awake than not drinking coffee."
+  },
+  {
+    "objectID": "5-interact.html#what-are-interactions-1",
+    "href": "5-interact.html#what-are-interactions-1",
+    "title": "Interactions",
+    "section": "What are interactions?",
+    "text": "What are interactions?\nHowever, we may hypothesize that two variables have joint effects, or interact with each other. In this case, the effect of A on Y changes as a function of B.\n\nExample: Chronic stress has a negative impact on health but only for individuals who receive little or no social support; for individuals with high social support, chronic stress has no impact on health.\nThis is also referred to as moderation."
+  },
+  {
+    "objectID": "5-interact.html#univariate-regression",
+    "href": "5-interact.html#univariate-regression",
+    "title": "Interactions",
+    "section": "Univariate regression",
+    "text": "Univariate regression\n\n\nCode\nlibrary(tidyverse)\nset.seed(022020)\nx = rnorm(n = 20)\nz = rnorm(n = 20)\ny  = x*z + rnorm(n = 20)\ndata.frame(x,y) %&gt;%\n  ggplot(aes(x,y)) + geom_point() + geom_smooth(method = 'lm', se = F) + theme_bw()"
+  },
+  {
+    "objectID": "5-interact.html#multivariate-regression",
+    "href": "5-interact.html#multivariate-regression",
+    "title": "Interactions",
+    "section": "Multivariate regression",
+    "text": "Multivariate regression\n\n\nCode\nlibrary(visreg)\nx1 = x\nx2 = z\nmr.model = lm(y ~ x1 + x2)\nvisreg2d(mr.model,\"x1\", \"x2\", plot.type = \"persp\")"
+  },
+  {
+    "objectID": "5-interact.html#multivariate-regression-with-an-interaction",
+    "href": "5-interact.html#multivariate-regression-with-an-interaction",
+    "title": "Interactions",
+    "section": "Multivariate regression with an interaction",
+    "text": "Multivariate regression with an interaction\n\n\nCode\nmr.model2 = lm(y ~ x1*x2)\nvisreg2d(mr.model2,\"x1\", \"x2\", plot.type = \"persp\")"
+  },
+  {
+    "objectID": "5-interact.html#example",
+    "href": "5-interact.html#example",
+    "title": "Interactions",
+    "section": "Example",
+    "text": "Example\nWe shall return to the data we used in the multiple regression model with two continuous variables. Here we have an outcome (Stress) that we are interested in predicting from trait Anxiety and levels of Social Support.\n\n\nCode\nlibrary(here)\nstress.data = read.csv(here(\"stress.csv\"))\nlibrary(psych)\ndescribe(stress.data)\n\n\n        vars   n   mean     sd median trimmed    mad  min    max  range  skew\nid         1 118 488.65 295.95 462.50  485.76 372.13 2.00 986.00 984.00  0.10\nAnxiety    2 118   7.61   2.49   7.75    7.67   2.26 0.70  14.64  13.94 -0.18\nStress     3 118   5.18   1.88   5.27    5.17   1.65 0.62  10.32   9.71  0.08\nSupport    4 118   8.73   3.28   8.52    8.66   3.16 0.02  17.34  17.32  0.18\ngroup*     5 118   1.53   0.50   2.00    1.53   0.00 1.00   2.00   1.00 -0.10\n        kurtosis    se\nid         -1.29 27.24\nAnxiety     0.28  0.23\nStress      0.22  0.17\nSupport     0.19  0.30\ngroup*     -2.01  0.05"
+  },
+  {
+    "objectID": "5-interact.html#conceptual-interpretation",
+    "href": "5-interact.html#conceptual-interpretation",
+    "title": "Interactions",
+    "section": "Conceptual interpretation",
+    "text": "Conceptual interpretation\n\\[\\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\\]\nYou can interpret the interaction term in the same way you normally interpret a slope coefficient – this is the effect of the interaction controlling for other variables in the model.\nYou can also interpret the intercept the same way as before (the expected value of Y when all predictors are 0).\nBut here, \\(b_1\\) is the effect of X on Y when Z is equal to 0."
+  },
+  {
+    "objectID": "5-interact.html#conceptual-interpretation-1",
+    "href": "5-interact.html#conceptual-interpretation-1",
+    "title": "Interactions",
+    "section": "Conceptual interpretation",
+    "text": "Conceptual interpretation\n\\[\\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\\]\nLower-order terms change depending on the values of the higher-order terms. The value of \\(b_1\\) and \\(b_2\\) will change depending on the value of \\(b_3\\).\n\nThese values represent “conditional effects” (because the value is conditional on the level of the other variable). In many cases, the value and significance test with these terms is either meaningless (if Z is never equal to 0) or unhelpful, as these values and significance change across the data."
+  },
+  {
+    "objectID": "5-interact.html#conceptual-interpretation-2",
+    "href": "5-interact.html#conceptual-interpretation-2",
+    "title": "Interactions",
+    "section": "Conceptual interpretation",
+    "text": "Conceptual interpretation\n\\[\\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}XZ\\]\nHigher-order terms are those terms that represent interactions. \\(b_3\\) is a higher-order term. - This value represents how much the slope of X changes for every 1-unit increase in Z AND how much the slope of Z changes for everyone 1-unit increase in X.\n???\nIs \\(b_0\\) a higher-order or lower-order term?\nAsk what values \\(b_0\\) depends on – both intercept and slope. Maybe be helpful to use paper to represent plane."
+  },
+  {
+    "objectID": "5-interact.html#conceptual-interpretation-3",
+    "href": "5-interact.html#conceptual-interpretation-3",
+    "title": "Interactions",
+    "section": "Conceptual interpretation",
+    "text": "Conceptual interpretation\nHigher-order interaction terms represent: - the change in the slope of X as a function of Z - the degree of curvature in the regression plane - the linear effect of the product of independent variables\n\n\nCode\nstress.data$AxS = stress.data$Anxiety*stress.data$Support\nhead(stress.data[,c(\"Anxiety\", \"Support\", \"AxS\")])\n\n\n   Anxiety Support       AxS\n1 10.18520  6.1602  62.74287\n2  5.58873  8.9069  49.77826\n3  6.58500 10.5433  69.42763\n4  8.95430 11.4605 102.62076\n5  7.59910  5.5516  42.18716\n6  8.15600  7.5117  61.26543"
+  },
+  {
+    "objectID": "5-interact.html#conditional-effects-and-simple-slopes",
+    "href": "5-interact.html#conditional-effects-and-simple-slopes",
+    "title": "Interactions",
+    "section": "Conditional effects and simple slopes",
+    "text": "Conditional effects and simple slopes\nThe regression line estimated in this model is quite difficult to interpret on its own. A good strategy is to decompose the regression equation into simple slopes, which are determined by calculating the conditional effects at a specific level of the moderating variable.\n\nSimple slope: the equation for Y on X at different levels of Z; but also refers to only the coefficient for X in this equation\nConditional effect: the slope coefficients in the full regression model which can change. These are the lower-order terms associated with a variable. E.g., X has a conditional effect on Y.\n\nWhich variable is the “predictor” (X) and which is the “moderator” (Z)?"
+  },
+  {
+    "objectID": "5-interact.html#interaction-shapes",
+    "href": "5-interact.html#interaction-shapes",
+    "title": "Interactions",
+    "section": "Interaction shapes",
+    "text": "Interaction shapes\nOften we graph the simple slopes as a way to understand the interaction. Interpreting the shape of an interaction can be done using the numbers alone, but it requires a lot of calculation and mental rotation. For those reasons, consider it a requirement that you graph interactions in order to interpret them."
+  },
+  {
+    "objectID": "5-interact.html#ordinal-interactions",
+    "href": "5-interact.html#ordinal-interactions",
+    "title": "Interactions",
+    "section": "Ordinal interactions",
+    "text": "Ordinal interactions\n\n\nCode\nx = 1:10\ny1 = .7 + .9*x\ny2 = .6 + .2*x\ny3 = .5 - .4*x\n\ndata.frame(x = rep(x, 3), y = c(y1,y2,y3), group = rep(c(5, 3, 1),each = 10)) %&gt;%\n  ggplot(aes(x,y,color = as.factor(group))) +\n  geom_line(size = 2) +\n  labs(x = \"X\", y = \"Y\", color = \"Z\") +\n  scale_x_continuous(labels = NULL) +\n  scale_y_continuous(labels = NULL, limit = c(-5, 15)) + cowplot::theme_cowplot(font_size = 20)"
+  },
+  {
+    "objectID": "5-interact.html#cross-over-disordinal-interactions",
+    "href": "5-interact.html#cross-over-disordinal-interactions",
+    "title": "Interactions",
+    "section": "Cross-over (disordinal) interactions",
+    "text": "Cross-over (disordinal) interactions\n\n\nCode\nx = 1:10\ny1 = -2 + .9*x\ny2 = 1.6 - .2*x\n\n\ndata.frame(x = rep(x, 2), y = c(y1,y2), group = rep(c(5, 3),each = 10)) %&gt;%\n  ggplot(aes(x,y,color = as.factor(group))) +\n  geom_line(size = 2) +\n  labs(x = \"X\", y = \"Y\", color = \"Z\") +\n  scale_x_continuous(labels = NULL) +\n  scale_y_continuous(labels = NULL, limit = c(-5, 10)) + cowplot::theme_cowplot(font_size = 20)"
+  },
+  {
+    "objectID": "5-interact.html#pop-quiz",
+    "href": "5-interact.html#pop-quiz",
+    "title": "Interactions",
+    "section": "Pop Quiz",
+    "text": "Pop Quiz\nYou are interested in the effects of “brain games” (or cognitive training) and sleep on the development of Alzheimer’s disease. You hypothesize that cognitive training might aid in slowing the progression of AD if participants are well rested.\n\nWrite out the regression equation. Which variable is the moderator?\nInterpret the coefficients.\nSketch out a plot of the simple slopes. There are different ways of doing this reflecting different hypotheses, but make sure the hypothesis stated above is somehow shown. You can do this on a post-it/scratch paper (I don’t have real data for this, so there’s nothing to make in R unless you want to simulate your own data…but that’s a bit much for a 0-point pop quiz)"
+  },
+  {
+    "objectID": "5-interact.html#simple-slopes---significance-tests",
+    "href": "5-interact.html#simple-slopes---significance-tests",
+    "title": "Interactions",
+    "section": "Simple slopes - Significance tests",
+    "text": "Simple slopes - Significance tests\nRecall that the slope at any particular value is a combination of both \\(b_1\\) and \\(b_3\\) \\[\\large \\hat{Y} = (b_{0} + b_{2}Z) + (b_{1} + b_{3}Z)X\\] \\[\\large se_{b@z} = \\sqrt{se_{b_1}^2 + (2 * Z * cov_{b_1b_3})+ (Z^2 se_{b_3}^2)}\\] In this formula, \\(cov_{b_1b_3}\\) refers to the covariance of the coefficients, not the covariance of the variables. This may seem a strange concept, as we only ever have one value for \\(b_1\\) and \\(b_3\\) – the covariance of these coefficients refer to idea that if we randomly sample from a population, estimate the coefficients each time, and then examine the covariance of coefficients across random samples, it will not be 0."
+  },
+  {
+    "objectID": "5-interact.html#simple-slopes---significance-tests-1",
+    "href": "5-interact.html#simple-slopes---significance-tests-1",
+    "title": "Interactions",
+    "section": "Simple slopes - Significance tests",
+    "text": "Simple slopes - Significance tests\n\nround(vcov(imodel),4)\n\n                (Intercept) Anxiety Support Anxiety:Support\n(Intercept)          1.2567 -0.1330 -0.0966          0.0100\nAnxiety             -0.1330  0.0169  0.0110         -0.0015\nSupport             -0.0966  0.0110  0.0091         -0.0011\nAnxiety:Support      0.0100 -0.0015 -0.0011          0.0002"
+  },
+  {
+    "objectID": "5-interact.html#example-1",
+    "href": "5-interact.html#example-1",
+    "title": "Interactions",
+    "section": "Example",
+    "text": "Example\n\\[\\hat{Stress} = -2.74 + 0.62(\\text{Anx})+ 0.67(\\text{Sup})+ -0.04(\\text{Anx} \\times \\text{Sup})\\]\nWe want to know whether anxiety is a significant predictor of stress at different levels of support.\n\n\nCode\nlibrary(reghelper)\nsimple_slopes(imodel, levels = list(Support = c(4,6,8,10,12)))\n\n\n  Anxiety Support Test Estimate Std. Error t value  df  Pr(&gt;|t|) Sig.\n1  sstest       4        0.4486     0.0886  5.0617 114 1.610e-06  ***\n2  sstest       6        0.3652     0.0733  4.9791 114 2.289e-06  ***\n3  sstest       8        0.2817     0.0654  4.3095 114 3.488e-05  ***\n4  sstest      10        0.1982     0.0674  2.9424 114  0.003946   **\n5  sstest      12        0.1147     0.0786  1.4600 114  0.147036     \n\n\nIf you don’t list levels, then this function will test simple slopes at the mean and 1 SD above and below the mean."
+  },
+  {
+    "objectID": "5-interact.html#centering",
+    "href": "5-interact.html#centering",
+    "title": "Interactions",
+    "section": "Centering",
+    "text": "Centering\nThe regression equation built using the raw data is not only difficult to interpret, but often the terms displayed are not relevant to the hypotheses we’re interested. - \\(b_0\\) is the expected value when all predictors are 0, but this may never happen in real life - \\(b_1\\) is the slope of X when Z is equal to 0, but this may not ever happen either.\nCentering your variables by subtracting the mean from all values can improve the interpretation of your results. - Remember, a linear transformation does not change associations (correlations) between variables. In this case, it only changes the interpretation for some coefficients"
+  },
+  {
+    "objectID": "5-interact.html#standardized-regression-equation",
+    "href": "5-interact.html#standardized-regression-equation",
+    "title": "Interactions",
+    "section": "Standardized regression equation",
+    "text": "Standardized regression equation\nSo far, we’ve only discussed the unstandardized regression equation. If you’re interested in getting the standardized regression equation, you can follow the same procedure of standardizing your variables first and then entering them into your linear model.\nAn important note: You must take the product of the Z-scores, not the Z-score of the products to get the correct regression model."
+  },
+  {
+    "objectID": "5-interact.html#standardized-regression-equation-1",
+    "href": "5-interact.html#standardized-regression-equation-1",
+    "title": "Interactions",
+    "section": "Standardized regression equation",
+    "text": "Standardized regression equation\nThis is okay:\n\nY ~ z(X) + z(Z) + z(X)*z(Z) \n\nY ~ z(X)*z(Z) \n\nThis is not OK:\n\nY ~ z(X) + z(Z) + z(X*Z)"
+  },
+  {
+    "objectID": "6-interact.html#mixing-categorical-and-continuous",
+    "href": "6-interact.html#mixing-categorical-and-continuous",
+    "title": "Interactions II",
+    "section": "Mixing categorical and continuous",
+    "text": "Mixing categorical and continuous\nConsider the case where D is a variable representing two groups. In a univariate regression, how do we interpret the coefficient for D?\n\\[\\hat{Y} = b_{0} + b_{1}D\\]"
+  },
+  {
+    "objectID": "6-interact.html#interpreting-slopes",
+    "href": "6-interact.html#interpreting-slopes",
+    "title": "Interactions II",
+    "section": "Interpreting slopes",
+    "text": "Interpreting slopes\nExtending this to the multivariate case, where X is continuous and D is a dummy code representing two groups.\n\\[\\hat{Y} = b_{0} + b_{1}D + b_2X\\]\nHow do we interpret \\(b_1?\\)"
+  },
+  {
+    "objectID": "6-interact.html#visualizing",
+    "href": "6-interact.html#visualizing",
+    "title": "Interactions II",
+    "section": "Visualizing",
+    "text": "Visualizing\n\n\nCode\nset.seed(022520)\nD = rep(c(0,1), each = 10)\nX = rnorm(20) + D\nY = 2*D + X + rnorm(20)\n\ndf = data.frame(X,Y,D)\n\nmeans = df %&gt;%\n  group_by(D) %&gt;%\n  summarize(M = mean(Y))\nmod = lm(Y ~ X + D, data = df)\ndf$pmod = predict(mod)\n\npredict.2 = data.frame(X = rep(mean(X)+.1,2), D = c(0,1))\npredict.2$Y = predict(mod, newdata = predict.2) \npredict.2 = cbind(predict.2[1,], predict.2[2,])\nnames(predict.2) = c(\"x1\", \"d1\", \"y1\", \"x2\", \"d2\", \"y2\")\n\nggplot(df, aes(X,Y, color = as.factor(D))) +\n  geom_point(size = 3) +\n  geom_smooth(aes(y = pmod), method = \"lm\", se = F)+\n  labs(color = \"D\") +\n  geom_segment(aes(x = x1, y = y1, xend = x2, yend = y2), data = predict.2, \n               inherit.aes = F, size = 1.5)+\n  cowplot::theme_cowplot()"
+  },
+  {
+    "objectID": "6-interact.html#visualizing-1",
+    "href": "6-interact.html#visualizing-1",
+    "title": "Interactions II",
+    "section": "Visualizing",
+    "text": "Visualizing"
+  },
+  {
+    "objectID": "6-interact.html#interactions",
+    "href": "6-interact.html#interactions",
+    "title": "Interactions II",
+    "section": "Interactions",
+    "text": "Interactions\nNow extend this example to include joint effects, not just additive effects:\n\\[\\hat{Y} = b_{0} + b_{1}D + b_2X + b_3DX\\]\nHow do we interpret \\(b_1?\\), \\(b_2\\), \\(b_3?\\)?"
+  },
+  {
+    "objectID": "6-interact.html#visualizing-2",
+    "href": "6-interact.html#visualizing-2",
+    "title": "Interactions II",
+    "section": "Visualizing",
+    "text": "Visualizing\n\n\nCode\nggplot(df, aes(X,Y, color = as.factor(D))) +\n  geom_point(size = 3) +\n  geom_smooth(method = \"lm\", se = F)+\n  labs(color = \"D\") +\n  cowplot::theme_cowplot()"
+  },
+  {
+    "objectID": "6-interact.html#example",
+    "href": "6-interact.html#example",
+    "title": "Interactions II",
+    "section": "Example",
+    "text": "Example\nWash U is interested in understanding how undergraduates’ academic performance and choice of major impacts their career success. They contact 150 alumni between the ages of 25 and 35 and collect their current salary (in thousands of dollars), their primary undergraduate major, and their GPA upon graduating.\n\n\nCode\nlibrary(psych)\ntable(inc_data$major)\n\n\n\n   Econ English   Psych \n     50      50      50 \n\n\nCode\ndescribe(inc_data[,c(\"gpa\", \"income\")], fast = T)\n\n\n       vars   n  mean   sd median   min    max  range  skew kurtosis   se\ngpa       1 150  3.36  0.4   3.36  2.44   4.19   1.74 -0.22    -0.65 0.03\nincome    2 150 84.35 34.0  82.23 24.67 160.27 135.60  0.15    -0.90 2.78"
+  },
+  {
+    "objectID": "6-interact.html#pop-quiz",
+    "href": "6-interact.html#pop-quiz",
+    "title": "Interactions II",
+    "section": "Pop Quiz",
+    "text": "Pop Quiz\nFor the model just defined in the previous slide…\n\nWrite out the regression equation\nInterpret each term\nWhere is Econ?"
+  },
+  {
+    "objectID": "6-interact.html#model-summary-centering-predictors",
+    "href": "6-interact.html#model-summary-centering-predictors",
+    "title": "Interactions II",
+    "section": "Model summary: centering predictors",
+    "text": "Model summary: centering predictors\n\ninc_data$gpa_c = inc_data$gpa - mean(inc_data$gpa)\ncareer.mod_c = lm(income ~ gpa_c*major, data = inc_data)\nsummary(career.mod_c)\n\n\nCall:\nlm(formula = income ~ gpa_c * major, data = inc_data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-42.625 -11.869   0.376   9.301  40.942 \n\nCoefficients:\n                   Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)         141.428      3.752  37.691  &lt; 2e-16 ***\ngpa_c                59.660      7.705   7.743 1.58e-12 ***\nmajorEnglish        -97.086      4.907 -19.783  &lt; 2e-16 ***\nmajorPsych          -75.965      4.384 -17.327  &lt; 2e-16 ***\ngpa_c:majorEnglish   -4.562     11.089  -0.411   0.6814    \ngpa_c:majorPsych     29.545     10.949   2.698   0.0078 ** \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 14.91 on 144 degrees of freedom\nMultiple R-squared:  0.8142,    Adjusted R-squared:  0.8077 \nF-statistic: 126.2 on 5 and 144 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "6-interact.html#plotting-results",
+    "href": "6-interact.html#plotting-results",
+    "title": "Interactions II",
+    "section": "Plotting results",
+    "text": "Plotting results\n\n\nCode\nlibrary(ggeffects)\npredictedvals = ggpredict(model = career.mod_c, terms = c(\"gpa_c\", \"major\"))\n\nggplot(data = predictedvals, aes(x = x, y = predicted, group = group)) +\n  geom_smooth(aes(ymin = conf.low,\n                  ymax = conf.high,\n                  color = group,\n                  fill = group),\n              stat = \"identity\",\n              alpha = .2) +\n  labs(x = \"GPA\",\n       y = \"Income (in thousands of dollars)\",\n       title = \"I am in the wrong profession\",\n       color = \"Undergraduate Major\",\n       fill = \"Undergraduate Major\",\n       group = \"Undergraduate Major\")"
+  },
+  {
+    "objectID": "6-interact.html#uncentered-plot",
+    "href": "6-interact.html#uncentered-plot",
+    "title": "Interactions II",
+    "section": "Uncentered Plot",
+    "text": "Uncentered Plot\n\n\nCode\nlibrary(ggeffects)\npredictedvals = ggpredict(model = career.mod, terms = c(\"gpa\", \"major\"))\n\nggplot(data = predictedvals, aes(x = x, y = predicted, group = group)) +\n  geom_smooth(aes(ymin = conf.low,\n                  ymax = conf.high,\n                  color = group,\n                  fill = group),\n              stat = \"identity\",\n              alpha = .2) +\n  labs(x = \"GPA\",\n       y = \"Income (in thousands of dollars)\",\n       title = \"I am in the wrong profession\",\n       color = \"Undergraduate Major\",\n       fill = \"Undergraduate Major\",\n       group = \"Undergraduate Major\")"
+  },
+  {
+    "objectID": "6-interact.html#factorial-anova",
+    "href": "6-interact.html#factorial-anova",
+    "title": "Interactions II",
+    "section": "Factorial ANOVA",
+    "text": "Factorial ANOVA\nThe interaction of two or more categorical variables in a general linear model is formally known as Factorial ANOVA.\nA factorial design is used when there is an interest in how two or more variables (or factors) affect the outcome.\n\nRather than conduct separate one-way ANOVAs for each factor, they are all included in one analysis.\nThe unique and important advantage to a factorial ANOVA over separate one-way ANOVAs is the ability to examine interactions."
+  },
+  {
+    "objectID": "6-interact.html#terminology",
+    "href": "6-interact.html#terminology",
+    "title": "Interactions II",
+    "section": "Terminology",
+    "text": "Terminology\nIn a completely crossed factorial design, each level of one factor occurs in combination with each level of the other factor.\nIf equal numbers of participants occur in each combination, the design is balanced. This has some distinct advantages (described later).\n\n\n\n\nSlow\nMedium\nFast\n\n\n\n\nNo Noise\nX\nX\nX\n\n\nControllable Noise\nX\nX\nX\n\n\nUncontrollable Noise\nX\nX\nX"
+  },
+  {
+    "objectID": "6-interact.html#terminology-1",
+    "href": "6-interact.html#terminology-1",
+    "title": "Interactions II",
+    "section": "Terminology",
+    "text": "Terminology\nWe describe the factorial ANOVA design by the number of levels of each factor.\n\nFactor: a variable that is being manipulated or in which there are two or more groups\nLevel: the different groups within a factor\n\nIn this case, we have a 3 x 3 ANOVA (“three by three”), because our first factor (speed) has three levels (slow, medium, and fast) and our second factor (noise) also has three levels (none, controllable, and uncontrollable)"
+  },
+  {
+    "objectID": "6-interact.html#questions",
+    "href": "6-interact.html#questions",
+    "title": "Interactions II",
+    "section": "Questions",
+    "text": "Questions\n\n\nCode\nmean.summary = Data %&gt;%\n  group_by(Noise, Speed) %&gt;%\n  summarize(Time = mean(Time)) %&gt;%\n  spread(\"Speed\", \"Time\")\nmean.summary$Noise = as.character(mean.summary$Noise)\nmean.summary$Marginal = rowMeans(mean.summary[2:4])\nmean.summary[4,1] = \"Marginal\"\nmean.summary[4,2] = colMeans(mean.summary[2:5], na.rm=T)[1]\nmean.summary[4,3] = colMeans(mean.summary[2:5], na.rm=T)[2]\nmean.summary[4,4] = colMeans(mean.summary[2:5], na.rm=T)[3]\nmean.summary[4,5] = colMeans(mean.summary[2:5], na.rm=T)[4]\nlibrary(knitr)\nlibrary(kableExtra)\nkable(mean.summary, digits = 2) %&gt;% kable_styling() %&gt;% group_rows(start_row = 1, end_row = 3)\n\n\n\n\n\nNoise\nSlow\nMedium\nFast\nMarginal\n\n\n\n\n\n\n\nNone\n630.72\n525.29\n329.28\n495.10\n\n\nControllable\n576.67\n492.72\n287.23\n452.21\n\n\nUncontrollable\n594.44\n304.62\n268.16\n389.08\n\n\nMarginal\n600.61\n440.88\n294.89\n445.46"
+  },
+  {
+    "objectID": "6-interact.html#marginal-means",
+    "href": "6-interact.html#marginal-means",
+    "title": "Interactions II",
+    "section": "Marginal means",
+    "text": "Marginal means\n\n\n\n\nNoise\nSlow\nMedium\nFast\nMarginal\n\n\n\n\n\n\n\nNone\n630.72\n525.29\n329.28\n495.10\n\n\nControllable\n576.67\n492.72\n287.23\n452.21\n\n\nUncontrollable\n594.44\n304.62\n268.16\n389.08\n\n\nMarginal\n600.61\n440.88\n294.89\n445.46\n\n\n\n\n\n\nRegardless of dot speed, does noise condition affect performance? Performance declines in the presence of noise, especially if the noise is uncontrollable.\nHere, too adding information about variability allows us a sense of whether these are significant and meaningful differences…"
+  },
+  {
+    "objectID": "6-interact.html#marginal-means-1",
+    "href": "6-interact.html#marginal-means-1",
+    "title": "Interactions II",
+    "section": "Marginal means",
+    "text": "Marginal means\n\n\n\n\nNoise\nSlow\nMedium\nFast\nMarginal\n\n\n\n\n\n\n\nNone\n630.72\n525.29\n329.28\n495.10\n\n\nControllable\n576.67\n492.72\n287.23\n452.21\n\n\nUncontrollable\n594.44\n304.62\n268.16\n389.08\n\n\nMarginal\n600.61\n440.88\n294.89\n445.46\n\n\n\n\n\n\nThe marginal mean differences correspond to main effects. They tell us what impact a particular factor has, ignoring the impact of the other factor.\nThe remaining effect in a factorial design, and it primary advantage over separate one-way ANOVAs, is the ability to examine conditional mean differences."
+  },
+  {
+    "objectID": "6-interact.html#the-linear-model-way",
+    "href": "6-interact.html#the-linear-model-way",
+    "title": "Interactions II",
+    "section": "The Linear Model Way",
+    "text": "The Linear Model Way\n\nsummary(lm(Time ~ Noise*Speed, data = Data))\n\n\nCall:\nlm(formula = Time ~ Noise * Speed, data = Data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-316.23  -70.82    4.99   79.87  244.40 \n\nCoefficients:\n                                Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)                       630.72      25.32  24.908  &lt; 2e-16 ***\nNoiseControllable                 -54.05      35.81  -1.509  0.13305    \nNoiseUncontrollable               -36.28      35.81  -1.013  0.31243    \nSpeedMedium                      -105.44      35.81  -2.944  0.00369 ** \nSpeedFast                        -301.45      35.81  -8.418 1.49e-14 ***\nNoiseControllable:SpeedMedium      21.48      50.64   0.424  0.67201    \nNoiseUncontrollable:SpeedMedium  -184.39      50.64  -3.641  0.00036 ***\nNoiseControllable:SpeedFast        12.01      50.64   0.237  0.81287    \nNoiseUncontrollable:SpeedFast     -24.84      50.64  -0.490  0.62448    \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 113.2 on 171 degrees of freedom\nMultiple R-squared:  0.6109,    Adjusted R-squared:  0.5927 \nF-statistic: 33.56 on 8 and 171 DF,  p-value: &lt; 2.2e-16"
+  },
+  {
+    "objectID": "6-interact.html#mean-differences",
+    "href": "6-interact.html#mean-differences",
+    "title": "Interactions II",
+    "section": "Mean differences",
+    "text": "Mean differences\n\n\n\n\nNoise\nSlow\nMedium\nFast\nMarginal\n\n\n\n\n\n\n\nNone\n630.72\n525.29\n329.28\n495.10\n\n\nControllable\n576.67\n492.72\n287.23\n452.21\n\n\nUncontrollable\n594.44\n304.62\n268.16\n389.08\n\n\nMarginal\n600.61\n440.88\n294.89\n445.46\n\n\n\n\n\n\nAre the marginal mean differences for noise condition a good representation of what is happening within each of the dot speed conditions?\nIf not, then we would need to say that the noise condition effect depends upon (is conditional on) dot speed. We would have an interaction between noise condition and dot speed condition."
+  },
+  {
+    "objectID": "6-interact.html#interpretation-of-significance-tests",
+    "href": "6-interact.html#interpretation-of-significance-tests",
+    "title": "Interactions II",
+    "section": "Interpretation of significance tests",
+    "text": "Interpretation of significance tests\n\n\nCode\nfit = lm(Time ~ Speed*Noise, data = Data)\nanova(fit)\n\n\nAnalysis of Variance Table\n\nResponse: Time\n             Df  Sum Sq Mean Sq  F value    Pr(&gt;F)    \nSpeed         2 2805871 1402936 109.3975 &lt; 2.2e-16 ***\nNoise         2  341315  170658  13.3075 4.252e-06 ***\nSpeed:Noise   4  295720   73930   5.7649 0.0002241 ***\nResiduals   171 2192939   12824                       \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nAll three null hypotheses are rejected. This only tells us that systemic differences among the means are present; follow-up comparisons are necessary to determine the nature of the differences."
+  },
+  {
+    "objectID": "6-interact.html#cell-contrasts",
+    "href": "6-interact.html#cell-contrasts",
+    "title": "Interactions II",
+    "section": "Cell contrasts",
+    "text": "Cell contrasts\n\npairs(em)\n\n contrast                                    estimate   SE  df t.ratio p.value\n Slow None - Medium None                        105.4 35.8 171   2.944  0.0856\n Slow None - Fast None                          301.4 35.8 171   8.418  &lt;.0001\n Slow None - Slow Controllable                   54.1 35.8 171   1.509  0.8498\n Slow None - Medium Controllable                138.0 35.8 171   3.854  0.0051\n Slow None - Fast Controllable                  343.5 35.8 171   9.592  &lt;.0001\n Slow None - Slow Uncontrollable                 36.3 35.8 171   1.013  0.9842\n Slow None - Medium Uncontrollable              326.1 35.8 171   9.106  &lt;.0001\n Slow None - Fast Uncontrollable                362.6 35.8 171  10.124  &lt;.0001\n Medium None - Fast None                        196.0 35.8 171   5.473  &lt;.0001\n Medium None - Slow Controllable                -51.4 35.8 171  -1.435  0.8828\n Medium None - Medium Controllable               32.6 35.8 171   0.910  0.9922\n Medium None - Fast Controllable                238.1 35.8 171   6.648  &lt;.0001\n Medium None - Slow Uncontrollable              -69.2 35.8 171  -1.931  0.5933\n Medium None - Medium Uncontrollable            220.7 35.8 171   6.162  &lt;.0001\n Medium None - Fast Uncontrollable              257.1 35.8 171   7.180  &lt;.0001\n Fast None - Slow Controllable                 -247.4 35.8 171  -6.908  &lt;.0001\n Fast None - Medium Controllable               -163.4 35.8 171  -4.564  0.0003\n Fast None - Fast Controllable                   42.0 35.8 171   1.174  0.9609\n Fast None - Slow Uncontrollable               -265.2 35.8 171  -7.405  &lt;.0001\n Fast None - Medium Uncontrollable               24.7 35.8 171   0.689  0.9989\n Fast None - Fast Uncontrollable                 61.1 35.8 171   1.707  0.7417\n Slow Controllable - Medium Controllable         84.0 35.8 171   2.344  0.3219\n Slow Controllable - Fast Controllable          289.4 35.8 171   8.082  &lt;.0001\n Slow Controllable - Slow Uncontrollable        -17.8 35.8 171  -0.496  0.9999\n Slow Controllable - Medium Uncontrollable      272.1 35.8 171   7.597  &lt;.0001\n Slow Controllable - Fast Uncontrollable        308.5 35.8 171   8.615  &lt;.0001\n Medium Controllable - Fast Controllable        205.5 35.8 171   5.738  &lt;.0001\n Medium Controllable - Slow Uncontrollable     -101.7 35.8 171  -2.841  0.1114\n Medium Controllable - Medium Uncontrollable    188.1 35.8 171   5.252  &lt;.0001\n Medium Controllable - Fast Uncontrollable      224.6 35.8 171   6.271  &lt;.0001\n Fast Controllable - Slow Uncontrollable       -307.2 35.8 171  -8.579  &lt;.0001\n Fast Controllable - Medium Uncontrollable      -17.4 35.8 171  -0.486  0.9999\n Fast Controllable - Fast Uncontrollable         19.1 35.8 171   0.533  0.9998\n Slow Uncontrollable - Medium Uncontrollable    289.8 35.8 171   8.093  &lt;.0001\n Slow Uncontrollable - Fast Uncontrollable      326.3 35.8 171   9.111  &lt;.0001\n Medium Uncontrollable - Fast Uncontrollable     36.5 35.8 171   1.018  0.9837\n\nP value adjustment: tukey method for comparing a family of 9 estimates"
+  },
+  {
+    "objectID": "6-interact.html#marginal-contrasts",
+    "href": "6-interact.html#marginal-contrasts",
+    "title": "Interactions II",
+    "section": "Marginal contrasts",
+    "text": "Marginal contrasts\n\nemmeans(fit, pairwise ~ Speed)\n\n$emmeans\n Speed  emmean   SE  df lower.CL upper.CL\n Slow      601 14.6 171      572      629\n Medium    441 14.6 171      412      470\n Fast      295 14.6 171      266      324\n\nResults are averaged over the levels of: Noise \nConfidence level used: 0.95 \n\n$contrasts\n contrast      estimate   SE  df t.ratio p.value\n Slow - Medium      160 20.7 171   7.726  &lt;.0001\n Slow - Fast        306 20.7 171  14.787  &lt;.0001\n Medium - Fast      146 20.7 171   7.061  &lt;.0001\n\nResults are averaged over the levels of: Noise \nP value adjustment: tukey method for comparing a family of 3 estimates"
+  },
+  {
+    "objectID": "6-interact.html#effect-sizes",
+    "href": "6-interact.html#effect-sizes",
+    "title": "Interactions II",
+    "section": "effect sizes",
+    "text": "effect sizes\n\nem.ef &lt;- emmeans(fit, pairwise ~ Speed)\neff_size(em.ef, sigma = sigma(fit), edf = 171)\n\n contrast        effect.size    SE  df lower.CL upper.CL\n (Slow - Medium)        1.41 0.198 171    1.020     1.80\n (Slow - Fast)          2.70 0.234 171    2.238     3.16\n (Medium - Fast)        1.29 0.195 171    0.903     1.67\n\nResults are averaged over the levels of: Noise \nsigma used for effect sizes: 113.2 \nConfidence level used: 0.95"
+  },
+  {
+    "objectID": "7-mlm.html#mlm",
+    "href": "7-mlm.html#mlm",
+    "title": "MLM",
+    "section": "MLM",
+    "text": "MLM\n\nWe will use MLM anytime we have more than one DV per grouping variable where the grouping variable has dependency.\nObervations nested within people; dyads within a relationship; children in classrooms; members within family; …\nWhen we have such designs we violate standard assumptions in regression"
+  },
+  {
+    "objectID": "7-mlm.html#building-intuition",
+    "href": "7-mlm.html#building-intuition",
+    "title": "MLM",
+    "section": "Building intuition",
+    "text": "Building intuition"
+  },
+  {
+    "objectID": "7-mlm.html#handling-multiple-dvs",
+    "href": "7-mlm.html#handling-multiple-dvs",
+    "title": "MLM",
+    "section": "Handling multiple DVs?",
+    "text": "Handling multiple DVs?\nWhat if people had more than 1 DV, like we do with time? What do you do with multiple items, multiple trials, multiple _____?\nTwo options: 1. Collapse and average across."
+  },
+  {
+    "objectID": "7-mlm.html#example",
+    "href": "7-mlm.html#example",
+    "title": "MLM",
+    "section": "Example",
+    "text": "Example\n\n\nCode\nlibrary(tidyverse)\nlibrary(broom)\n\nsimp&lt;- tribble(\n  ~ID, ~group,  ~test.score, ~study,\n1,1,5,1,\n2,1,7,3,\n3,2,4,2,\n4,2,6,4,\n5,3,3,3,\n6,3,5,5,\n7,4,2,4,\n8,4,4,6,\n9,5,1,5,\n10,5,3,7)"
+  },
+  {
+    "objectID": "7-mlm.html#aggregation-obscures-hypotheses",
+    "href": "7-mlm.html#aggregation-obscures-hypotheses",
+    "title": "MLM",
+    "section": "1. Aggregation obscures hypotheses",
+    "text": "1. Aggregation obscures hypotheses\n\nBetween person H1: Do students who study more get better grades?\nWithin person H2: When a student studies, do they get better grades?\nH1 and H2 are independent from one another! Aggregation collapses the two. When you have nested data with many DVs it is important to not aggregate."
+  },
+  {
+    "objectID": "7-mlm.html#regressions-within-regressions",
+    "href": "7-mlm.html#regressions-within-regressions",
+    "title": "MLM",
+    "section": "2. Regressions within regressions",
+    "text": "2. Regressions within regressions\nHelps to take multilevel and split it into the different levels.\nLevel 1 is the smallest unit of analysis (students, waves, trials, family members)\nLevel 2 variables are what level 1 variables are “nested” in (people, schools, counties, families, dyads)\nWe are going to use level one components to run a regression, and use the results to run a second regression (Coefficents as outcomes)"
+  },
+  {
+    "objectID": "7-mlm.html#stroop-example",
+    "href": "7-mlm.html#stroop-example",
+    "title": "MLM",
+    "section": "Stroop example",
+    "text": "Stroop example\nLevel 1 can be thought of as regressions for each person. DV is reaction time, our dummy is congrudent (0) vs incongruent (1) trials\n\\[Y_\\text{josh} = \\beta_{0} + \\beta_{1}D_\\text{josh} + \\varepsilon_\\text{josh}\\]\n\\(\\beta_{0}\\) is my average for congruent trials, whereas \\(\\beta_{1}\\) is my difference between congruent and incongruent."
+  },
+  {
+    "objectID": "7-mlm.html#level-1-equation",
+    "href": "7-mlm.html#level-1-equation",
+    "title": "MLM",
+    "section": "Level 1 equation",
+    "text": "Level 1 equation\n\\[Y_{i,j} = \\beta_{0j} + \\beta_{1j}X_{i,j} + \\varepsilon_{i,j}\\]"
+  },
+  {
+    "objectID": "7-mlm.html#level-2-equation",
+    "href": "7-mlm.html#level-2-equation",
+    "title": "MLM",
+    "section": "Level 2 equation",
+    "text": "Level 2 equation\n\\[\\beta_{0j} = \\gamma_{00} + U_{0j}\\] \\[\\beta_{1j} = \\gamma_{10} + U_{1j}\\]\nOur B1 coefficient indexes people’s slope, and can be thought of as a simple vector of scores. This vector can be a DV and can be decomposed further by a simple regression. There is some average effect (fixed effect) that serves as the intercept. The \\(U_{j}\\) are like residuals."
+  },
+  {
+    "objectID": "7-mlm.html#diferent-levels",
+    "href": "7-mlm.html#diferent-levels",
+    "title": "MLM",
+    "section": "3. Diferent levels",
+    "text": "3. Diferent levels\nThe third way is to think of questions at different levels. Level 1 is the smallest unit of analysis (students, waves, trials, family members). We can ask questions about those levels\nLevel 2 variables are what level 1 variables are “nested” in (people, schools, counties, families, dyads). We can ask separate questions about those questions."
+  },
+  {
+    "objectID": "7-mlm.html#level-2-equation-1",
+    "href": "7-mlm.html#level-2-equation-1",
+    "title": "MLM",
+    "section": "Level 2 equation",
+    "text": "Level 2 equation\n\\[\\beta_{0j} = \\gamma_{00} + \\gamma_{01}\\bar{S}_{j} + U_{0j}\\] \\[\\beta_{1j} = \\gamma_{10}\\]\nWhat direction will the \\(\\gamma_{01}\\) coefficient be? \\(\\gamma_{10}\\)?"
+  },
+  {
+    "objectID": "7-mlm.html#variance-decomposition",
+    "href": "7-mlm.html#variance-decomposition",
+    "title": "MLM",
+    "section": "4. Variance decomposition",
+    "text": "4. Variance decomposition\nFor standard regression, we think of error as existing in one big bucket called \\(\\varepsilon\\) . Everything that we do not know goes into that bucket, from measurement error to unmeasured important factors.\nFor MLMs we will be breaking up ( \\(\\varepsilon\\) ) into multiple buckets. These useful “buckets” (Us) are what we refer to as random/varying effects.\nThinking about MLM as two separate regressions, these can be conceptualized as residuals. Thinking about variance decomposition, these can be thought of as similar to ANVOA models."
+  },
+  {
+    "objectID": "7-mlm.html#random-and-fixed-effects",
+    "href": "7-mlm.html#random-and-fixed-effects",
+    "title": "MLM",
+    "section": "Random and fixed effects",
+    "text": "Random and fixed effects\n\n\nLevel 1: \\[{Y}_{ij} = \\beta_{0j}  + \\beta_{1j}  +\\varepsilon_{ij}\\]\nLevel 2: \\[{\\beta}_{0j} = \\gamma_{00} + U_{0j}\\] \\[\\beta_{1j} = \\gamma_{10} + U_{1j}\\] Combined: \\[{Y}_{ij} = \\gamma_{00} + \\gamma_{10} +  U_{1j}+ U_{0j}  + \\varepsilon_{ij}\\]\n\n\\(U_{0j}\\) is considered a random effect, as it is varies across our grouping\n\\(\\gamma_{00}\\) is considered a fixed effect, as it is what is fixed (average) across our grouping"
+  },
+  {
+    "objectID": "7-mlm.html#shrinkagepartial-pooling",
+    "href": "7-mlm.html#shrinkagepartial-pooling",
+    "title": "MLM",
+    "section": "5. Shrinkage/partial pooling",
+    "text": "5. Shrinkage/partial pooling\n\nWe treat our group variable as coming from a population. All groups are alike (because they are from the same population), but different in their own way. Because of this it is helpful to use information from other groups to help make predictions.\nWe do this in standard regression where we make predictions based on values from the whole dataset (not just binned Xs). A similar analogy for MLM is running a regression for each group. We want to pool as this leads to better predictions as we are not over fitting our data!"
+  },
+  {
+    "objectID": "7-mlm.html#complete-partial-and-no-pooling",
+    "href": "7-mlm.html#complete-partial-and-no-pooling",
+    "title": "MLM",
+    "section": "Complete, partial and no pooling",
+    "text": "Complete, partial and no pooling\n\nComplete assumes everyone is the same, with \\(U_{0i}\\) being zero for everyone.\nNo pooling is if we calculate every person’s effect with a regression, subtracting out he grand mean average.\nPartial pooling is in the middle, a weighted average between the two. For those with fewer trials there is less information for a particular individual, thus the complete pooling estimate will be given more weight. If someone has a lot of data, there weighted average is closer to no pooling.\nPartial pooling prevents both over and under fitting of your data, leading to increased out of sample predictions."
+  },
+  {
+    "objectID": "7-mlm.html#complete-pooling",
+    "href": "7-mlm.html#complete-pooling",
+    "title": "MLM",
+    "section": "Complete pooling",
+    "text": "Complete pooling\nIgnores any dependency. Doesn’t learn from others, assumes everyone is the same. Underfits the model.\n\n\nCode\nggplot(mlm, aes(x = week, y = SMN7)) + geom_point() + stat_smooth(method=\"lm\") +ylab(\"test score\") + xlab(\"study\") +  theme(axis.ticks.y = element_blank(),\n        axis.text.y = element_blank())"
+  },
+  {
+    "objectID": "7-mlm.html#no-pooling",
+    "href": "7-mlm.html#no-pooling",
+    "title": "MLM",
+    "section": "No Pooling",
+    "text": "No Pooling\nEveryone is unique and we cannot learn from others. Leads to overfitting\n\n\nCode\nggplot(mlm, aes(x = week, y = SMN7, group = ID)) + geom_line() +  geom_point() + facet_wrap( ~ ID) +ylab(\"test score\") + xlab(\"study\")"
+  },
+  {
+    "objectID": "7-mlm.html#partial-pooling-aka-shrinkage-aka-regularization",
+    "href": "7-mlm.html#partial-pooling-aka-shrinkage-aka-regularization",
+    "title": "MLM",
+    "section": "Partial pooling aka shrinkage aka regularization",
+    "text": "Partial pooling aka shrinkage aka regularization\n\n\nCode\nlibrary(viridis)\nggplot(mlm, aes(x = week, y = SMN7, group = ID, colour = ID)) + stat_smooth(method = \"lm\", se = FALSE, alpha = .5) +scale_color_viridis()+  ylab(\"test score\") + xlab(\"study amount\") + geom_point()"
+  },
+  {
+    "objectID": "7-mlm.html#example-1",
+    "href": "7-mlm.html#example-1",
+    "title": "MLM",
+    "section": "Example",
+    "text": "Example\nDay to day negative affect\n\n\nCode\nmelsm %&gt;% \ndistinct(record_id) %&gt;% \n  count()\n\n\n    n\n1 193\n\n\n\n\nCode\nmelsm %&gt;% \n    count(record_id) %&gt;% \n  ggplot(aes(x = n)) +\n  geom_bar() +\n  scale_x_continuous(\"number of days\", limits = c(0, NA))"
   }
 ]

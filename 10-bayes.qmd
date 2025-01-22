@@ -593,4 +593,3 @@ data_grid(parent = seq_range(parent, n = 101)) %>%
 -   Why don't we do this already? Isn't frequentist better? Historical accident due to computation limitations
 -   Bayes Factors. Mostly garbage (imho) as they can be easily manipulated. But they have their place. BFs =/= Bayesian.
 :::
-

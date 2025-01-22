@@ -11,15 +11,11 @@ html:
   scrollable: true
 ---
 
-
 ## Today & Last time...
 
-- Resampling methods via bootstrapping & permutation testing
+-   Resampling methods via bootstrapping & permutation testing
 
-
-
-- Lessons from **machine learning**
-
+-   Lessons from **machine learning**
 
 ## Explanation vs. Prediction
 
@@ -27,56 +23,47 @@ html:
 
 *Prediction*: Accurately forecast behaviors/outcomes
 
+Similarities.
 
-Similarities. 
+-   Both are goals of science.
 
-- Both are goals of science. 
-
-- Good predictions can help us develop theories of explanation and vice versa
-
+-   Good predictions can help us develop theories of explanation and vice versa
 
 ## Explanation vs. Prediction
 
 Statistical Tensions
 
-- Statistical models that accurately describe causal truths often have poor prediction and are complex
+-   Statistical models that accurately describe causal truths often have poor prediction and are complex
 
-- Predictive models are often very different from the "true", underlying data generating processes
-
-
+-   Predictive models are often very different from the "true", underlying data generating processes
 
 ## Explanation vs. Prediction
 
-- What do we do in Psychology and Neuroscience?
+-   What do we do in Psychology and Neuroscience?
 
--  What about regression?
+-   What about regression?
 
- Point of Yarkoni & Westfall (2017)
-- How far have we really come in the past 10 years? 20 years? 30 years? ...not as far as we'd like
+Point of Yarkoni & Westfall (2017) - How far have we really come in the past 10 years? 20 years? 30 years? ...not as far as we'd like
 
-- *We should spend more time and resources developing predictive models than we currently do*
+-   *We should spend more time and resources developing predictive models than we currently do*
 
------
-
+------------------------------------------------------------------------
 
 ![](ai.png)
 
-
 ## Maybe Helpful Definitions
 
-**Machine Learning (ML)** is the process of feeding previous observations into a computer and using the computer to generate predictions for new observations. AKA:  
+**Machine Learning (ML)** is the process of feeding previous observations into a computer and using the computer to generate predictions for new observations. AKA:
 
-  - machine inference 
-  
-  - pattern recognition (Google Photos!) 
-  
-  - statistical estimation 
-  
-  - prediction modeling 
-  
-  - statistical learning (ish) 
-  
+-   machine inference
 
+-   pattern recognition (Google Photos!)
+
+-   statistical estimation
+
+-   prediction modeling
+
+-   statistical learning (ish)
 
 ## Maybe Helpful Definitions
 
@@ -86,76 +73,64 @@ Statistical Tensions
 
 **Artificial Intelligence** is not the same as machine learning. AI is the simulation of human intelligence by computers; AI systems are generally trained with machine learning approaches.
 
-
 ## Some more definitions
 
 **Supervised Learning:** using known patterns between input and output observations to train a mapping between the two
 
-  - **Regression!** learning the mapping between a continuous input feature variable and a continuous output target variable
+-   **Regression!** learning the mapping between a continuous input feature variable and a continuous output target variable
 
-  - **Classification:** learning the mapping between a continuous input feature variable and a categorical output target variable (i.e., a label)
-
+-   **Classification:** learning the mapping between a continuous input feature variable and a categorical output target variable (i.e., a label)
 
 ## Some more definitions
 
 **Unsupervised Learning:** determining patterns in observations without guiding referents
 
-  - **Dimensionality Reduction:** decreasing the overall number of features considered in a learning procedure (i.e., PCA, ICA etc.)
-  
-  - **Clustering:** grouping features together that are similar as determined by *some* metric
+-   **Dimensionality Reduction:** decreasing the overall number of features considered in a learning procedure (i.e., PCA, ICA etc.)
 
+-   **Clustering:** grouping features together that are similar as determined by *some* metric
 
 ## @Wash U
 
-- **Reinforcement Learning:** determining a mapping between input and output observations using only a measure of training quality
+-   **Reinforcement Learning:** determining a mapping between input and output observations using only a measure of training quality
 
-- ML classes in CS department
+-   ML classes in CS department
 
-- Wouter Kool for reinforcement learning
+-   Wouter Kool for reinforcement learning
 
-- ACCSN with Dennis Barbour and myself for high level discussions on these topics
+-   ACCSN with Dennis Barbour and myself for high level discussions on these topics
 
-- Poli Sci department for dealing with categorical outcomes
-
+-   Poli Sci department for dealing with categorical outcomes
 
 ## Machine Learning Algorithms
 
-
-:::: {.columns}
-
+::::: columns
 ::: {.column width="50%"}
-- ordinary least squares linear regression
-- logistic regression
-- k-means clustering
-- nearest neighbor
-- naive Bayes
-- ridge regression
-- LASSO regression
-- support vector machine
+-   ordinary least squares linear regression
+-   logistic regression
+-   k-means clustering
+-   nearest neighbor
+-   naive Bayes
+-   ridge regression
+-   LASSO regression
+-   support vector machine
 :::
 
 ::: {.column width="50%"}
-
-- random forest
-- Gaussian process estimator
-- multilayer perceptron (deep net)
-- convolutional network
-- recurrent network
-- generalized adversarial network
+-   random forest
+-   Gaussian process estimator
+-   multilayer perceptron (deep net)
+-   convolutional network
+-   recurrent network
+-   generalized adversarial network
 :::
-
-::::
-
-
+:::::
 
 ## Some terminology
 
-**Overfitting** is when we *mistakenly* fit sample-specific noise as if it were actually a signal. 
+**Overfitting** is when we *mistakenly* fit sample-specific noise as if it were actually a signal.
 
-- If our model has a $R^2 = .9$, we do an excellent job of explaining variance *in our sample*. 
-- OLS models tend to be overfit because they minimize error for a specific sample
-
-
+-   If our model has a $R^2 = .9$, we do an excellent job of explaining variance *in our sample*.
+-   OLS models tend to be overfit because they minimize error for a specific sample
 
 ## Bias and Variance
 
@@ -167,112 +142,97 @@ Statistical Tensions
 
 **Underfitting** means we can't capture a relationship at all -- not as big of a problem for us
 
--------
-
+------------------------------------------------------------------------
 
 ![](biasvariance.png)
 
--------
+------------------------------------------------------------------------
 
 ### You should be afraid...very afraid
 
----------
+------------------------------------------------------------------------
 
 How do we take what we know from overfitting & the bias-variance tradeoff and incorporate it? What can we learn from the ML world?
 
-**Big Data**
-* Reduce the likelihood of overfitting -- more data means less error
+**Big Data** \* Reduce the likelihood of overfitting -- more data means less error
 
-**Cross-validation**
-* Is my model overfit?
+**Cross-validation** \* Is my model overfit?
 
-**Regularization**
-* Constrain the model to be less overfit 
+**Regularization** \* Constrain the model to be less overfit
 
--------
+------------------------------------------------------------------------
 
 "Every pattern that could be observed in a given dataset reflects some...unknown combination of signal and error"
 
-Error is random, so it cannot correlate with anything; as we aggregate many pieces of information together, we reduce error. 
-
+Error is random, so it cannot correlate with anything; as we aggregate many pieces of information together, we reduce error.
 
 <center>
-![](snr.jpeg)
 
+![](snr.jpeg)
 
 ## Cross-validation
 
-**Cross-validation** is a family of techniques that involve testing and training a model on different samples of data. 
-
-
+**Cross-validation** is a family of techniques that involve testing and training a model on different samples of data.
 
 ## Cross-validation: Hold-out Samples
 
-:::: {.columns}
-
+::::: columns
 ::: {.column width="50%"}
-- Split into training and testing sets
-- Fit your model on the *training* set
-- Predict outputs for your *testing* set
+-   Split into training and testing sets
+-   Fit your model on the *training* set
+-   Predict outputs for your *testing* set
 :::
 
 ::: {.column width="50%"}
-
 **Pros**
 
-* Straightforward; computationally easy
+-   Straightforward; computationally easy
 
 **Cons**
 
-* Which data go into which set?
-* What if the vast majority of group A fall into the training set and the vast majority of group B fall into the testing set? 
+-   Which data go into which set?
+-   What if the vast majority of group A fall into the training set and the vast majority of group B fall into the testing set?
 :::
-
-::::
-
+:::::
 
 ## K-fold Cross-validation
 
-- Make _k_ subsets of your data
-- Repeat the hold-out method of test/train, but do it _k_ times
-- Get the model fit for all _k_ iterations; take the average model fit
+-   Make *k* subsets of your data
+-   Repeat the hold-out method of test/train, but do it *k* times
+-   Get the model fit for all *k* iterations; take the average model fit
 
-------------
+------------------------------------------------------------------------
 
 ![](K-fold_cross_validation_EN.svg)
 
-[https://en.wikipedia.org/wiki/Cross-validation_(statistics)]
-
+\[https://en.wikipedia.org/wiki/Cross-validation\_(statistics)\]
 
 ## K-fold Cross-validation
 
 Pros
 
-- Doesn't matter much which data points fall into test or train since each subset can be both a test and a training set
+-   Doesn't matter much which data points fall into test or train since each subset can be both a test and a training set
 
-- The more folds you do (larger _k_), the more you are able to decrease your variance around your averaged model fit
+-   The more folds you do (larger *k*), the more you are able to decrease your variance around your averaged model fit
 
 Cons
 
-- Can take a decent amount of computational power, depending on the dataset
-
-
+-   Can take a decent amount of computational power, depending on the dataset
 
 ## Leave-One-Out Cross-validation
 
-- Same as _k_-fold, but now _k_ is equal to your $N$
-
+-   Same as *k*-fold, but now *k* is equal to your $N$
 
 Pros
 
-- Good estimations
+-   Good estimations
 
 Cons
 
-- Even more computationally expensive
-- Especially if using "big data"
-    
----
+-   Even more computationally expensive
+-   Especially if using "big data"
+
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -286,15 +246,13 @@ model.lm = lm(Stress ~ Anxiety*Support*group,
 summary(model.lm)$r.squared
 ```
 
-
 ## A brief aside:
 
-Newer package called `tidymodels` is better for machine learning, but requires many more steps. For now, this is the simpler method. 
+Newer package called `tidymodels` is better for machine learning, but requires many more steps. For now, this is the simpler method.
 
-`R` vs. `Python` `r emo::ji("snake")` . `R` is excellent for statistics and visualizing data. Most of what we do in Psychology. `Python` is better for machine learning and is more of a full suite language. 
+`R` vs. `Python` `r emo::ji("snake")` . `R` is excellent for statistics and visualizing data. Most of what we do in Psychology. `Python` is better for machine learning and is more of a full suite language.
 
-If you're going hard with ML, use `tidymodels` or Python. 
-
+If you're going hard with ML, use `tidymodels` or Python.
 
 ## Example: 10-fold cross validation
 
@@ -311,50 +269,45 @@ cv.model <- train(Stress ~ Anxiety*Support*group,
 cv.model
 ```
 
-
 ## Cross-Validation Summary
 
-- Tempers your estimates to protect against overfitting
+-   Tempers your estimates to protect against overfitting
 
-- You do not need fancy ML algorithms. You can do this with your classic regression!
+-   You do not need fancy ML algorithms. You can do this with your classic regression!
 
-- If your whole sample is not representative, this will not save you
-
+-   If your whole sample is not representative, this will not save you
 
 ## Regularization
 
-Penalizing a model as it grows more complex.  
+Penalizing a model as it grows more complex.
 
-- Usually involves _**shrinking**_ coefficient estimates -- the model will fit less well in-sample but may be more predictive
+-   Usually involves ***shrinking*** coefficient estimates -- the model will fit less well in-sample but may be more predictive
 
---------
+------------------------------------------------------------------------
 
-**LASSO regression**: balance minimizing sum of squared residuals (OLS) and minimizing smallest sum of absolute values of coefficients. 
+**LASSO regression**: balance minimizing sum of squared residuals (OLS) and minimizing smallest sum of absolute values of coefficients.
 
-- Penalize the size of the coefficients 
+-   Penalize the size of the coefficients
 
-- The larger the penalty applied, the more estimates are go towards zero (or "shrink" -- the first "S") 
+-   The larger the penalty applied, the more estimates are go towards zero (or "shrink" -- the first "S")
 
-- Coefficients are more biased (tend to underestimate coefficients) but produce less variability in results 
+-   Coefficients are more biased (tend to underestimate coefficients) but produce less variability in results
 
-- Also helps with variable selection 
+-   Also helps with variable selection
 
-
-The coefficient $\lambda$ is used to penalize the model. 
+The coefficient $\lambda$ is used to penalize the model.
 
 Least Absolute Shrinkage and Selection Operator
 
-
 ## LASSO Regression
 
-- The `glmnet` package has the tools for LASSO regression. 
+-   The `glmnet` package has the tools for LASSO regression.
 
-- One small complication is that the package uses matrix algebra, so you need to feed it a matrix of predictors -- specifically, instead of saying "find the interaction between A and B", you need to create the variable that represents this term.
+-   One small complication is that the package uses matrix algebra, so you need to feed it a matrix of predictors -- specifically, instead of saying "find the interaction between A and B", you need to create the variable that represents this term.
 
+-   Luckily, the function `model.matrix()` can do this for you.
 
-- Luckily, the function `model.matrix()` can do this for you.
-
----
+------------------------------------------------------------------------
 
 ```{r, message = F, warning = F}
 #| code-fold: true
@@ -364,7 +317,7 @@ X.matrix <- model.matrix.lm(model.lm)
 head(X.matrix)
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 library(glmnet)
@@ -372,12 +325,9 @@ lasso.mod <- glmnet(x = X.matrix[,-1], #don't need the intercept
                     y = stress.data$Stress)
 ```
 
+------------------------------------------------------------------------
 
-
--------
-
-:::: {.columns}
-
+::::: columns
 ::: {.column width="40%"}
 ```{r}
 lasso.mod
@@ -385,19 +335,13 @@ lasso.mod
 :::
 
 ::: {.column width="60%"}
-
-* DF = number of non-zero coefficients
-* dev = $R^2$
-* lambda = complexity parameter
-    * how much to down-weight
-    * between 0 & 1
-    
+-   DF = number of non-zero coefficients
+-   dev = $R^2$
+-   lambda = complexity parameter
+    -   how much to down-weight
+    -   between 0 & 1
 :::
-
-::::
-
-
-
+:::::
 
 ## What value of $\lambda$ to choose?
 
@@ -408,20 +352,16 @@ Looks like coefficients 1, 2, and 3 have high values even with shrinkage.
 plot(lasso.mod, xvar = "dev", label = T, )
 ```
 
-
-
 ## What value of $\lambda$ to choose?
 
-Looking for $\lambda$ values where those coefficients are still different from 0. 
+Looking for $\lambda$ values where those coefficients are still different from 0.
 
 ```{r}
 #| code-fold: true
 plot(lasso.mod, xvar = "lambda", label = TRUE, cex = 8)
 ```
 
-
-
----
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -429,17 +369,14 @@ coef = coef(lasso.mod, s = exp(-5))
 round(x = coef, digits = 2)
 ```
 
----
-
+------------------------------------------------------------------------
 
 ```{r}
 coef = coef(lasso.mod, s = exp(-4))
 round(x = coef, digits = 2)
 ```
 
-
-
----
+------------------------------------------------------------------------
 
 ```{r}
 coef = coef(lasso.mod, s = 0)
@@ -448,7 +385,7 @@ coef
 
 $\lambda = 0$ is pretty close to our OLS solution
 
----
+------------------------------------------------------------------------
 
 ```{r}
 coef = coef(lasso.mod, s = 1)
@@ -457,7 +394,7 @@ coef
 
 $\lambda = 1$ is a huge penalty
 
----
+------------------------------------------------------------------------
 
 Choosing a lambda based on eyeballing can be hard. We can use cross-validation instead to help us choose!
 
@@ -466,15 +403,13 @@ cvfit <- cv.glmnet(x = X.matrix[,-1], y = stress.data$Stress, type.measure = "de
 cvfit
 ```
 
----------
+------------------------------------------------------------------------
 
 ```{r}
 plot(cvfit)
 ```
 
-
-
---------
+------------------------------------------------------------------------
 
 Once you've imposed a shrinkage penalty on your coefficients, you've wandered far from the realm of NHST.
 
@@ -482,17 +417,12 @@ In general, you'll find that very few ML techniques are compatible with probabil
 
 Instead of asking, "how does random chance factor into my result?", machine learning optimizes (out of sample) prediction. Both methods explicitly deal with random variability.
 
-Rather than estimating degree of randomness; in machine learning, we're trying to remove it. 
-
+Rather than estimating degree of randomness; in machine learning, we're trying to remove it.
 
 ## Summary: Yarkoni and Westfall (2017)
 
+**Big Data** \* Reduce the likelihood of overfitting -- more data means less error
 
-**Big Data**
-* Reduce the likelihood of overfitting -- more data means less error
+**Cross-validation** \* Is my model overfit?
 
-**Cross-validation**
-* Is my model overfit?
-
-**Regularization**
-* Constrain the model to be less overfit 
+**Regularization** \* Constrain the model to be less overfit

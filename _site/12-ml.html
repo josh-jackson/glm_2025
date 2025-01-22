@@ -665,11 +665,11 @@ group      5 118    NaN     NA     NA  Inf   -Inf   -Inf    NA       NA    NA</c
 
 No pre-processing
 Resampling: Cross-Validated (10 fold) 
-Summary of sample sizes: 106, 106, 106, 106, 106, 107, ... 
+Summary of sample sizes: 106, 106, 106, 106, 106, 106, ... 
 Resampling results:
 
-  RMSE      Rsquared   MAE     
-  1.541479  0.3708104  1.248871
+  RMSE      Rsquared  MAE     
+  1.536794  0.36408   1.240742
 
 Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 </div>
@@ -687,7 +687,7 @@ Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 <h2>Regularization</h2>
 <p>Penalizing a model as it grows more complex.</p>
 <ul>
-<li>Usually involves <em><strong>shrinking</strong></em> coefficient estimates – the model will fit less well in-sample but may be more predictive</li>
+<li>Usually involves <strong><em>shrinking</em></strong> coefficient estimates – the model will fit less well in-sample but may be more predictive</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -974,8 +974,8 @@ Call:  cv.glmnet(x = X.matrix[, -1], y = stress.data$Stress, type.measure = "dev
 Measure: Mean-squared Error 
 
      Lambda Index Measure     SE Nonzero
-min 0.00852    52   2.364 0.1537       6
-1se 0.13880    22   2.516 0.2502       2</code></pre>
+min 0.08717    27   2.446 0.2402       2
+1se 0.24256    16   2.685 0.2790       3</code></pre>
 </div>
 </div>
 </section>

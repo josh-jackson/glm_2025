@@ -13,95 +13,80 @@ html:
 
 ## Today
 
-* Start looking at topics related to machine learning
-* We are going to start off with __Resampling methods__
-
+-   Start looking at topics related to machine learning
+-   We are going to start off with **Resampling methods**
 
 ## First. Sampling
 
-It is impossible to survey every person in the population we are interested in, so we often take a "random sample" from the population and calculate a **sample statistic** (e.g., mean, median). 
+It is impossible to survey every person in the population we are interested in, so we often take a "random sample" from the population and calculate a **sample statistic** (e.g., mean, median).
 
-A lot of our statistics follow well-defined distributions (e.g., normal distribution), and we use the properties of these distributions to estimate the population parameter. 
-
+A lot of our statistics follow well-defined distributions (e.g., normal distribution), and we use the properties of these distributions to estimate the population parameter.
 
 ## Problems with Sampling
 
 Single Estimate of the Population Parameter
 
-- Estimate the population mean
+-   Estimate the population mean
 
-- Sampling distribution of mean derived from sample statistics
+-   Sampling distribution of mean derived from sample statistics
 
-- Built a 95% confidence interval around the sample mean
+-   Built a 95% confidence interval around the sample mean
 
-- We've been **relying on a single estimate** of the population parameter (except for with Bayesian methods). 
+-   We've been **relying on a single estimate** of the population parameter (except for with Bayesian methods).
 
----
-
-
+------------------------------------------------------------------------
 
 We make assumptions about the sample (e.g., representative sample, large sample size, normality), which may or may not be true.
-
 
 ## Introduction to Resampling
 
 A statistical technique that involves re-estimation of the population parameter by repeatedly drawing samples from **the original sample**
 
-
-
 ## Reasons for Resampling
 
-- Reduce bias of the estimate by using multiple samples instead of one
-  
-- Better sense of precision of the estimated population parameter
-  
-- We do not need to make assumptions about the population distribution (e.g., when we perform two samples t-test, for example, we make the assumption that the populations from which the samples are drawn are normally distributed)
-  
-- Sample does not have to be large
+-   Reduce bias of the estimate by using multiple samples instead of one
 
+-   Better sense of precision of the estimated population parameter
+
+-   We do not need to make assumptions about the population distribution (e.g., when we perform two samples t-test, for example, we make the assumption that the populations from which the samples are drawn are normally distributed)
+
+-   Sample does not have to be large
 
 ## Types of Resampling
 
-- Bootstrapping
+-   Bootstrapping
 
-- Jackknife method (just a glimpse)
+-   Jackknife method (just a glimpse)
 
-- Permutation testing (just a glimpse)
+-   Permutation testing (just a glimpse)
 
------
+------------------------------------------------------------------------
 
- **pull yourself up by your bootstraps**
-
+**pull yourself up by your bootstraps**
 
 Improve yourself/overcome (often impossible) obstacles without aid or assistance from anyone else. Use your own resources to improve your standing.
 
 ![](bootstraps.png)
 
-
-
 ## Bootstrapping
 
 **Bootstrapping** is a method where we *rely entirely on the sample that we have at hand*.
 
-- We randomly sample within the sample (with replacement)
+-   We randomly sample within the sample (with replacement)
 
-- Compute the estimator of interest in order to...
+-   Compute the estimator of interest in order to...
 
-- Build an empirical distribution of that test statistic.
-
+-   Build an empirical distribution of that test statistic.
 
 ## Illustration of Bootstrapping
 
 Imagine we are trying to estimate the height of a cohort of friends. But you only have 6. Specifically, these 6 friends.
 
-
 ![](friends.png)
 
-
--------
+------------------------------------------------------------------------
 
 To estimate their height, you decide to perform bootstrapping, meaning you draw many samples from this group of 6 people, *with replacement*, each time calculating the average height of the sample.
-
 
 ```{r}
 #| code-fold: true
@@ -112,12 +97,11 @@ names(heights) = friends
 (sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))
 ```
 
-----------
+------------------------------------------------------------------------
 
-The number of friends that we randomly sample is 6, the same number of friends inside the initial sample. 
+The number of friends that we randomly sample is 6, the same number of friends inside the initial sample.
 
-Within the same sample, there can be duplicates. This is what it means to randomly sample **with replacement**. 
-
+Within the same sample, there can be duplicates. This is what it means to randomly sample **with replacement**.
 
 ## Repeat
 
@@ -136,7 +120,6 @@ Within the same sample, there can be duplicates. This is what it means to random
 (sample1 = sample(friends, size = 6, replace = T)); paste('Mean height of this sample:', mean(heights[sample1]))
 ```
 
-
 ## Bootstrap 10,000 Times
 
 ```{r}
@@ -152,7 +135,6 @@ heights <- c(165, 165, 178, 170, 172, 173)
 
 sample_means <- NULL # Initialize list to store sample means
 ```
-
 
 ## Bootstrap 10,000 Times
 
@@ -175,7 +157,6 @@ for(i in 1:boot){ #<<
   sample_means <- c(sample_means, mean(this_sample)) #<<
 } #<<
 ```
-
 
 ## Comparison
 
@@ -220,12 +201,11 @@ from_prob = data.frame(means = seq(from = min(sample_means), to = max(sample_mea
 ggarrange(bootstrapped, from_prob, ncol = 1)
 ```
 
-------
+------------------------------------------------------------------------
 
 There are several candidates for central tendency (e.g., mean, median) and for variability (e.g., standard deviation, interquartile range). **Some of these do not have well understood theoretical sampling distributions.**
 
 For the mean and standard deviation, we have theoretical sampling distributions to help us, provided we think the mean and standard deviation are the best indices. For the others, we can use bootstrapping.
-
 
 ## Example 2
 
@@ -240,7 +220,6 @@ set.seed(5067)
 response = rf(n = 216, 3, 50) 
 response = response * 500 + rnorm(n = 216, mean = 200, sd = 100)
 ```
-
 
 ## Visualize Data
 
@@ -274,7 +253,7 @@ data.frame(x = response) %>%
   labs(x = "Reponse time (ms)", title = "Response Time Distribution") + cowplot::theme_cowplot(font_size = 20)
 ```
 
---------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -297,7 +276,6 @@ mean(response_means)
 quantile(response_means, probs = c(.025, .975))
 ```
 
-
 ## Distribution of Means
 
 ```{r}
@@ -318,7 +296,7 @@ data.frame(means = response_means) %>%
   cowplot::theme_cowplot()
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 set.seed(5067)
@@ -330,7 +308,7 @@ for(i in 1:boot){
   response_med <- c(response_med, median(sample_response))}
 ```
 
---------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -348,7 +326,7 @@ data.frame(medians = response_med) %>%
   cowplot::theme_cowplot()
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 mean(response_med)
@@ -357,8 +335,7 @@ quantile(response_med,
          probs = c(.025, .975))
 ```
 
-
--------
+------------------------------------------------------------------------
 
 ```{r}
 set.seed(5067)
@@ -370,7 +347,7 @@ for(i in 1:boot){
   response_sd <- c(response_sd, sd(sample_response))}
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -389,7 +366,7 @@ data.frame(sds = response_sd) %>%
   cowplot::theme_cowplot()
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -399,22 +376,19 @@ quantile(response_sd,
          probs = c(.025, .975))
 ```
 
-
-
 ## Other Estimators?
 
-You can bootstrap estimates and 95% confidence intervals for *any* statistics you'll need to estimate. 
+You can bootstrap estimates and 95% confidence intervals for *any* statistics you'll need to estimate.
 
-Things you should learn how to do in `R`:   
+Things you should learn how to do in `R`:
 
-- learn to read a `for loop`. 
+-   learn to read a `for loop`.
 
-- learn to write your own function.  
+-   learn to write your own function.
 
--------
+------------------------------------------------------------------------
 
 The `boot` package and function provides some help to speed this process along. Things you should learn how to do in R:
-
 
 ```{r}
 library(boot)
@@ -429,7 +403,7 @@ rsq <- function(data, indices) {
 results <- boot(data = mtcars, statistic = rsq, R = 10000)
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -438,9 +412,7 @@ data.frame(rsq = results$t) %>%
   geom_histogram(color = "white", bins = 30) 
 ```
 
-
------------
-
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -448,12 +420,9 @@ median(results$t)
 boot.ci(results, type = "perc")
 ```
 
-
-
 ## Another Example
 
-In this district, Verizon provides line service to both Verizon and non-Verizon customers. Here, we are going to look at a dataset containing service waiting times for Verizon customers (ILEC) and non-Verizon customers (CLEC). We are interested in **whether waiting time of non-Verizon customers is longer than that of Verizon customers**. 
-
+In this district, Verizon provides line service to both Verizon and non-Verizon customers. Here, we are going to look at a dataset containing service waiting times for Verizon customers (ILEC) and non-Verizon customers (CLEC). We are interested in **whether waiting time of non-Verizon customers is longer than that of Verizon customers**.
 
 ```{r}
 #| code-fold: true
@@ -463,7 +432,6 @@ Verizon = read.csv("https://raw.githubusercontent.com/shellyc26/psy5067/master/d
 ```{r}
 head(Verizon, 3)
 ```
-
 
 ## Inspect Verizon Data 1
 
@@ -476,8 +444,7 @@ Verizon %>%
   facet_wrap(~Group, scales = "free_y")
 ```
 
-- Left is the distribution of waiting times of Non-Verizon (CLEC) customers and right is the distribution of waiting times of Verizon (ILEC) customers
-
+-   Left is the distribution of waiting times of Non-Verizon (CLEC) customers and right is the distribution of waiting times of Verizon (ILEC) customers
 
 ## Inspect Verizon Data 2
 
@@ -496,8 +463,7 @@ Verizon %>%
 table(Verizon$Group)
 ```
 
-
-## Analysis Plan and Justification 
+## Analysis Plan and Justification
 
 It seems that the data do not meet the typical assumptions of an independent samples $t$-test.
 
@@ -505,7 +471,7 @@ In this case, to estimate mean differences we can use bootstrapping.
 
 Here, we'll resample with replacement separately from the two samples and calculate their difference in means.
 
-------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -521,15 +487,12 @@ for(i in 1:boot){
 }
 ```
 
-
 **Inside the For Loop**
 
-- Sample (with replacement) Verizon group (ILEC) customers
-- Sample (with replacement) non-Verizon group (CLEC) customers
-- Calculate the difference in means between the two groups
-- Append the difference value to a list
-
-
+-   Sample (with replacement) Verizon group (ILEC) customers
+-   Sample (with replacement) non-Verizon group (CLEC) customers
+-   Calculate the difference in means between the two groups
+-   Append the difference value to a list
 
 ## One Solution
 
@@ -542,7 +505,6 @@ difference <- NULL
 subsample_CLEC = Verizon %>% filter(Group == "CLEC") #<<
 subsample_ILEC = Verizon %>% filter(Group == "ILEC") #<<
 ```
-
 
 ## One Solution
 
@@ -566,7 +528,6 @@ for(i in 1:boot){
                        replace = T) #<<
 }
 ```
-
 
 ## One Solution
 
@@ -595,7 +556,6 @@ for(i in 1:boot){
 }
 ```
 
-
 ## Bootstrap Distribution of Differences
 
 ```{r}
@@ -615,52 +575,37 @@ data.frame(differences = difference) %>%
   cowplot::theme_cowplot()
 ```
 
-
 The difference in means is `r round(median(difference),2)` $[`r round(quantile(difference, probs = .025),2)`,`r round(quantile(difference, probs = .975),2)`]$. What would this mean?
 
--------
+------------------------------------------------------------------------
 
 Bootstrapping is useful when:
 
+1.  Violated assumptions of the test (e.g., normality)
 
+2.  You have good reason to believe the sampling distribution is not normal, but don't know what it is (e.g., median)
 
-1. Violated assumptions of the test (e.g., normality)
+3.  Oddities in your data, like very unbalanced samples
 
+This allows you to create a confidence interval around any statistic you want. You can test whether these statistics are significantly different from any other value.
 
-
-2. You have good reason to believe the sampling distribution is not normal, but don't know what it is (e.g., median)
-
-
-
-3. Oddities in your data, like very unbalanced samples 
-
-
-
-This allows you to create a confidence interval around any statistic you want. You can test whether these statistics are significantly different from any other value. 
-
-------
+------------------------------------------------------------------------
 
 Bootstrapping will **NOT** help you deal with:
 
+-   Dependence between observations -- for this, you'll need to explicitly model dependence
 
+-   Improperly specified models or forms -- use theory to guide you here
 
-* Dependence between observations -- for this, you'll need to explicitly model dependence
+-   Measurement error -- why bother?
 
-
-* Improperly specified models or forms -- use theory to guide you here
-
-
-* Measurement error -- why bother?
-
-
-* Caveats: representativeness of the sample, outliers
-
+-   Caveats: representativeness of the sample, outliers
 
 ## Jackknife Resampling
 
 **Jackknife Resampling** is a method where researchers generate n sub-samples, each leaving out one observation. The method is very similar to bootstrapping except **the way that we create the sub-samples**.
 
-----
+------------------------------------------------------------------------
 
 Friends Example. If you decide to jackknife their heights, you would draw six sub-samples and calculate their respective mean height.
 
@@ -697,29 +642,25 @@ paste("Fifth Sub-sample: ", toString(friends[-5]))
 paste("Sixth Sub-sample: ", toString(friends[-6]))
 ```
 
-Notice that there are **6** sub-samples of **size 5**. 
-
+Notice that there are **6** sub-samples of **size 5**.
 
 ## Jack of all trades, master of none - Jackknife
 
-1. Can assess the accuracy of a statistical estimator without making assumptions about the underlying distribution
+1.  Can assess the accuracy of a statistical estimator without making assumptions about the underlying distribution
 
-2. Computationally efficient bc only *n* sub-samples are generated (compared to 10,000 for example)
+2.  Computationally efficient bc only *n* sub-samples are generated (compared to 10,000 for example)
 
-3. Not used as much these days
+3.  Not used as much these days
 
-4. Sensitive to sample size: If sample size is small, it can result in inaccurate estimates of the bias (e.g., sample size of 6 means six jackknife samples).
-
-
+4.  Sensitive to sample size: If sample size is small, it can result in inaccurate estimates of the bias (e.g., sample size of 6 means six jackknife samples).
 
 ## Permutation Testing
 
 A resampling method that involves **randomly shuffling the labels** (e.g., conditions) across the data and recomputing the test statistic of interest, thereby deriving a null distribution of the test statistic.
 
-
 ## Permutation Example: Restaurants
 
-We are interested in the difference in the rating of group A and group B  restaurants. 
+We are interested in the difference in the rating of group A and group B restaurants.
 
 ```{r}
 #| code-fold: true
@@ -733,7 +674,6 @@ perm_df <- data.frame(name = names,
 
 head(perm_df, 6)
 ```
-
 
 ## Permutation Example: Restaurants
 
@@ -755,22 +695,21 @@ perm_df %>% filter(group == 'B') %>% head(3)
 perm_df %>% filter(group == 'B') %>% pull(rating) %>% mean()
 ```
 
-
 ```{r echo = T}
 perm_df %>% filter(group == 'A') %>% pull(rating) %>% mean() - perm_df %>% filter(group == 'B') %>% pull(rating) %>% mean()
 ```
 
-------
+------------------------------------------------------------------------
 
-Initially, the three restaurants in group A were: 
+Initially, the three restaurants in group A were:
 
 ```{r echo = F}
 perm_df %>% filter(group == 'A') %>% head(3)
 ```
 
--------
+------------------------------------------------------------------------
 
-Now, we are going to randomly assign restaurants to group A and group B, and calculate the mean difference in ratings. 
+Now, we are going to randomly assign restaurants to group A and group B, and calculate the mean difference in ratings.
 
 ```{r}
 #| code-fold: true
@@ -786,7 +725,7 @@ random_A %>% pull(name)
 random_A %>% pull(rating) %>% mean() - random_B %>% pull(rating) %>% mean()
 ```
 
----
+------------------------------------------------------------------------
 
 Repeat the previous step numerous times to impose a null distribution of mean differences
 
@@ -807,8 +746,7 @@ for (i in c(1:perm)){
 }
 ```
 
-
----------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -822,13 +760,11 @@ ggplot(diff_df, aes(x = diff)) +
   cowplot::theme_cowplot()
 ```
 
-
 Count the number of permutations that have larger test statistic value than the observed difference, equivalent to the $p$-value (or the probability that a test statistic is greater than or equal to the observed value, **under the null**).
-
 
 ## Let's Try
 
-Initially, we had 23 CLEC and 1,664 ILEC customers. **First**, we are going to calculate the mean difference in waiting time between the two groups using the observed data. 
+Initially, we had 23 CLEC and 1,664 ILEC customers. **First**, we are going to calculate the mean difference in waiting time between the two groups using the observed data.
 
 ```{r}
 subsample_CLEC = Verizon %>% filter(Group == "CLEC")
@@ -837,15 +773,13 @@ subsample_ILEC = Verizon %>% filter(Group == "ILEC")
 (mean(subsample_CLEC$Time) - mean(subsample_ILEC$Time))
 ```
 
-
-
 ## Second Step
 
-We are going to randomly shuffle the labels of groups (previous CLEC and ILEC labels don't matter!). Label 23 random customers as CLEC and 1,664 random customers as ILEC 1,000 times, and store the mean difference in waiting time between the two groups inside a list. 
+We are going to randomly shuffle the labels of groups (previous CLEC and ILEC labels don't matter!). Label 23 random customers as CLEC and 1,664 random customers as ILEC 1,000 times, and store the mean difference in waiting time between the two groups inside a list.
 
--------
+------------------------------------------------------------------------
 
-One iteration would look something like this: 
+One iteration would look something like this:
 
 ```{r}
 random_indices <- sample.int(nrow(Verizon), 23)
@@ -854,11 +788,10 @@ random_ILEC <- Verizon[-random_indices,]
 
 (mean(random_CLEC$Time) - mean(random_ILEC$Time))
 ```
-
 
 ## Repeat 1,000 times to derive the *p*-value
 
-One iteration would look something like this: 
+One iteration would look something like this:
 
 ```{r}
 random_indices <- sample.int(nrow(Verizon), 23)
@@ -868,20 +801,17 @@ random_ILEC <- Verizon[-random_indices,]
 (mean(random_CLEC$Time) - mean(random_ILEC$Time))
 ```
 
-
 ## Analysis Plan
 
-1. Put this in a for loop
+1.  Put this in a for loop
 
 --
 
-2. Construct a list of mean differences
+2.  Construct a list of mean differences
 
 --
 
-3. Determine the number of (random) mean differences greater than the observed difference in means (8.10). 
-
-
+3.  Determine the number of (random) mean differences greater than the observed difference in means (8.10).
 
 ## One Way to do this
 
@@ -895,8 +825,6 @@ perm = 1000 # Set number of permutations
 
 differences <- NULL #<<
 ```
-
-
 
 ## One Way to do this
 
@@ -921,9 +849,7 @@ for (i in 1:perm){
 
 ```
 
-
--------
-
+------------------------------------------------------------------------
 
 ```{r}
 subsample_CLEC = Verizon %>% filter(Group == "CLEC")
@@ -948,8 +874,6 @@ paste("Number of mean differences greater than observed difference: ", sum(diffe
 paste("p-value: ", sum(differences > observed_diff)/length(differences)) #<<
 ```
 
-
-
 ## Visualization
 
 ```{r}
@@ -968,11 +892,9 @@ ggplot(perm_df, aes(x = diff)) +
   cowplot::theme_cowplot()
 ```
 
-
-
 ## Permutation Testing Summary
 
-- Permutation testing is useful for hypothesis testing because we can easily derive a $p$-value
-- Can be used when data violates common assumptions about the data (i.e., homogeneity of variance and normality)
-- Assumption that the observations need to be exchangeable. Some observations may not be exchangeable (e.g., time series data - data collected at different time points)
-- Sample size needs to be large. No point randomly shuffling 1,000 times when the possible permutation is less than 1000. 
+-   Permutation testing is useful for hypothesis testing because we can easily derive a $p$-value
+-   Can be used when data violates common assumptions about the data (i.e., homogeneity of variance and normality)
+-   Assumption that the observations need to be exchangeable. Some observations may not be exchangeable (e.g., time series data - data collected at different time points)
+-   Sample size needs to be large. No point randomly shuffling 1,000 times when the possible permutation is less than 1000.

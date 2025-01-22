@@ -450,11 +450,9 @@ pairs(em)
 emmeans(fit, pairwise ~ Speed)
 ```
 
-
 ## effect sizes
 
 ```{r}
 em.ef <- emmeans(fit, pairwise ~ Speed)
 eff_size(em.ef, sigma = sigma(fit), edf = 171)
 ```
-
