@@ -1,23 +1,27 @@
 ---
-title: "HW 7"
+title: "hw 6"
 ---
 
+Due: 3/4 at 9:59am
 
-Due: 3/18 at 9:59am
+**Data:**  The data consist of a 2x3 anova design examining comics. The two factors are: 1) Publisher, which has two levels (DC or Marvel comics). 2) is Alignment, which has three levels (good, bad, neutral). The DV is Total, which is a combination of strength, intelligence, speed, durability, power, and combat. Higher scores are better. 
 
-**Data:** Data are the same as presented in class. They are repeated measures data where daily observations of negative and positive affect are nested within participant. Participants could have up to 100 observations. Data can be found here: [`data_hw_7.csv`](data_hw_7.csv)
+The research question is whether there are differences in total across publisher, across type of superhereo alignment and whether there is an interaction between these two factors. Data can be found here: [`hw-6-data.csv`](superhero.csv)  
 
+Remember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code. 
 
-1. What situations would you need to use MLM?  What are two benefits to MLMs? 
+You will submit both your .Rmd/.qmd and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!
 
-2. What types of variables can be considered "level 1" and what types of variables can be considered "level 2"?
+Good luck!
 
-3. A researcher is interested in how exercise (operationalized as number of steps) is related to a person's level of positive affect, with positive affect serving as the DV and exercise as the IV. However the researcher knows that she could think of exercise both as a between subjects variable (some people exercise more than others), as well as a within person variable (some days you exercise, sometimes you don't).  Write out a level 1 equation and level 2 equation that tests the hypothesis that these two forms of exercise are related to positive affect, describing how to interpret each coefficient. 
+1. Write the equation that you will use to test the hypothesis. Run this in R and interpret what each of the coefficients mean. 
 
-4. Using the data, run a model where daily levels of positive affect (P_A.std) are predicted by both person mean centered daily steps (steps.pmd) and person mean average steps (steps.pm). 
-  a. Interpret the coefficient for the level 1 effect of steps
-  b. What coefficient tests whether people who take more steps on average have higher levels of positive affect? 
-  c. Interpret the random effect for intercept. 
+2. Are there any significant differences between?  
+  a. Good and bad? 
+  b. DC vs Marvel
+  c. DC bad superheros vs Marvel bad superheros
+  d. DC neutral vs DC bad
 
-5. How would you change the model to test the hypothesis that those who take more steps on average (lets call them athletes) don't benefit from daily steps in the same way as those who take less steps on average do (lets call them couch potatoes)? In other words, how could we test whether couch potatoes feel higher levels of positive affect after taking more steps than they typically do whereas if an athlete has a day of higher than typical steps they do not have higher levels of positive affect.    
+3. What are the standardized (cohen's d) differences between the groups in #2? 
 
+4. Create two graphs. 1. that show cell differences between groups. 2. that show differences in one of the marginal means. 

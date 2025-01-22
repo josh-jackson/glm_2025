@@ -1285,7 +1285,7 @@
     "href": "homework.html",
     "title": "homework",
     "section": "",
-    "text": "R Refresher"
+    "text": "R Refresher\nHW #2"
   },
   {
     "objectID": "1-HW.html",
@@ -2028,5 +2028,89 @@
     "title": "MLM",
     "section": "Example",
     "text": "Example\nDay to day negative affect\n\n\nCode\nmelsm %&gt;% \ndistinct(record_id) %&gt;% \n  count()\n\n\n    n\n1 193\n\n\n\n\nCode\nmelsm %&gt;% \n    count(record_id) %&gt;% \n  ggplot(aes(x = n)) +\n  geom_bar() +\n  scale_x_continuous(\"number of days\", limits = c(0, NA))"
+  },
+  {
+    "objectID": "2-hw.html",
+    "href": "2-hw.html",
+    "title": "Homework 2",
+    "section": "",
+    "text": "We will use the `palmerpenguins` dataset. Please install the pacakge `palmerpenguins` if you do not already have it and use the `penguins` data.frame.\nRemember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code.\nYou will submit both your .qmd/.Rmd and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!\nGood luck!"
+  },
+  {
+    "objectID": "2-hw.html#question-1",
+    "href": "2-hw.html#question-1",
+    "title": "Homework 2",
+    "section": "Question 1",
+    "text": "Question 1\nRun a model to test the question:\n&gt; Do male and female penguins have different length flippers?\n\nYes or no, is the flipper length of male penguins signiciantly different from the flipper length of female penguins? How do you know?\nWhat is the (mean) flipper length for males and females, respectively?\nIs this a good model? How do you know?\nUsing the output, write the formal equation (see Slide 26 if confused)\nInterpret the intercept and the regression coefficient\nIf you were back in your OG Psych Stats days, what would we call this statistical test?\nMake a figure to illustrate this relationship. In it, you should include a summary metric (e.g., the mean or median) as well as information about the distribution of data, the raw data, or both. Look at slides for inspiration!"
+  },
+  {
+    "objectID": "2-hw.html#question-2",
+    "href": "2-hw.html#question-2",
+    "title": "Homework 2",
+    "section": "Question 2",
+    "text": "Question 2\nRun a model to test the question:\n&gt; Are penguins on different islands the same size?\n\nTry to write the formal equation – just do your best! In a sentence or two, what makes this equation different from the one you wrote in Question 1?\nIf you were back in your OG Psych Stats days, what would we call this statistical test?\nGiven the name of this statistical test, replace `lm` with a different function. That is, use a function that is *not* `lm` to run the same model. (I’m being intentionally vague here…). What changes about this new output, compared to the model in Question 1, and what stays the same?\nMake a figure to compare the size of penguins on different islands. Make sure to give an interval around the point estimate (*hint: this usually comes in the form of ‘bars’*)\nIs this a good model? How do you know?\nGiven the name of this statistical test, calculate an effect size. What do you notice between this effect size and the `lm` object output? Any similarities?"
+  },
+  {
+    "objectID": "5-hw.html",
+    "href": "5-hw.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
+  },
+  {
+    "objectID": "5-hw.html#instructions",
+    "href": "5-hw.html#instructions",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
+  },
+  {
+    "objectID": "5-hw.html#homework-questions",
+    "href": "5-hw.html#homework-questions",
+    "title": "Homework 4",
+    "section": "Homework Questions",
+    "text": "Homework Questions\n\nPerform a multiple regression where health is regressed on (predicted by) friends, SES, and happiness. Interpret each regression coefficient.\nGraph the (2-d) relationship between health and happiness as found in the above regression. Make sure the association controls for the remaining variables in the model. Include data points in your graph and a confidence band.\nDescribe why the confidence band looks like a bow tie in the above graph.\nFor the above regression, calculate the variance explained using the ANOVA table and interpret the residual standard error.\nAdd the group variable mood.group into the regression model from #2. Then answer the following:\n\nInterpret the coefficients\nIs there a significant increase in variance explained compared to the initial regression in #1? If so, what is the estimate?"
+  },
+  {
+    "objectID": "10-hw.html",
+    "href": "10-hw.html",
+    "title": "HW-9",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: You will use the same Human Connectome Project dataset you worked with in the R class and this semester’s R refresher. It is available here"
+  },
+  {
+    "objectID": "10-hw.html#instructions",
+    "href": "10-hw.html#instructions",
+    "title": "HW-9",
+    "section": "",
+    "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: You will use the same Human Connectome Project dataset you worked with in the R class and this semester’s R refresher. It is available here"
+  },
+  {
+    "objectID": "10-hw.html#questions",
+    "href": "10-hw.html#questions",
+    "title": "HW-9",
+    "section": "Questions",
+    "text": "Questions\n\nIn a few sentences, describe the difference between a theoretical probability distribution and an empirical distribution. In your answer, make sure to discuss how bootstrapping fits into this.\nYou are interested in the correlation between the Penn Matrix Reasoning Task (PMAT) and the List Sorting task, and you are wondering if the correlation is significantly different from 0. Use bootstrapping to create a more precise estimate of the correlation, as well as answer if it is different from 0. Create a figure illustrating your findings.\nRun a permutation test to see if Neuroticism is different for men and women. Create a figure illustrating your findings.\nReflect on the Yarkoni & Westfall paper, as well as our discussion in class. In 4-6 sentences, what were YOUR takeaways? Did you change your mind on something? Did you start thinking about scientific research in a different way? Were you convinced or unconvinced in either direction? We want to hear what you got out of the paper and subsequent discussion!"
+  },
+  {
+    "objectID": "3-hw.html",
+    "href": "3-hw.html",
+    "title": "Homework 3",
+    "section": "",
+    "text": "Data: You will need to use the Dawtry et al., 2015 Psychological Science article and the accompanying dataset to answer all questions. Please download this dawtry-hw2-data dataset for the homework, which corresponds to study 1a of the paper. The paper can be found here.\nRemember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code.\nYou will submit both your .Rmd (or .qmd) and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!\nGood luck!"
+  },
+  {
+    "objectID": "3-hw.html#question-1",
+    "href": "3-hw.html#question-1",
+    "title": "Homework 3",
+    "section": "Question 1",
+    "text": "Question 1\nGraph the distributions of the following items. Be sure to comment on anything you find irregular or interesting. The variables to be plotted are:\n\nHousehold Income\nFairness and Satisfaction\nSocial Circle Mean Income\nPopulation Mean Income\nPolitical Preference"
+  },
+  {
+    "objectID": "3-hw.html#question-2",
+    "href": "3-hw.html#question-2",
+    "title": "Homework 3",
+    "section": "Question 2",
+    "text": "Question 2\nRun a regression where political preferences predict redistribution:\n\nWrite the formal equation (be specific!)\nInterpret the intercept and the regression coefficient (be specific!)\nStandardize the variables, rerun the model, write the formal equation (be specific!) and interpret the intercept and the regression coefficient (be specific!)\nCalculate the correlation of the two variables (use the original variables in raw units). How does this relate to the standardized and unstandardized regression coefficients?\nCreated a fitted vs. residuals plot. Do not use the defaults – you must (at the very least) change the labels, colors, and give it a titles. Then interpret this plot."
   }
 ]

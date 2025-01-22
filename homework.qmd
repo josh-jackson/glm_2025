@@ -4,6 +4,4 @@ title: "homework"
 
 -   [R Refresher](R-Refresher.qmd)
 
-
-
-
+-   [HW #2 ](2-hw.qmd)
