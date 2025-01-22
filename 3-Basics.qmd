@@ -72,9 +72,9 @@ How do we uncover the relationship?
 
 $$\Large Y = b_{0} + b_{1}X +e$$
 
-$$\Large \hat{Y} = b_{0} + b_{1}X$$
+$$\Large \widehat{Y} = b_{0} + b_{1}X$$
 
-$\hat{Y}$ signifies the predicted score -- no error
+$\widehat{Y}$ signifies the predicted score -- no error
 
 The difference between the predicted and observed score is the residual ( $e_i$ )
 
@@ -84,7 +84,7 @@ The difference between the predicted and observed score is the residual ( $e_i$ 
 -   Ordinary Least Squares (OLS) estimation
 -   Minimizes deviations
 
-$$ min\sum(Y_{i}-\hat{Y})^{2} $$
+$$ min\sum(Y_{i}-\widehat{Y})^{2} $$
 
 -   Other estimation procedures possible (and necessary in some cases)
 

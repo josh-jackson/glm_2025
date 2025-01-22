@@ -122,7 +122,7 @@ Independent samples t-test
 
 ```{r}
 #| code-fold: true
-t.1 <- t.test(y.1 ~ x.2, data = d.2) 
+t.1 <- t.test(y.1 ~ x.2, var.equal = TRUE, data = d.2) 
 t.1
 ```
 
@@ -172,7 +172,7 @@ $$Y_i = b_{0} + b_{1}X_i +e_i$$
 
 -   $Y_i \sim Normal(\mu, \sigma)$
 
--   The DV, $Y$ for each person $i$ is distributed normaly, with a mean of $\mu$ and a standard deviation of $\sigma$
+-   The DV, $Y$ is assumed to be distributed as a Gaussian normal, made up of $Y_i$, with a mean of $\mu$ and a standard deviation of $\sigma$
 
 ## Regression terms
 
@@ -472,7 +472,7 @@ Consists of -1, 1s (And zeros for more than 2 groups)
 -   What happens if you code the groups -.5 and .5?
 -   These make more sense when we have more groups. More groups require more independent variables, however.
 
-## categorical coding summary
+## Categorical coding summary
 
 -   In the end, it really doesn't matter how you code your model. The overall "fit" of the model will be exactly the same because it is the same model.
 

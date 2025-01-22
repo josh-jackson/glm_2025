@@ -726,18 +726,18 @@
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>t<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y<span class="fl">.1</span> <span class="sc">~</span> x<span class="fl">.2</span>, <span class="at">data =</span> d<span class="fl">.2</span>) </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>t<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y<span class="fl">.1</span> <span class="sc">~</span> x<span class="fl">.2</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> d<span class="fl">.2</span>) </span>
 <span id="cb9-2"><a href="#cb9-2"></a>t<span class="fl">.1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Welch Two Sample t-test
+    Two Sample t-test
 
 data:  y.1 by x.2
-t = -4.4144, df = 93.846, p-value = 2.706e-05
+t = -4.4144, df = 98, p-value = 2.607e-05
 alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 95 percent confidence interval:
- -1.1740658 -0.4455722
+ -1.1738643 -0.4457736
 sample estimates:
 mean in group 0 mean in group 1 
       0.6104964       1.4203154 </code></pre>
@@ -816,7 +816,7 @@ F-statistic: 19.49 on 1 and 98 DF,  p-value: 2.607e-05</code></pre>
 <p><span class="math display">\[Y_i = b_{0} + b_{1}X_i +e_i\]</span></p>
 <ul>
 <li><p><span class="math inline">\(Y_i \sim Normal(\mu, \sigma)\)</span></p></li>
-<li><p>The DV, <span class="math inline">\(Y\)</span> for each person <span class="math inline">\(i\)</span> is distributed normaly, with a mean of <span class="math inline">\(\mu\)</span> and a standard deviation of <span class="math inline">\(\sigma\)</span></p></li>
+<li><p>The DV, <span class="math inline">\(Y\)</span> is assumed to be distributed as a Gaussian normal, made up of <span class="math inline">\(Y_i\)</span>, with a mean of <span class="math inline">\(\mu\)</span> and a standard deviation of <span class="math inline">\(\sigma\)</span></p></li>
 </ul>
 </section>
 <section id="regression-terms" class="slide level2">
@@ -1344,7 +1344,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </ul>
 </section>
 <section id="categorical-coding-summary" class="slide level2">
-<h2>categorical coding summary</h2>
+<h2>Categorical coding summary</h2>
 <ul>
 <li><p>In the end, it really doesn’t matter how you code your model. The overall “fit” of the model will be exactly the same because it is the same model.</p></li>
 <li><p>The only thing that changes is the interpretation of your coefficients.</p></li>
