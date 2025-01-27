@@ -11,7 +11,6 @@ html:
   scrollable: true
 ---
 
-
 ## Statistical Inference
 
 ```{r, echo = F, message = F, warning=F}
@@ -20,21 +19,17 @@ library(tidyverse)
 library(broom)
 ```
 
+-   The way the world is = our model + error
 
-- The way the world is = our model + error
+-   How good is our model? Does it "fit" the data well?
 
-- How good is our model? Does it "fit" the data well? 
+-   To assess how well our model fits the data, we simply take all the variability in our outcome and partition it into different categories. For now, we will partition it into two categories: the variability that is predicted by (explained by) our model, and variability that is not.
 
+## Partitioning variation
 
+-   We formally test how well we are doing with our guesses by partitioning variation
 
-- To assess how well our model fits the data, we simply take all the variability in our outcome and partition it into different categories. For now, we will partition it into two categories: the variability that is predicted by (explained by) our model, and variability that is not.
-
-
-## Partitioning variation 
-
-- We formally test how well we are doing with our guesses by partitioning variation
-
-- To the extent that we can generate different predicted values of Y, based on the values of the predicors, we are doing well in our prediction
+-   To the extent that we can generate different predicted values of Y, based on the values of the predicors, we are doing well in our prediction
 
 $$\sum (Y - \bar{Y})^2 = \sum (\hat{Y} -\bar{Y})^2 + \sum(Y - \hat{Y})^2$$
 
@@ -42,45 +37,37 @@ Each of these is the sum of a squared deviation from an expected value of Y. We 
 
 $$SS_{Y} = SS_{\text{Model}} + SS_{\text{Residual}}$$
 
-
 $$\frac{s^2_{regression}}{s^2_y} = \frac{SS_{regression}}{SS_Y} = R^2$$
-
 
 ## Partitioning Variance
 
-The relative magnitude of sums of squares, especially in more complex designs, provides a way of identifying particularly large and important sources of variability. In the future, we can further partition $SS_{\text{Model}}$ and $SS_{\text{Residual}}$ into smaller pieces, which will help us make more specific inferences and increase statistical power, respectively. 
+The relative magnitude of sums of squares, especially in more complex designs, provides a way of identifying particularly large and important sources of variability. In the future, we can further partition $SS_{\text{Model}}$ and $SS_{\text{Residual}}$ into smaller pieces, which will help us make more specific inferences and increase statistical power, respectively.
 
 $$\Large s^2_Y = s^2_{\hat{Y}} + s^2_{e}$$
-
 
 ## Partitioning variance in Y
 
 Consider the case with no correlation between X and Y
 
-$$\Large \hat{Y} = \bar{Y} + r_{xy} \frac{s_{y}}{s_{x}}(X-\bar{X})$$
---
+## $$\Large \hat{Y} = \bar{Y} + r_{xy} \frac{s_{y}}{s_{x}}(X-\bar{X})$$
+
 $$\Large \hat{Y} = \bar{Y}$$
 
 To the extent that we can generate different predicted values of Y based on the values of the predictors, we are doing well in our prediction
 
 $$\large \sum (Y - \bar{Y})^2 = \sum (\hat{Y} -\bar{Y})^2 + \sum(Y - \hat{Y})^2$$
 
-
-
-
 ## Coefficient of Determination
 
 $$\Large \frac{s_{Model}^2}{s_{y}^2} = \frac{SS_{Model}}{SS_{Y}} = R^2$$
 
-$R^2$ represents the proportion of variance in Y that is explained by the model. 
-
-
+$R^2$ represents the proportion of variance in Y that is explained by the model.
 
 $\sqrt{R^2} = R$ is the correlation between the predicted values of Y from the model and the actual values of Y
 
 $$\large \sqrt{R^2} = r_{Y\hat{Y}}$$
 
---------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -93,7 +80,6 @@ m.1 <- lm(y.1 ~ x.1, data = d.1)
 d1.f<- augment(m.1)
 ```
 
-
 ```{r}
 #| code-fold: true
 d1.f %>%
@@ -104,9 +90,7 @@ d1.f %>%
   theme_bw(base_size = 35) 
 ```
 
-
------
-
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -117,12 +101,7 @@ d1.f %>%
   theme_bw(base_size = 35)
 ```
 
-
-
-
-
 ## Example
-
 
 ```{r}
 #| code-fold: true
@@ -132,8 +111,6 @@ summary(fit.1)
 summary(fit.1)$r.squared
 ```
 
-
-
 ## Example
 
 ```{r}
@@ -141,40 +118,32 @@ summary(fit.1)$r.squared
 cor(galton.data$parent, galton.data$child, use = "pairwise")
 ```
 
-
-
 ```{r}
 #| code-fold: true
 cor(galton.data$parent, galton.data$child)^2
 ```
 
-----------
+------------------------------------------------------------------------
 
 ```{r}
 galton.fits = augment(fit.1)
 cor(galton.fits$child, galton.fits$.fitted)
 ```
 
-
 ## Computing Sum of Squares
 
-$$\Large \frac{SS_{Model}}{SS_{Y}} = R^2$$
-$$\Large SS_{Model} = R^2({SS_{Y})}$$
-
-
+$$\Large \frac{SS_{Model}}{SS_{Y}} = R^2$$ $$\Large SS_{Model} = R^2({SS_{Y})}$$
 
 $$\Large SS_{Y} = SS_{Model} + SS_{residual}$$
-
 
 $$\Large SS_{residual} = SS_{Y} - R^2({SS_{Y})}$$
 
 $$\Large  SS_{residual} = (1- R^2){SS_{Y}}$$
 
-
-
 ## Using `R` To Check Yourself
 
 $$SS_{residual} = (1- R^2){SS_{Y}}$$
+
 ```{r}
 r2 = summary(fit.1)$r.squared
 
@@ -191,10 +160,8 @@ ssResidual
 
 ```
 
-
-
 ???
- 
+
 ```{r,echo=FALSE, message=FALSE, warning = F}
 #| code-fold: true
 set.seed(123)
@@ -211,7 +178,6 @@ d1.f[9, "color"] = "red"
 newcolors = c("black", "red")
 ```
 
-
 ```{r, echo=FALSE}
 ggplot(d1.f , aes(x=x.1, y=y.1)) +
   geom_point(size = 2, aes(color = color)) +
@@ -224,16 +190,14 @@ ggplot(d1.f , aes(x=x.1, y=y.1)) +
   theme_bw(base_size = 20)
 ```
 
-
-
 ## Mean Square Error (MSE) (msw/msr)
 
-- AKA square of residual standard error/deviation (sigma)
-- *Unbiased* estimate of error variance
-- Measure of discrepancy between the data and the model
-- The MSE is the variance of data around the fitted regression line
-- Just like with MSwithin, which was variance around predicted group means
-- It is the mean of the square of the residuals
+-   AKA square of residual standard error/deviation (sigma)
+-   *Unbiased* estimate of error variance
+-   Measure of discrepancy between the data and the model
+-   The MSE is the variance of data around the fitted regression line
+-   Just like with MSwithin, which was variance around predicted group means
+-   It is the mean of the square of the residuals
 
 ```{r}
 head(fit.1$residuals)
@@ -241,17 +205,14 @@ mse = round(mean(fit.1$residuals ^ 2), digits = 2)
 mse
 ```
 
-
 ## MSE
 
-- It is the square of the residual standard error/deviation (sigma) aka $RSE^2$
+-   It is the square of the residual standard error/deviation (sigma) aka $RSE^2$
 
 ```{r}
 mse = round((summary(fit.1)[["sigma"]]) ^2, digits = 2)
 mse
 ```
-
-
 
 ## Residual Standard Error
 
@@ -259,22 +220,18 @@ mse
 summary(fit.1)
 ```
 
+## Residual standard error/deviation
 
-## Residual standard error/deviation 
-
-- aka standard deviation of the residual
-- aka **standard error of the estimate**
+-   aka standard deviation of the residual
+-   aka **standard error of the estimate**
 
 $$\hat{\sigma} = \sqrt{\frac{SS_{\text{Residual}}}{df_{\text{Residual}}}} = s_{Y|X} = \sqrt{\frac{\Sigma(Y_i -\hat{Y_i})^2}{N-2}}$$
 
-- interpreted in original units (unlike $R^2$)
+-   interpreted in original units (unlike $R^2$)
 
-- standard deviation of Y not accounted by model
-
-
+-   standard deviation of Y not accounted by model
 
 ## Residual standard error/deviation or standard error of the estimate
-
 
 ```{r}
 summary(fit.1)$sigma 
@@ -283,8 +240,7 @@ psych::describe(galton.data.1$.resid)
 sd(galton.data$child)
 ```
 
-Because the size of $\hat{\sigma}$ depends on both how well the model does as well as the original units of measurement, it is important to compare it to Y to evaluate! 
-
+Because the size of $\hat{\sigma}$ depends on both how well the model does as well as the original units of measurement, it is important to compare it to Y to evaluate!
 
 ## RSE vs MSE
 
@@ -296,32 +252,28 @@ Both measuring error, but RSE is a little more useful
 sqrt(mse)
 ```
 
-
-
 ## Residual Standard Error and Sigma
 
-- So many names to represent the spread of data around the regression line
-- Standard deviation of the residual, standard error of the estimate, MSE...
-- We will refer to this as sigma, and use estimated sigma, as we do not know the population value ( $\hat{\sigma}$ )
-- It is interpreted in original units (unlike $R^2$ )
-- It is the standard deviation of Y not accounted by the model (i.e., residuals)
-
+-   So many names to represent the spread of data around the regression line
+-   Standard deviation of the residual, standard error of the estimate, MSE...
+-   We will refer to this as sigma, and use estimated sigma, as we do not know the population value ( $\hat{\sigma}$ )
+-   It is interpreted in original units (unlike $R^2$ )
+-   It is the standard deviation of Y not accounted by the model (i.e., residuals)
 
 ## Why do we care about sigma?
 
-- Let's simulate!
-- Data generating process: 
+-   Let's simulate!
+-   Data generating process:
 
 $$Y_{i} \sim\mathcal{N}(\mu,\,\sigma)\ $$
 
-- In English: our DV for individual $i$ is distributed normally with a mean of $\mu$ and a standard deviation of $\sigma$
-- This describes how we think our DVs are generated, and the paramters of interest
-A a standard regression model assumes this, but we will see other DGPs such as binomial or poisson that do not
+-   In English: our DV for individual $i$ is distributed normally with a mean of $\mu$ and a standard deviation of $\sigma$
 
-- For normal, $\mu$ gets all the focus but $\sigma$ is just as important
+-   This describes how we think our DVs are generated, and the paramters of interest A a standard regression model assumes this, but we will see other DGPs such as binomial or poisson that do not
 
-------
+-   For normal, $\mu$ gets all the focus but $\sigma$ is just as important
 
+------------------------------------------------------------------------
 
 Our plan is to fix $\mu$ and then vary sigma to see what happens
 
@@ -335,15 +287,14 @@ d.1 <- data.frame(x.1,y.1) # combine x and y into a data.frame
 m.1 <- lm(y.1 ~ x.1, data = d.1) # use x to predict y with this data
 ```
 
-------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
 summary(m.1)
 ```
 
--------
-
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -355,10 +306,10 @@ ggplot(d.1, aes(x = x.1,y =  y.1)) +
   scale_y_continuous(limits = c(-6, 6))
 ```
 
--------
-
+------------------------------------------------------------------------
 
 Again, but with a larger sigma
+
 ```{r}
 #| code-fold: true
 set.seed(987)
@@ -368,15 +319,14 @@ d.2 <- data.frame(x.1,y.2)
 m.2 <- lm(y.2 ~ x.1, data = d.2)
 ```
 
-
--------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
 summary(m.2)
 ```
 
--------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -387,18 +337,17 @@ ggplot(d.2, aes(x=x.1, y=y.2)) +
   scale_y_continuous(limits = c(-6, 6))
 ```
 
-
 ## R2 and residual standard deviation
 
-- two sides of same coin
+-   two sides of same coin
 
-- one in original units, the other standardized 
+-   one in original units, the other standardized
 
-- $R^2$ can be tricky because the numerator and denominator can be changed in different ways. 
+-   $R^2$ can be tricky because the numerator and denominator can be changed in different ways.
 
-- for example if variance in Y is changed but with the same regression model and residual standard error, $R^2$ could increase or decrease
+-   for example if variance in Y is changed but with the same regression model and residual standard error, $R^2$ could increase or decrease
 
-------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -424,20 +373,15 @@ data.frame(r2 = r2, rsd = rsd) %>%
   theme_bw(base_size = 20)
 ```
 
-
 ## Inferential tests
 
 NHST is about making decisions:
-  
-  - these two means are/are not different
-  - this correlation is/is not significantly different from 0
-  - the distribution of this categorical variable is/is not different between these groups
-  
 
+-   these two means are/are not different
+-   this correlation is/is not significantly different from 0
+-   the distribution of this categorical variable is/is not different between these groups
 
-In regression, there are several inferential tests being conducted at once. The first is called the **omnibus test** -- this is a test of whether the model fits the data. 
-
-
+In regression, there are several inferential tests being conducted at once. The first is called the **omnibus test** -- this is a test of whether the model fits the data.
 
 ## Omnibus test
 
@@ -445,25 +389,23 @@ $$\Large H_{0}: \rho_{XY}^2= 0$$
 
 $$\Large H_{0}: \rho_{XY}^2 \neq 0$$
 
-It is possible to calculate the significance of your regression with a correlation test. In fact, it would seem quite practical and logical to do so. 
+It is possible to calculate the significance of your regression with a correlation test. In fact, it would seem quite practical and logical to do so.
 
---------
+------------------------------------------------------------------------
 
-However, historically we use a different probability distribution -- **the _F_ distribution** to estimate the significance of our model. It's important to know that these methods are mathematically equivalent. But the _F_ distribution is useful here, because it works with our ability to partition variance.
-
+However, historically we use a different probability distribution -- **the *F* distribution** to estimate the significance of our model. It's important to know that these methods are mathematically equivalent. But the *F* distribution is useful here, because it works with our ability to partition variance.
 
 ## Model Comparisons
 
-- So the omnibus $F$-statistic is the ratio of MSregression to MSresidual
-- Test of overall significance. Does your model give a better fit to the data than a model that contains no independent variables? 
-- This is truly a question of model comparisons!
+-   So the omnibus $F$-statistic is the ratio of MSregression to MSresidual
+-   Test of overall significance. Does your model give a better fit to the data than a model that contains no independent variables?
+-   This is truly a question of model comparisons!
 
-------------
+------------------------------------------------------------------------
 
-- The basic idea is asking how much variance remains unexplained in our model. This "left over" variance can be contrasted with an alternative model/hypothesis. Does adding a new predictor variable help explain more variance or should we stick with the most parsimonious (simplest) model?
+-   The basic idea is asking how much variance remains unexplained in our model. This "left over" variance can be contrasted with an alternative model/hypothesis. Does adding a new predictor variable help explain more variance or should we stick with the most parsimonious (simplest) model?
 
-- Every model you report implies that you are favoring that model over an alternative model, typically the null. Taking a more formal model comparison approach allows you to be more flexible, explicit, and deliberate. 
-
+-   Every model you report implies that you are favoring that model over an alternative model, typically the null. Taking a more formal model comparison approach allows you to be more flexible, explicit, and deliberate.
 
 ## Full vs. Restricted Models
 
@@ -474,28 +416,23 @@ fit.0 <- lm(child ~ 1, data = galton.data)
 summary(fit.0)
 ```
 
-------
+------------------------------------------------------------------------
 
 ```{r, echo=FALSE}
 summary(fit.1)
 ```
 
-------
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
 anova(fit.0)
 ```
 
-
-
 ```{r}
 #| code-fold: true
 anova(fit.1)
 ```
-
-
-
 
 ## The comparison!
 
@@ -503,66 +440,54 @@ anova(fit.1)
 anova(fit.1, fit.0)
 ```
 
-
-
 ## Model Comparisons
 
-- Model comparisons are redundant with nil/null hypotheses and coefficient tests right now, be they'll be more flexible down the road
-- Key is to start thinking about your implicit alternative models
-- The ultimate goal would be to create two models that represent two equally plausible theories
-- Theory A is made up of components XYZ, whereas theory B has QRS components. You can then ask which theory (model) is better. 
-- A model embodies your hypothesis! It is the mathematical expression of your hypothesis!
-
+-   Model comparisons are redundant with nil/null hypotheses and coefficient tests right now, be they'll be more flexible down the road
+-   Key is to start thinking about your implicit alternative models
+-   The ultimate goal would be to create two models that represent two equally plausible theories
+-   Theory A is made up of components XYZ, whereas theory B has QRS components. You can then ask which theory (model) is better.
+-   A model embodies your hypothesis! It is the mathematical expression of your hypothesis!
 
 ## Regression coefficient
 
-$$\Large H_{0}: \beta_{1}= 0$$
-$$\Large H_{1}: \beta_{1} \neq 0$$
-
+$$\Large H_{0}: \beta_{1}= 0$$ $$\Large H_{1}: \beta_{1} \neq 0$$
 
 ## What does the regression coefficient test?
 
-- Does X provide any predictive information? 
+-   Does X provide any predictive information?
 
-- Does X provide any explanatory power regarding the variability of Y? 
+-   Does X provide any explanatory power regarding the variability of Y?
 
-- Is the the average value the best guess (i.e., is Y bar equal to the predicted value of Y?)
+-   Is the the average value the best guess (i.e., is Y bar equal to the predicted value of Y?)
 
-- Is the regression line flat? 
+-   Is the regression line flat?
 
-- Are X and Y correlated?  
-
+-   Are X and Y correlated?
 
 ## Regression coefficient
 
-$$\Large se_{b} = \frac{s_{Y}}{s_{X}}{\sqrt{\frac {1-r_{xy}^2}{n-2}}}$$
-$$\Large t(n-2) = \frac{b_{1}}{se_{b}}$$
-
-
+$$\Large se_{b} = \frac{s_{Y}}{s_{X}}{\sqrt{\frac {1-r_{xy}^2}{n-2}}}$$ $$\Large t(n-2) = \frac{b_{1}}{se_{b}}$$
 
 ## SE_b
 
-- standard errors for the slope coefficient
+-   standard errors for the slope coefficient
 
-- represent our uncertainty (noise) in our estimate of the regression coefficient 
+-   represent our uncertainty (noise) in our estimate of the regression coefficient
 
-- different from residual standard error/deviation (but proportional to)  
+-   different from residual standard error/deviation (but proportional to)
 
-- much like previously we can take our estimate (b) and put confidence regions around it to get an estimate of what could be "possible" if we ran the study again  
-
+-   much like previously we can take our estimate (b) and put confidence regions around it to get an estimate of what could be "possible" if we ran the study again
 
 ## Intercept
 
-- more complex standard error calculation as the calculation depends on how far the X value (here zero) is away from the mean of X
+-   more complex standard error calculation as the calculation depends on how far the X value (here zero) is away from the mean of X
 
-    - farther from the mean, less information, thus more uncertainty 
-    
+    -   farther from the mean, less information, thus more uncertainty
 
 ## Confidence interval for coefficents
 
-- Same equation as we've been working with
-- Estimate plus minus 1.96*se
-
+-   Same equation as we've been working with
+-   Estimate plus minus 1.96\*se
 
 ## Confidence bands for regression line
 
@@ -591,22 +516,19 @@ library(cowplot)
 plot_grid(p1, p2, ncol=2, labels = c("N = 1000", "N = 100"))
 ```
 
-
 ## Confidence Bands
 
 $$\hat{Y}\pm t_{critical} * se_{residual}*\sqrt{\frac {1}{n}+\frac{(X-\bar{X})^2}{(n-1)s_{X}^2}}$$
 
-
-
 ## Prediction band
 
-- We are predicting and individual *i*'s score, not the $\hat{Y}$ for a particular level of $X$. (A new $Y_i$ given $X$, rather than $\bar{Y}$ given $X$ )
-- Because there is greater variation in predicting an individual value rather than a collection of individual values (i.e., the mean) the prediction band is greater
-- Combines unknown variability in 1) the estimated mean (as reflected in se of b) 2) peoples scores around  mean (residual standard error) 
+-   We are predicting and individual *i*'s score, not the $\hat{Y}$ for a particular level of $X$. (A new $Y_i$ given $X$, rather than $\bar{Y}$ given $X$ )
+-   Because there is greater variation in predicting an individual value rather than a collection of individual values (i.e., the mean) the prediction band is greater
+-   Combines unknown variability in 1) the estimated mean (as reflected in se of b) 2) peoples scores around mean (residual standard error)
 
 $$\hat{Y}\pm t_{critical} * se_{residual}*\sqrt{1+ \frac {1}{n}+\frac{(X-\bar{X})^2}{(n-1)s_{X}^2}}$$
 
------
+------------------------------------------------------------------------
 
 ```{r, warning=FALSE}
 #| code-fold: true
@@ -619,24 +541,21 @@ pred <- ggplot(new_df, aes(y=child, x=parent))+
                fill = "blue", alpha = 0.1)
 ```
 
-
--------
+------------------------------------------------------------------------
 
 ```{r, warning=FALSE, message=FALSE}
 #| code-fold: true
 pred
 ```
 
--------
+------------------------------------------------------------------------
 
-- Can you get an individual's predicted score & residual from an equation?
-- Can you calculate b0 & b1?
-- Can you take the output from `R` and write a regression equation?
-- Can you tell me if you have a "good" model?
-- Is a coefficient meaningful? How do you know and can you calculate it?
-- Can you plot a regression, confidence band, and prediction band? 
-
-
+-   Can you get an individual's predicted score & residual from an equation?
+-   Can you calculate b0 & b1?
+-   Can you take the output from `R` and write a regression equation?
+-   Can you tell me if you have a "good" model?
+-   Is a coefficient meaningful? How do you know and can you calculate it?
+-   Can you plot a regression, confidence band, and prediction band?
 
 ```{r, echo = F, results='hide',warning=FALSE,message=FALSE}
 library(tidyverse)
@@ -664,36 +583,32 @@ knit_hooks$set(output = function(x, options) {
 })
 ```
 
-
-
 ## Regression equation
 
 $$\large \hat{Y} = b_0 + b_1X_1 + b_2X_2 + \dots+b_kX_k$$
 
-- regression coefficients are "partial" regression coefficients  
+-   regression coefficients are "partial" regression coefficients
 
-  - predicted change in $Y$ for a 1 unit change in $X$, *holding all other predictors constant* 
-  
-  - similar to semi-partial correlation -- represents part of each $X$
+    -   predicted change in $Y$ for a 1 unit change in $X$, *holding all other predictors constant*
 
+    -   similar to semi-partial correlation -- represents part of each $X$
 
 ## Interpretting multiple regression model
 
 $$\large \hat{Y} = b_0 + b_1X_1 + b_2X_2 + \dots+b_kX_k$$
 
-- Intercept is the value of $Y$ when all predictors = 0
-- Regression coefficients are the predicted change in $Y$ for a 1 unit change in $X$, *holding all other predictors constant*
+-   Intercept is the value of $Y$ when all predictors = 0
+-   Regression coefficients are the predicted change in $Y$ for a 1 unit change in $X$, *holding all other predictors constant*
 
+------------------------------------------------------------------------
 
------
+-   Residual in simple regression can be thought of as a measure of $Y$ that is left over after accounting for your DV
 
-- Residual in simple regression can be thought of as a measure of $Y$ that is left over after accounting for your DV
-- Partial correlation can be created by:
+-   Partial correlation can be created by:
 
-  1. create a measure of $X_1$ that is independent of $X_2$
-  2. create a measure of $Y$ that is independent of $X_2$
-  3. correlate the new measures
-
+    1.  create a measure of $X_1$ that is independent of $X_2$
+    2.  create a measure of $Y$ that is independent of $X_2$
+    3.  correlate the new measures
 
 ## Example
 
@@ -704,8 +619,6 @@ stress.data = read.csv(here("stress.csv"))
 library(psych)
 describe(stress.data$Stress)
 ```
-
-
 
 ## Example
 
@@ -719,7 +632,6 @@ tidy(mr.model)
 
 If a univariate regression is estimating the best-fit line, what is this estimating?
 
-
 ## Visualizing multiple regression
 
 ```{r}
@@ -730,27 +642,17 @@ visreg2d(mr.model,"Support", "Anxiety", plot.type = "persp")
 
 ```
 
-
-
-## Calculating coefficients 
+## Calculating coefficients
 
 Just like with univariate regression, we calculate the OLS solution. As a reminder, this calculation will yield the estimate that reduces the sum of the squared deviations from the line:
 
+$$\large \hat{Y} = b_0 + b_{1}X1 + b_{2}X_2$$ $$\large \text{minimize} \sum (Y-\hat{Y})^2 $$
 
-$$\large \hat{Y} = b_0 + b_{1}X1 + b_{2}X_2$$
-$$\large \text{minimize} \sum (Y-\hat{Y})^2 $$
-
-
-## Calculating the standardized partial regression coefficient 
+## Calculating the standardized partial regression coefficient
 
 $$b_{1}^* = \frac{r_{Y1}-r_{Y2}r_{12}}{1-r_{12}^2}$$
 
 $$b_{2}^* = \frac{r_{Y2}-r_{Y1}r_{12}}{1-r_{12}^2}$$
-
-
-
-
-
 
 ## Original Metric
 
@@ -758,13 +660,9 @@ $$b_{1} = b_{1}^*\frac{s_{Y}}{s_{X1}}$$
 
 $$b_{1}^* = b_{1}\frac{s_{X1}}{s_{Y}}$$
 
-
-
 $$b_{0} = \bar{Y} - b_{1}\bar{X_{1}} - b_{2}\bar{X_{2}}$$
 
-
-
----
+------------------------------------------------------------------------
 
 ```{r, highlight.output = 11}
 #| code-fold: true
@@ -772,7 +670,7 @@ mr.model <- lm(Stress ~ Support + Anxiety, data = stress.data)
 summary(mr.model)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r, highlight.output = 12:13}
 #| code-fold: true
@@ -780,14 +678,13 @@ mr.model <- lm(Stress ~ Support + Anxiety, data = stress.data)
 summary(mr.model)
 ```
 
-
 ## "Controlling for"
 
 ![](control.gif)
 
-Taken from [@nickchk](https://twitter.com/nickchk/status/1068215492458905600)
+Taken from [\@nickchk](https://twitter.com/nickchk/status/1068215492458905600)
 
----
+------------------------------------------------------------------------
 
 ## Estimating model fit
 
@@ -797,7 +694,7 @@ mr.model <- lm(Stress ~ Support + Anxiety, data = stress.data)
 summary(mr.model)
 ```
 
----
+------------------------------------------------------------------------
 
 ```{r}
 #| code-fold: true
@@ -807,65 +704,52 @@ stress.data1 %>%
   ggplot(aes(x = Stress, y = .fitted)) + geom_point() + geom_smooth(method = "lm") + scale_x_continuous("Y (Stress)") + scale_y_continuous(expression(hat(Y))) + theme_bw(base_size = 20)
 ```
 
-
 ## Multiple correlation, R
 
 $$\large \hat{Y} = b_{0} + b_{1}X_{1} + b_{2}X_{2}$$
 
-
-- $\hat{Y}$ is a linear combination of Xs
-- $r_{Y\hat{Y}}$ = multiple correlation = R
+-   $\hat{Y}$ is a linear combination of Xs
+-   $r_{Y\hat{Y}}$ = multiple correlation = R
 
 --
 
-$$\large R = \sqrt{b_{1}^*r_{Y1} + b_{2}^*r_{Y2}}$$
-$$\large R^2 = {b_{1}^*r_{Y1} + b_{2}^*r_{Y2}}$$
+$$\large R = \sqrt{b_{1}^*r_{Y1} + b_{2}^*r_{Y2}}$$ $$\large R^2 = {b_{1}^*r_{Y1} + b_{2}^*r_{Y2}}$$
 
------
+------------------------------------------------------------------------
 
 ![](Slide7.jpeg)
 
-------
+------------------------------------------------------------------------
 
 ![](Slide8.jpeg)
 
-
-
 ## significance tests
 
-- $R^2$ (omnibus)  
-- Regression Coefficients  
-- Increments to $R^2$  
-    
+-   $R^2$ (omnibus)\
+-   Regression Coefficients\
+-   Increments to $R^2$
 
 ## R-squared, $R^2$
 
+-   Same interpretation as before
 
-- Same interpretation as before  
+-   Adding predictors into your model will increase $R^2$ – regardless of whether or not the predictor is significantly correlated with Y.
 
-- Adding predictors into your model will increase $R^2$ – regardless of whether or not the predictor is significantly correlated with Y.    
-
-- Adjusted/Shrunken $R^2$ takes into account the number of predictors in your model  
-
+-   Adjusted/Shrunken $R^2$ takes into account the number of predictors in your model
 
 ## Adjusted R-squared, $\text{Adj} R^2$
 
 $$\large R_{A}^2 = 1 - \frac{Var_{res}}{Var_{total}}$$
 
-
-$$\large R_{A}^2 = 1 - \frac{\frac{SS_{res}}{n-p-1}}{\frac{SS_{total}}{n-1}}$$
-$$\large R_{A}^2 = 1 - (1 -R^2)\frac{n-1}{n-p-1}$$
-
+$$\large R_{A}^2 = 1 - \frac{\frac{SS_{res}}{n-p-1}}{\frac{SS_{total}}{n-1}}$$ $$\large R_{A}^2 = 1 - (1 -R^2)\frac{n-1}{n-p-1}$$
 
 ## Adjusted R-squared, $\text{Adj} R^2$
 
-$$\large R_{A}^2 = 1 - (1 -R^2)\frac{n-1}{n-p-1}$$
-- What happens if you add many IV's to your model that are uncorrelated with your DV?
+$$\large R_{A}^2 = 1 - (1 -R^2)\frac{n-1}{n-p-1}$$ - What happens if you add many IV's to your model that are uncorrelated with your DV?
 
-- What happens as you add more covariates to your model that are highly correlated with your key predictor, X?
+-   What happens as you add more covariates to your model that are highly correlated with your key predictor, X?
 
 $$b_{1}^* = \frac{r_{Y1}-r_{Y2}r_{12}}{1-r_{12}^2}$$
-
 
 ## ANOVA
 
@@ -874,8 +758,6 @@ $$b_{1}^* = \frac{r_{Y1}-r_{Y2}r_{12}}{1-r_{12}^2}$$
 summary(mr.model)
 ```
 
-
-
 ## ANOVA
 
 ```{r, highlight.output = 5:6}
@@ -883,13 +765,9 @@ summary(mr.model)
 anova(mr.model)
 ```
 
-
-
 ## Test of individual regression coefficients
 
-$$\Large H_{0}: \beta_{X}= 0$$
-$$\Large H_{1}: \beta_{X} \neq 0$$
-
+$$\Large H_{0}: \beta_{X}= 0$$ $$\Large H_{1}: \beta_{X} \neq 0$$
 
 ## Test of individual regression coefficients
 
@@ -901,17 +779,15 @@ In the case of multiple regression:
 
 $$\Large se_{b} = \frac{s_{Y}}{s_{X}}{\sqrt{\frac {1-R_{Y\hat{Y}}^2}{n-p-1}}} \sqrt{\frac {1}{1-R_{i.jkl...p}^2}}$$
 
-- As N increases... 
-- As variance explained increases... 
-
-
+-   As N increases...
+-   As variance explained increases...
 
 ## Can you...
 
-- write out standardized and unstandardized regression equations?
-- interpret the coefficients of a multiple regression?
-- draw comparisons from ANOVA and regression?
-- calculate $R^2$?
+-   write out standardized and unstandardized regression equations?
+-   interpret the coefficients of a multiple regression?
+-   draw comparisons from ANOVA and regression?
+-   calculate $R^2$?
 
 ```{r, echo = F, warning = F, message = F}
 #| code-fold: true
@@ -928,13 +804,11 @@ nhanes = read.csv(here("nhanes_small.csv"))
 summary(lm(Weight ~ Age + Poverty, data = nhanes))
 ```
 
-- Interpret all coefficients
-- Interpret all significance tests of coefficients
-- Is it a good model?
+-   Interpret all coefficients
+-   Interpret all significance tests of coefficients
+-   Is it a good model?
 
-
-
----
+------------------------------------------------------------------------
 
 ```{r, message=FALSE}
 #| code-fold: true
@@ -942,7 +816,6 @@ stress.data = read.csv(here("stress.csv"))
 library(psych)
 describe(stress.data$Stress)
 ```
-
 
 ```{r, output.lines = c(9:19)}
 #| code-fold: true
@@ -952,43 +825,35 @@ summary(mr.model)
 
 ???
 
-
-
 ## Which variables to include
 
-- Your goal should be to match the population model (theoretically)
+-   Your goal should be to match the population model (theoretically)
 
-- Including many variables will not bias parameter estimates but will potentially increase degrees of freedom and standard errors; in other words, putting too many variables in your model may make it _more difficult_ to find a statistically significant result 
+-   Including many variables will not bias parameter estimates but will potentially increase degrees of freedom and standard errors; in other words, putting too many variables in your model may make it *more difficult* to find a statistically significant result
 
-- But that's only the case if you add variables unrelated to Y or X; there are some cases in which adding the wrong variables can lead to spurious results. [Stay tuned for the lecture on causal models.]
+-   But that's only the case if you add variables unrelated to Y or X; there are some cases in which adding the wrong variables can lead to spurious results. \[Stay tuned for the lecture on causal models.\]
 
-
-
-## Hierarchical regression / Model Comparison  
+## Hierarchical regression / Model Comparison
 
 **Model comparison:** Comparing how well two (or more) models fit the data in order to determine which model is better.
 
-If we're comparing nested models by incrementally adding or subtracting variables, this is known as hierarchical regression. 
+If we're comparing nested models by incrementally adding or subtracting variables, this is known as hierarchical regression.
 
-  - Multiple models are calculated  
-    
-  - Each predictor (or set of predictors) is assessed in terms of what it adds (in terms of variance explained) at the time it is entered   
-    
-  - Order is dependent on an _a priori_ hypothesis  
+-   Multiple models are calculated
 
+-   Each predictor (or set of predictors) is assessed in terms of what it adds (in terms of variance explained) at the time it is entered
 
----
+-   Order is dependent on an *a priori* hypothesis
+
+------------------------------------------------------------------------
 
 ![](Slide9.jpeg)
 
-
 ## R-square change
 
-- distributed as an F
-$$F(p.new, N - 1 - p.all) = \frac {R_{m.2}^2- R_{m.1}^2} {1-R_{m.2}^2} (\frac {N-1-p.all}{p.new})$$
+-   distributed as an F $$F(p.new, N - 1 - p.all) = \frac {R_{m.2}^2- R_{m.1}^2} {1-R_{m.2}^2} (\frac {N-1-p.all}{p.new})$$
 
-- can also be written in terms of SSresiduals
-
+-   can also be written in terms of SSresiduals
 
 ## Model comparisons
 
@@ -999,21 +864,17 @@ m.2 <- lm(Stress ~ Support + Anxiety, data = stress.data)
 anova(m.1, m.2)
 ```
 
-
 ## model comparisons
 
 ```{r}
 anova(m.1)
 ```
 
-
-
 ## model comparisons
 
 ```{r}
 anova(m.2)
 ```
-
 
 ## model comparisons
 
@@ -1022,10 +883,8 @@ anova(m.2)
 summary(m.2)
 ```
 
-
 ## model comparisons
 
 ```{r, echo = FALSE}
 summary(m.1)
 ```
-
