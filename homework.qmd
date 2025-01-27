@@ -4,4 +4,6 @@ title: "homework"
 
 -   [R Refresher](R-Refresher.qmd)
 
--   [HW #2 ](2-hw.qmd)
+-   [HW #2](2-hw.qmd)
+
+-   [HW #3](3-hw.qmd)
