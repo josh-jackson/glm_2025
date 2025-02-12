@@ -60,6 +60,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -113,8 +115,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#instructions" id="toc-instructions" class="nav-link active" data-scroll-target="#instructions">Instructions</a></li>
-  <li><a href="#homework-questions" id="toc-homework-questions" class="nav-link" data-scroll-target="#homework-questions">Homework Questions</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
+  <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
+  <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
   </ul>
 </nav>
     </div>
@@ -138,24 +144,56 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="instructions" class="level2">
-<h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
-<p>Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.</p>
-<p><strong>Data:</strong> These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: <a href="https://raw.githubusercontent.com/josh-jackson/GLM_3890/main/HW4-data.csv"><code>HW4-data.csv</code></a></p>
-</section>
-<section id="homework-questions" class="level2">
-<h2 class="anchored" data-anchor-id="homework-questions">Homework Questions</h2>
-<ol type="1">
-<li><p>Perform a multiple regression where health is regressed on (predicted by) friends, SES, and happiness. Interpret each regression coefficient.</p></li>
-<li><p>Graph the (2-d) relationship between health and happiness as found in the above regression. Make sure the association controls for the remaining variables in the model. Include data points in your graph and a confidence band.</p></li>
-<li><p>Describe why the confidence band looks like a bow tie in the above graph.</p></li>
-<li><p>For the above regression, calculate the variance explained using the ANOVA table and interpret the residual standard error.</p></li>
-<li><p>Add the group variable <code>mood.group</code> into the regression model from #2. Then answer the following:</p>
-<ol type="a">
+<p><strong>Data:</strong> You will use the same Human Connectome Project dataset you worked with in the <code>R</code> class and this semester’s <code>R</code> refresher. It is available <a href="https://raw.githubusercontent.com/josh-jackson/GLM_3890/main/hcp-data.csv">here</a></p>
+<p>Remember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code.</p>
+<p>You will submit both your .Rmd and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!</p>
+<p>Good luck!</p>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>Run a univariate regression model where Mean Purpose in Life is predicted by Life Satisfaction. Answer the following for this model:</p>
+<ul>
 <li>Interpret the coefficients</li>
-<li>Is there a significant increase in variance explained compared to the initial regression in #1? If so, what is the estimate?</li>
-</ol></li>
-</ol>
+<li>Describe what <span class="math inline">\(R^2\)</span> means, and interpret this model’s <span class="math inline">\(R^2\)</span></li>
+<li>Describe what <span class="math inline">\(\sigma\)</span> means, and interpret this model’s <span class="math inline">\(\sigma\)</span>. Overall, is this a “good” model?</li>
+<li>Is Life Satisfaction a good predictor of Mean Purpose in Life? How do you know</li>
+</ul>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p>Repeat the same as above, but now use the NEO Agreeableness subscale as the predictor. Answer the same questions as above.</p>
+</section>
+<section id="question-3" class="level2">
+<h2 class="anchored" data-anchor-id="question-3">Question 3</h2>
+<p>Run a third model where Mean Purpose in Life is predicted by both Life Satisfaction and the NEO Agreeableness subscale.</p>
+<ul>
+<li>Interpret all the coefficients</li>
+<li>Is this a good model? How do you know?</li>
+</ul>
+</section>
+<section id="question-4" class="level2">
+<h2 class="anchored" data-anchor-id="question-4">Question 4</h2>
+<p>Given your model from Question 3, please do the following (note, you might need to create some more univariate models)</p>
+<ul>
+<li>Create a measure of Mean Purpose that is <em>independent</em> of Life Satisfaction. Store this as an object. This will be your <strong>Y</strong> axis.</li>
+<li>Create a measure of Life Satisfaction that is <em>independent</em> of Agreeableness. This will be your <strong>X</strong> axis.</li>
+<li>Now plot the above 2. Store this plot as it’s own object. Make sure to include a best fit line in your figure.</li>
+</ul>
+</section>
+<section id="question-5" class="level2">
+<h2 class="anchored" data-anchor-id="question-5">Question 5</h2>
+<p>Given your model from Question 3, please do the following (note, you might need to create some more univariate models)</p>
+<ul>
+<li>Create a measure of Mean Purpose that is <em>independent</em> of Agreeableness. Store this as an object. This will be your <strong>Y</strong> axis.</li>
+<li>Create a measure of Agreeableness that is <em>independent</em> of Life Satisfaction This will be your <strong>X</strong> axis.</li>
+<li>Now plot the above 2. Store this plot as it’s own object. Make sure to include a best fit line in your figure.</li>
+</ul>
+</section>
+<section id="question-6" class="level2">
+<h2 class="anchored" data-anchor-id="question-6">Question 6</h2>
+<ul>
+<li>Create a single figure where the plot from Question 4 is the first panel on the left, and the plot from Question 5 is the second panel on the right. You should wind up with a single figure.</li>
+<li>Give this figure the title “Added Variable Plot”. In your own words, try to describe what you did and <em>why</em> you did it. It’s OK to be confused! Just give it your best shot.</li>
+</ul>
 
 
 </section>

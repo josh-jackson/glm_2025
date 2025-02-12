@@ -2053,21 +2053,21 @@
   {
     "objectID": "5-hw.html",
     "href": "5-hw.html",
-    "title": "Homework 4",
+    "title": "Homework 5",
     "section": "",
     "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
   },
   {
     "objectID": "5-hw.html#instructions",
     "href": "5-hw.html#instructions",
-    "title": "Homework 4",
+    "title": "Homework 5",
     "section": "",
     "text": "Please complete this assignment by creating a new RMarkdown (or Quarto) file. Be sure to include your name in the preamble. Please submit both your .Rmd (or .qmd) and your .html files to Canvas.\nData: These data were from a study where physical health was predicted by a happiness measure, socioeconomic status, number of close friends, and a 16-week mood intervention with a waitlist control group (coded 0), a positive self affirmation intervention group (coded 1), and a meditation group (coded 2). The data are here: HW4-data.csv"
   },
   {
     "objectID": "5-hw.html#homework-questions",
     "href": "5-hw.html#homework-questions",
-    "title": "Homework 4",
+    "title": "Homework 5",
     "section": "Homework Questions",
     "text": "Homework Questions\n\nPerform a multiple regression where health is regressed on (predicted by) friends, SES, and happiness. Interpret each regression coefficient.\nGraph the (2-d) relationship between health and happiness as found in the above regression. Make sure the association controls for the remaining variables in the model. Include data points in your graph and a confidence band.\nDescribe why the confidence band looks like a bow tie in the above graph.\nFor the above regression, calculate the variance explained using the ANOVA table and interpret the residual standard error.\nAdd the group variable mood.group into the regression model from #2. Then answer the following:\n\nInterpret the coefficients\nIs there a significant increase in variance explained compared to the initial regression in #1? If so, what is the estimate?"
   },
@@ -2553,5 +2553,103 @@
     "title": "GLM basics III",
     "section": "model comparisons",
     "text": "model comparisons\n\n\n\nCall:\nlm(formula = Stress ~ Support, data = stress.data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-3.8215 -1.2145 -0.1796  1.0806  3.4326 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)  2.56046    0.42189   6.069 1.66e-08 ***\nSupport      0.30006    0.04527   6.629 1.12e-09 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 1.605 on 116 degrees of freedom\nMultiple R-squared:  0.2747,    Adjusted R-squared:  0.2685 \nF-statistic: 43.94 on 1 and 116 DF,  p-value: 1.12e-09"
+  },
+  {
+    "objectID": "6-hw.html",
+    "href": "6-hw.html",
+    "title": "Homework 6",
+    "section": "",
+    "text": "Due 2/26 at 9:59am\nData: The dataset looks at happiness in college as a relationship with school success, friendship quality, SES, and an intervention group (1 = control, 2 = study skills training, 3 = social skills training). The data are here: hw-5-data.csv\nRemember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code.\nYou will submit both your .Rmd and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!\nGood luck!"
+  },
+  {
+    "objectID": "6-hw.html#question-1",
+    "href": "6-hw.html#question-1",
+    "title": "Homework 6",
+    "section": "Question 1",
+    "text": "Question 1\nRun a two-predictor regression predicting happiness by friendship and school success and the interaction between the two.\n\nDescribe your hypothesis for the interaction using the study variables\nDescribe in words what exactly the b1, b2, and b3 coefficients are telling us in this model."
+  },
+  {
+    "objectID": "6-hw.html#question-2",
+    "href": "6-hw.html#question-2",
+    "title": "Homework 6",
+    "section": "Question 2",
+    "text": "Question 2\nCompute the following 3 simple regression equations based on the model you ran in Question 1. Your choice of moderating variable depends on your hypothesis. Write out and interpret each of these simple slope equations.\n\nThe regression of Y on X at the mean of X2\nAt one standard deviation above the mean of X2 (X2hi)\nAt one standard deviation below the mean of X2 (X2low)."
+  },
+  {
+    "objectID": "6-hw.html#question-3",
+    "href": "6-hw.html#question-3",
+    "title": "Homework 6",
+    "section": "Question 3",
+    "text": "Question 3\nGraph the three simple slopes above within a single figure (no multiple panels)."
+  },
+  {
+    "objectID": "6-hw.html#question-4",
+    "href": "6-hw.html#question-4",
+    "title": "Homework 6",
+    "section": "Question 4",
+    "text": "Question 4\nAre any of these simple slopes significantly different from 0? How do you know? (i.e., we want a little more info than just “yes” or “no”, but you could do this in 1-2 sentences.)"
+  },
+  {
+    "objectID": "6-hw.html#question-5",
+    "href": "6-hw.html#question-5",
+    "title": "Homework 6",
+    "section": "Question 5",
+    "text": "Question 5\nCreate a new model that examines if happiness can be explained by school success and your intervention. Do not transform any variables.\n\nInterpret the intercept and each of the lower order coefficients. Be precise.\nConceptually interpret the interaction(s)\nCreate a single figure illustrating the interaction relationships"
+  },
+  {
+    "objectID": "6-hw.html#question-6",
+    "href": "6-hw.html#question-6",
+    "title": "Homework 6",
+    "section": "Question 6",
+    "text": "Question 6\nRepeat the same regression you ran in Question 5, however before running it, please mean-center your continuous predictor. Re-interpret the intercept, the lower order coefficients, and the interaction(s)."
+  },
+  {
+    "objectID": "4-hw.html",
+    "href": "4-hw.html",
+    "title": "Homework 4",
+    "section": "",
+    "text": "Data: You will use the same Human Connectome Project dataset you worked with in the R class and this semester’s R refresher. It is available here\nRemember that if you work with a peer or use AI tools like Chat-GPT, you must cite them in your code.\nYou will submit both your .Rmd and HTML files to Canvas. For all figures, you must be intentional. Change the axes names, the theme etc. Do not settle for the defaults!\nGood luck!"
+  },
+  {
+    "objectID": "4-hw.html#question-1",
+    "href": "4-hw.html#question-1",
+    "title": "Homework 4",
+    "section": "Question 1",
+    "text": "Question 1\nRun a univariate regression model where Mean Purpose in Life is predicted by Life Satisfaction. Answer the following for this model:\n\nInterpret the coefficients\nDescribe what \\(R^2\\) means, and interpret this model’s \\(R^2\\)\nDescribe what \\(\\sigma\\) means, and interpret this model’s \\(\\sigma\\). Overall, is this a “good” model?\nIs Life Satisfaction a good predictor of Mean Purpose in Life? How do you know"
+  },
+  {
+    "objectID": "4-hw.html#question-2",
+    "href": "4-hw.html#question-2",
+    "title": "Homework 4",
+    "section": "Question 2",
+    "text": "Question 2\nRepeat the same as above, but now use the NEO Agreeableness subscale as the predictor. Answer the same questions as above."
+  },
+  {
+    "objectID": "4-hw.html#question-3",
+    "href": "4-hw.html#question-3",
+    "title": "Homework 4",
+    "section": "Question 3",
+    "text": "Question 3\nRun a third model where Mean Purpose in Life is predicted by both Life Satisfaction and the NEO Agreeableness subscale.\n\nInterpret all the coefficients\nIs this a good model? How do you know?"
+  },
+  {
+    "objectID": "4-hw.html#question-4",
+    "href": "4-hw.html#question-4",
+    "title": "Homework 4",
+    "section": "Question 4",
+    "text": "Question 4\nGiven your model from Question 3, please do the following (note, you might need to create some more univariate models)\n\nCreate a measure of Mean Purpose that is independent of Life Satisfaction. Store this as an object. This will be your Y axis.\nCreate a measure of Life Satisfaction that is independent of Agreeableness. This will be your X axis.\nNow plot the above 2. Store this plot as it’s own object. Make sure to include a best fit line in your figure."
+  },
+  {
+    "objectID": "4-hw.html#question-5",
+    "href": "4-hw.html#question-5",
+    "title": "Homework 4",
+    "section": "Question 5",
+    "text": "Question 5\nGiven your model from Question 3, please do the following (note, you might need to create some more univariate models)\n\nCreate a measure of Mean Purpose that is independent of Agreeableness. Store this as an object. This will be your Y axis.\nCreate a measure of Agreeableness that is independent of Life Satisfaction This will be your X axis.\nNow plot the above 2. Store this plot as it’s own object. Make sure to include a best fit line in your figure."
+  },
+  {
+    "objectID": "4-hw.html#question-6",
+    "href": "4-hw.html#question-6",
+    "title": "Homework 4",
+    "section": "Question 6",
+    "text": "Question 6\n\nCreate a single figure where the plot from Question 4 is the first panel on the left, and the plot from Question 5 is the second panel on the right. You should wind up with a single figure.\nGive this figure the title “Added Variable Plot”. In your own words, try to describe what you did and why you did it. It’s OK to be confused! Just give it your best shot."
   }
 ]
