@@ -10,6 +10,4 @@ title: "homework"
 
 -   [HW #4](4-hw.qmd)
 
--   [HW #5](5-hw.qmd)
-
--   [HW #6](6-hw.qmd)
+-   [HW #5](6-hw.qmd)
