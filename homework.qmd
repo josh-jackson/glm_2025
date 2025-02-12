@@ -7,3 +7,9 @@ title: "homework"
 -   [HW #2](2-hw.qmd)
 
 -   [HW #3](3-hw.qmd)
+
+-   [HW #4](4-hw.qmd)
+
+-   [HW #5](5-hw.qmd)
+
+-   [HW #6](6-hw.qmd)
