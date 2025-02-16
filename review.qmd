@@ -1,0 +1,209 @@
+---
+title: review 
+format: revealjs
+slide-number: true
+editor: visual
+execute:
+  echo: true
+html:
+  code-fold: true
+  code-summary: Show the code
+  scrollable: true
+---
+
+
+```{r, echo = F, warning = F, message = F}
+library(tidyverse)
+library(psych)
+library(ggeffects)
+```
+
+```{r}
+#| code-fold: true
+nhanes = read.csv("nhanes_small.csv")
+nhanes = na.omit(nhanes)
+
+describe(nhanes)
+
+```
+
+-----------
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Age, data = nhanes))
+```
+
+
+-----------
+
+For 1 predictor, this is the same as a ____
+
+```{r, message=FALSE}
+#| code-fold: true
+ggplot(data = nhanes, aes(x = Age, y = Weight)) +
+  geom_point(color = "cornflowerblue") +
+  geom_smooth(method = "lm") +
+  theme_classic(base_size = 18)
+```
+
+-----------
+
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Smoke100n, data = nhanes))
+```
+
+
+-----------
+
+```{r, message=FALSE}
+#| code-fold: true
+ggplot(data = nhanes, aes(x = Smoke100n, y = Weight)) +
+  geom_dotplot(binaxis = "y", stackdir = "center",
+               aes(fill = Smoke100n)) +
+  stat_summary(fun=mean, geom="point", shape=18,
+               size=3, color="black") +
+  theme_classic(base_size = 18)
+
+```
+
+
+--------
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Age + Poverty, data = nhanes))
+```
+
+----------
+
+```{r}
+#| code-fold: true
+covar.model = lm(Weight ~ Age + Poverty, data = nhanes)
+
+output = predict_response(covar.model, terms = "Poverty")
+
+output
+```
+
+
+------
+
+```{r}
+tibble(output)
+```
+
+
+------
+
+```{r}
+#| code-fold: true
+ggplot(data = output, aes(x = x, y = predicted)) +
+  geom_smooth(method = "lm") +
+  geom_point(data = nhanes, aes(x = Poverty, y = Weight)) +
+  theme_classic(base_size = 18) + xlab("Poverty") + ylab("Weight")
+```
+
+------
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Age * Poverty, data = nhanes))
+```
+
+--------
+
+```{r}
+#| code-fold: true
+cont.inter = lm(Weight ~ Age * Poverty, data = nhanes)
+
+output.cont.inter = predict_response(cont.inter, terms = c("Age", "Poverty [meansd]"))
+
+output.cont.inter
+
+```
+
+-------
+
+```{r}
+tibble(output.cont.inter)
+```
+
+
+
+----------
+
+```{r}
+#| code-fold: true
+plot(output.cont.inter,show_data = TRUE)
+```
+
+
+--------
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Age * Gender, data = nhanes))
+```
+
+---------
+
+```{r}
+#| code-fold: true
+mixed.inter = lm(Weight ~ Age * Gender, data = nhanes)
+
+output.mixed.inter = predict_response(mixed.inter, terms = c("Age", "Gender"))
+
+output.mixed.inter
+```
+
+-------
+
+```{r}
+tibble(output.mixed.inter)
+```
+
+
+---
+
+```{r}
+#| code-fold: true
+plot(output.mixed.inter,show_data = TRUE)
+```
+
+---
+
+```{r}
+#| code-fold: true
+summary(lm(Weight ~ Gender * Smoke100n, data = nhanes))
+```
+
+-------
+
+```{r}
+#| code-fold: true
+nhanes$Gender = factor(nhanes$Gender)
+nhanes$Smoke100n = factor(nhanes$Smoke100n)
+cat.inter = lm(Weight ~ Gender * Smoke100n, data = nhanes)
+
+output.cat.inter = predict_response(cat.inter, terms = c("Gender", "Smoke100n"))
+
+output.cat.inter
+```
+
+
+--------
+
+```{r}
+tibble(output.cat.inter)
+```
+
+
+---------
+
+```{r}
+#| code-fold: true
+plot(output.cat.inter)
+```

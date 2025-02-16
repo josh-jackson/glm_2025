@@ -15,14 +15,18 @@ editor: source
 
 6. [Interactions - 2](6-interact.qmd)
 
-7. [MLM](7-mlm.qmd)
+7. [Review](review.qmd)
 
-8. [SEM](8-sem.pdf)
+8. [Diagnostics](diagnostics.qmd)
 
-9. [logistic](9-logistic.qmd)
+9. [MLM](7-mlm.qmd)
 
-10. [Bayes](10-bayes.qmd)
+10. [SEM](8-sem.pdf)
 
-11. [Machine learning 1](11-ml.qmd)
+11. [logistic](9-logistic.qmd)
 
-12. [Machine learning 2](12-ml.qmd)
+12. [Bayes](10-bayes.qmd)
+
+13. [Machine learning 1](11-ml.qmd)
+
+14. [Machine learning 2](12-ml.qmd)

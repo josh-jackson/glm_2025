@@ -1278,7 +1278,7 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "What are models?\nGLM basics\nGLM basics - 2\nGLM basics - 3\nInteractions\nInteractions - 2\nMLM\nSEM\nlogistic\nBayes\nMachine learning 1\nMachine learning 2"
+    "text": "What are models?\nGLM basics\nGLM basics - 2\nGLM basics - 3\nInteractions\nInteractions - 2\nReview\nDiagnostics\nMLM\nSEM\nlogistic\nBayes\nMachine learning 1\nMachine learning 2"
   },
   {
     "objectID": "homework.html",
@@ -2651,5 +2651,271 @@
     "title": "Homework 4",
     "section": "Question 6",
     "text": "Question 6\n\nCreate a single figure where the plot from Question 4 is the first panel on the left, and the plot from Question 5 is the second panel on the right. You should wind up with a single figure.\nGive this figure the title “Added Variable Plot”. In your own words, try to describe what you did and why you did it. It’s OK to be confused! Just give it your best shot."
+  },
+  {
+    "objectID": "diagnostics.html#today",
+    "href": "diagnostics.html#today",
+    "title": "Diagnostics",
+    "section": "Today",
+    "text": "Today\n\nAssumptions of GLM regression models\nDiagnostics (checking those assumptions)"
+  },
+  {
+    "objectID": "diagnostics.html#blue",
+    "href": "diagnostics.html#blue",
+    "title": "Diagnostics",
+    "section": "BLUE",
+    "text": "BLUE\nBest Linear Unbiased Estimate of beta \\((\\beta)\\)\n\nUnbiased\nEfficient\nConsistent"
+  },
+  {
+    "objectID": "diagnostics.html#residuals",
+    "href": "diagnostics.html#residuals",
+    "title": "Diagnostics",
+    "section": "Residuals",
+    "text": "Residuals\nResiduals are your best diagnostic tool for assessing your regression model. Not only can they tell you if you’ve violated assumptions, but they can point to specific cases that contribute to the violations. This may help you to:\n\nNotice patterns, which may lead you to change your theory\nRemove problematic cases\nImprove your research design"
+  },
+  {
+    "objectID": "diagnostics.html#what-are-residuals",
+    "href": "diagnostics.html#what-are-residuals",
+    "title": "Diagnostics",
+    "section": "What are residuals?",
+    "text": "What are residuals?\n\n\nCode\nlibrary(ggplot2)\nggplot(aug_1, aes(x = Support, y = Anxiety)) +\n  #geom_smooth(method = \"lm\", se = FALSE, color = \"lightgrey\") +  # Plot regression slope\n  geom_segment(aes(xend = Support, yend = .fitted), alpha = .2) +  # alpha to fade lines\n  geom_point(size = 3) +\n  geom_point(aes(y = .fitted), shape = 1, size = 3) +\n  scale_y_continuous(limits = c(-10, 15)) +\n  labs(title = \"Support Predicting Anxiety\",\n       subtitle = \"Univariate\") + \n  theme_bw(base_size = 20)"
+  },
+  {
+    "objectID": "diagnostics.html#measurement-error",
+    "href": "diagnostics.html#measurement-error",
+    "title": "Diagnostics",
+    "section": "1. Measurement Error",
+    "text": "1. Measurement Error\nAssumption 1: No measurement error in our independent variables\n\nHow does measurement error affect our coefficient estimates?\nHow does measurement error affect our the standard errors of the coefficients?\nHow can we check this assumption?"
+  },
+  {
+    "objectID": "diagnostics.html#reliability-can-help",
+    "href": "diagnostics.html#reliability-can-help",
+    "title": "Diagnostics",
+    "section": "Reliability Can Help!",
+    "text": "Reliability Can Help!\nIf there is measurement error, our coefficient estimates will always UNDER-estimate the true parameter. This is because \\[r_{xy} = \\rho\\sqrt{r_{xx}r_{yy}}\\] Measurement error inflates our standard errors, because they add…error\nThere is ALWAYS measurement error. What do we do about this?"
+  },
+  {
+    "objectID": "diagnostics.html#form",
+    "href": "diagnostics.html#form",
+    "title": "Diagnostics",
+    "section": "2. Form",
+    "text": "2. Form\nAssumption 2: Correctly specified form\n\nDon’t use linear models on non-linear data! This will underestimate \\(R^2\\)"
+  },
+  {
+    "objectID": "diagnostics.html#model",
+    "href": "diagnostics.html#model",
+    "title": "Diagnostics",
+    "section": "3. Model",
+    "text": "3. Model\nAssumption 3: Correctly specified model - This is especially important for multiple regression.\n\nTwo problems:\n\n\n“Over control” and your coefficient is no longer interpretable\n\n\n“Under control” and your coefficient is no longer interpretable"
+  },
+  {
+    "objectID": "diagnostics.html#model-1",
+    "href": "diagnostics.html#model-1",
+    "title": "Diagnostics",
+    "section": "3. Model",
+    "text": "3. Model\n\n“Over control” and your coefficient is no longer interpretable\n\nCohen and Cohen (1983) discuss several problems associated with the inclusion of covariates/multiple independent predictors in a model. Those problems were:\n\nComputational accuracy (not a problem now, because computers)\nSampling stability (tolerance)\nInterpretation"
+  },
+  {
+    "objectID": "diagnostics.html#lessons-from-lynam-et-al.-2006",
+    "href": "diagnostics.html#lessons-from-lynam-et-al.-2006",
+    "title": "Diagnostics",
+    "section": "Lessons from [Lynam et al., 2006]",
+    "text": "Lessons from [Lynam et al., 2006]\n\nHeterogeneous measures run the risk of greater dissimilarity following partialling. They showed this empirically.\npartialling out sub-scales – some correlations are even negative\nNothing is a good substitute for good theory and reliable measurement.\nAlways present zero-order correlations."
+  },
+  {
+    "objectID": "diagnostics.html#model-2",
+    "href": "diagnostics.html#model-2",
+    "title": "Diagnostics",
+    "section": "3. Model",
+    "text": "3. Model\nAssumption 3: Correctly specified model - This is especially important for multiple regression.\n\nTwo problems:\n\n\n“Over control” and your coefficient is no longer interpretable\n\n\n“Under control” and your coefficient is no longer interpretable"
+  },
+  {
+    "objectID": "diagnostics.html#endogeniety",
+    "href": "diagnostics.html#endogeniety",
+    "title": "Diagnostics",
+    "section": "Endogeniety",
+    "text": "Endogeniety\n\n“Under control” and your coefficient is no longer interpretable\n\nEndogeniety is when your your error term is associated with a predictor.\n\nTypically when you leave out an important predictor."
+  },
+  {
+    "objectID": "diagnostics.html#condition-on-a-collider",
+    "href": "diagnostics.html#condition-on-a-collider",
+    "title": "Diagnostics",
+    "section": "Condition on a collider",
+    "text": "Condition on a collider\nMany ways this can happen but one common one is selecting a sample (clinical students, college students) that is associated with your variables of interest (e.g., emotion regulation, memory ability)"
+  },
+  {
+    "objectID": "diagnostics.html#homoscedasticity",
+    "href": "diagnostics.html#homoscedasticity",
+    "title": "Diagnostics",
+    "section": "4. Homoscedasticity",
+    "text": "4. Homoscedasticity\nHomogeneity of variance\n\nthe variance of an outcome is the same across two (or more) groups\nLevene’s test\n\nHomoscedasticity\n\nthe variance of an outcome is the same across all levels of all continuous predictor variables\nvisual inspection of residuals by fitted values"
+  },
+  {
+    "objectID": "diagnostics.html#homoscedasticity-1",
+    "href": "diagnostics.html#homoscedasticity-1",
+    "title": "Diagnostics",
+    "section": "4. Homoscedasticity",
+    "text": "4. Homoscedasticity\n\n\nCode\nggplot(data = aug_1, aes(x=.fitted, y=.resid)) + \n  geom_point() +\n  geom_hline(yintercept = 0) +\n  theme_bw(base_size = 20) +\n  geom_smooth(method = \"lm\")"
+  },
+  {
+    "objectID": "diagnostics.html#independence-among-the-errors",
+    "href": "diagnostics.html#independence-among-the-errors",
+    "title": "Diagnostics",
+    "section": "5. Independence among the errors",
+    "text": "5. Independence among the errors\n\n\nCode\naug_1$ID &lt;- c(1:118)\nggplot(data = aug_1, \n       aes(x=ID, y = .resid)) + \n  geom_point() +  \n  geom_smooth(se = F) +\n  geom_hline(yintercept = 0) +\n  theme_bw(base_size = 20)"
+  },
+  {
+    "objectID": "diagnostics.html#normality-of-the-errors",
+    "href": "diagnostics.html#normality-of-the-errors",
+    "title": "Diagnostics",
+    "section": "6. Normality of the errors",
+    "text": "6. Normality of the errors"
+  },
+  {
+    "objectID": "diagnostics.html#normality-of-the-errors-1",
+    "href": "diagnostics.html#normality-of-the-errors-1",
+    "title": "Diagnostics",
+    "section": "6. Normality of the errors",
+    "text": "6. Normality of the errors\n\n\nCode\nlibrary(car)\nqqPlot(model.1)\n\n\n\n[1]  8 84"
+  },
+  {
+    "objectID": "diagnostics.html#robustness",
+    "href": "diagnostics.html#robustness",
+    "title": "Diagnostics",
+    "section": "Robustness",
+    "text": "Robustness\nRegression models are considered robust meaning that even when you violate assumptions, you can still use the same models with some safety.\n\nE.g., t-tests are robust to violations of normality, because we can fall back on the central limit theorem.\n\nRegression is robust to violations of some assumptions, primarily\n\nHomoscedasticity\nNormality of errors"
+  },
+  {
+    "objectID": "diagnostics.html#screening-your-data",
+    "href": "diagnostics.html#screening-your-data",
+    "title": "Diagnostics",
+    "section": "Screening your data",
+    "text": "Screening your data\n\nCalculate univariate and bivariate descriptive stats\n\n\nCheck the min and max to make sure data were entered correctly\nCheck the class of the variable\n\nis your grouping variable a factor or numeric?\n\nCheck for skew or compare the mean and median\nCompare correlation matrices with pairwise and listwise deletion for bias in missingness.\nCalculate reliability for your scales."
+  },
+  {
+    "objectID": "diagnostics.html#screening-your-data-1",
+    "href": "diagnostics.html#screening-your-data-1",
+    "title": "Diagnostics",
+    "section": "Screening your data",
+    "text": "Screening your data\n\nPlot univariate and bivariate distributions\n\n\nLook for skew and outliers\nCheck correlation heat maps for expected and unexpected patterns in items"
+  },
+  {
+    "objectID": "diagnostics.html#screening-your-data-2",
+    "href": "diagnostics.html#screening-your-data-2",
+    "title": "Diagnostics",
+    "section": "Screening your data",
+    "text": "Screening your data\n\nTest assumptions of your model(s)\n\n\nCalculate the VIF of each term\nGraph residuals by predictors to check for endogeneity.\nGraph residuals by fitted values to check for homoscedasticity.\nGraph residuals by ID number (or date, or another variable not in your model) to check for independence.\nGraph the distribution of residuals or the Q-Q plot to check for normality."
+  },
+  {
+    "objectID": "diagnostics.html#screening-your-data-3",
+    "href": "diagnostics.html#screening-your-data-3",
+    "title": "Diagnostics",
+    "section": "Screening your data",
+    "text": "Screening your data\n\nLook for univariate or multivariate outliers.\n\n\nBroadly defined as atypical or highly influential data point(s)\nDue to contamination (e.g. recording error) or accurate observation of a rare case\nUnivariate vs. Multivariate\n\nHow do we typically describe or identify outliers?"
+  },
+  {
+    "objectID": "diagnostics.html#outliers",
+    "href": "diagnostics.html#outliers",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\nLeverage tells us how far observed values for a case are from mean values on the set of IVs (centroid).\n\nNot dependent on Y values\nHigh leverage cases have greater potential to influence regression results"
+  },
+  {
+    "objectID": "diagnostics.html#leverage",
+    "href": "diagnostics.html#leverage",
+    "title": "Diagnostics",
+    "section": "Leverage",
+    "text": "Leverage\n\n\nCode\nlibrary(car)\nleveragePlots(model.2)"
+  },
+  {
+    "objectID": "diagnostics.html#outliers-1",
+    "href": "diagnostics.html#outliers-1",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\nOne common metric for describing leverage is Mahalanobis Distance, which is the multidimensional extension of Euclidean distance where vectors are non-orthogonal. Given a set of variables, \\(\\mathbf{X}\\) with means \\(\\mathbf{\\mu}\\) and covariance \\(\\Sigma\\):\n\\[\\large D^2 = (x - \\mu)' \\Sigma^{-1} (x - \\mu)\\]"
+  },
+  {
+    "objectID": "diagnostics.html#outliers-2",
+    "href": "diagnostics.html#outliers-2",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\n\n\nCode\nm = colMeans(a_data[c(\"Stress\", \"Support\")], na.rm = T)\ncov = cov(a_data[c(\"Stress\", \"Support\")])\nMD = mahalanobis(x = a_data[,c(\"Stress\", \"Support\")], center = m, cov = cov)\n\ncutoff &lt;- qchisq(p = 0.95 , df = ncol(a_data))\ncutoff\n\n\n[1] 11.0705\n\n\nCode\n## Display observation whose distance greater than cutoff value\na_data[MD &gt; cutoff ,]\n\n\n[1] id      Anxiety Stress  Support group  \n&lt;0 rows&gt; (or 0-length row.names)"
+  },
+  {
+    "objectID": "diagnostics.html#outliers-3",
+    "href": "diagnostics.html#outliers-3",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\n\nDistance is the distance from prediction, or how far a case’s observed value is from its predicted value\n\ni.e., residual\nIn units of Y.\n\n\nWhat might be problematic at looking at residuals in order to identify outliers?"
+  },
+  {
+    "objectID": "diagnostics.html#distance",
+    "href": "diagnostics.html#distance",
+    "title": "Diagnostics",
+    "section": "Distance",
+    "text": "Distance\nRaw residuals come from a model that is influenced by the outliers, making it harder to detect the outliers in the first place. To avoid this issue, it is advisable to examine the deleted residuals.\n\nThis value represents the distance between the observed value from a predicted value that is calculated from a regression model based on all data except the case at hand\nThe leave-one-out procedure is often referred to as a “jack-knife” procedure."
+  },
+  {
+    "objectID": "diagnostics.html#outliers-4",
+    "href": "diagnostics.html#outliers-4",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\nInfluence refers to how much a regression equation would change if the extreme case (outlier) is removed.\n\\(\\text{Influence} = \\text{Leverage} \\times \\text{Distance}\\)\nThe most common are:\n\nCook’s Distance (change in model fit)\nDFFITS (change in model fit, standardized)\nDFBETAS (change in coefficient estimate without the outlier)"
+  },
+  {
+    "objectID": "diagnostics.html#outliers-5",
+    "href": "diagnostics.html#outliers-5",
+    "title": "Diagnostics",
+    "section": "Outliers",
+    "text": "Outliers\nCook’s Distance is calculated by removing the \\(i\\)th data point from the model and recalculating the regression. It summarizes how much all the values in the regression model change when the \\(i\\)th observation is removed.\n\\[CD_i = \\frac{\\sum_{j=1}^n(\\hat{Y}_j-\\hat{Y}_{j(1)})^2}{(p+1)MSE}\\]"
+  },
+  {
+    "objectID": "diagnostics.html#cooks-distance",
+    "href": "diagnostics.html#cooks-distance",
+    "title": "Diagnostics",
+    "section": "Cook’s Distance",
+    "text": "Cook’s Distance\n\n\nCode\naug_1$ID = 1:nrow(aug_1)\nggplot(aug_1, aes(x = ID, y = .cooksd)) +\ngeom_point() +\ngeom_text(aes(label = rownames(aug_1)), vjust = -1) +\n  theme_bw(base_size = 20)"
+  },
+  {
+    "objectID": "diagnostics.html#recommendations",
+    "href": "diagnostics.html#recommendations",
+    "title": "Diagnostics",
+    "section": "Recommendations",
+    "text": "Recommendations\n\nAnalyze data with/without outliers and see how results change\nIf you throw out cases you must believe it is not representative of population of interest or have appropriate explanation. You need to be able to defend your decision to the readers, your colleagues, and yourself. You also need to tell people what the hell you did\nDon’t throw out data just to be “safe”. Data are hard to collect and outliers are expected!"
+  },
+  {
+    "objectID": "diagnostics.html#multicollinearity",
+    "href": "diagnostics.html#multicollinearity",
+    "title": "Diagnostics",
+    "section": "Multicollinearity",
+    "text": "Multicollinearity\nMulticollinearity occurs when predictor variables are highly related to each other. - This can be a simple relationship, such as when X1 is strongly correlated with X2. This is easy to recognize, interpret, and correct for.\n\nSometimes multicollinearity is difficult to detect, such as when X1 is not strongly correlated with X2, X3, or X4, but the combination of the latter three is a strong predictor of X1."
+  },
+  {
+    "objectID": "diagnostics.html#addressing-multicollinearity",
+    "href": "diagnostics.html#addressing-multicollinearity",
+    "title": "Diagnostics",
+    "section": "Addressing Multicollinearity",
+    "text": "Addressing Multicollinearity\nIncrease sample size\nRemove a variable from your model.\nComposite or factor scores - If variables are highly correlated because they index the same underlying construct, why not just use them to create a more precise measure of that construct?\n\nCentering (esp important if your model includes interaction terms)"
+  },
+  {
+    "objectID": "diagnostics.html#suppression",
+    "href": "diagnostics.html#suppression",
+    "title": "Diagnostics",
+    "section": "Suppression",
+    "text": "Suppression\nMulticollinearity is related to suppression. Normally our standardized partial regression coefficients fall between 0 and \\(r_{Y1}\\). However, it is possible for \\(b_{Y1}\\) to be larger than \\(r_{Y1}\\). We refer to this phenomenon as suppression. * A non-significant \\(r_{Y1}\\) can become a significant \\(b_{Y1}\\) when additional variables are added to the model.\n\nA positive \\(r_{Y1}\\) can become a negative and significant \\(b_{Y1}\\)."
+  },
+  {
+    "objectID": "diagnostics.html#assumptions-of-regression",
+    "href": "diagnostics.html#assumptions-of-regression",
+    "title": "Diagnostics",
+    "section": "Assumptions of regression",
+    "text": "Assumptions of regression\n\nNo measurement error\nCorrectly specified form\nNo omitted variables\nHomoscedasticity\nIndependence among the residuals\nNormally distributed residuals"
+  },
+  {
+    "objectID": "diagnostics.html#what-happens-if-we-violate-assumptions",
+    "href": "diagnostics.html#what-happens-if-we-violate-assumptions",
+    "title": "Diagnostics",
+    "section": "What happens if we violate assumptions?",
+    "text": "What happens if we violate assumptions?\n\nBiased regression coefficients\nBiased standard errors"
   }
 ]

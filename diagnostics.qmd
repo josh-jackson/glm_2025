@@ -1,0 +1,685 @@
+---
+title: Diagnostics 
+format: revealjs
+slide-number: true
+editor: visual
+execute:
+  echo: true
+html:
+  code-fold: true
+  code-summary: Show the code
+  scrollable: true
+---
+
+
+
+## Today
+
+* Assumptions of GLM regression models
+* Diagnostics (checking those assumptions)
+
+
+
+
+## BLUE
+
+**B**est **L**inear **U**nbiased **E**stimate of beta $(\beta)$
+
+* Unbiased
+* Efficient
+* Consistent
+
+
+## Assumptions of regression
+
+1. No measurement error
+
+2. Correctly specified form
+
+3. No omitted variables
+
+4. Homoscedasticity 
+
+5. Independence among the residuals
+
+6. Normally distributed residuals
+
+
+
+## What happens if we violate assumptions?
+
+
+
+1. _Biased_ regression **coefficients**
+
+
+
+2. _Biased_ **standard errors**
+
+
+-----------
+
+
+|Violated Regression Assumption |	Coefficients |	Standard Errors|
+|-------------------------------|--------------|-----------------|
+|1. Measured without error     	|	 Biased 		 |	  Biased       |
+|2. Correctly specified form 		|	 Biased 		 |	  Biased       |
+|3. Correctly specified model		|	 Biased			 |	  Biased       | 
+|4. Homoscedasticity 						|				       |    Biased       |
+|5. Independent Errors 				 	|				       |    Biased       |
+|6. Normality of the Errors 		|							 |    Biased       |
+
+--------
+
+
+|       Assumption              |       	Detection                    |
+|-------------------------------|--------------------------------|
+|1. Measured without error	    |	  Reliability                  |
+|2. Correctly specified form 		|	  Residuals against predicted  |
+|3. Correctly specified model		|	  Theory, endogeneity test     | 
+|4. Homoscedasticity 						|		Residuals against predicted  |
+|5. Independent Errors 				 	|		Research Design              |
+|6. Normality of the Errors     |   q-q plot or distribution     |
+
+---------
+
+```{r, messages = FALSE, warning= FALSE, results='hide', echo=FALSE, include=FALSE}
+library(here)
+```
+
+```{r, messages = F, warning = F}
+#| code-fold: true
+a_data <- read.csv(here("anxiety.csv"))
+library(broom)
+model.1 <- lm(Anxiety ~ Support, a_data)
+aug_1<- augment(model.1)
+aug_1
+```
+
+
+## Residuals
+
+Residuals are your best diagnostic tool for assessing your regression model. Not only can they tell you if you've violated assumptions, but they can point to specific cases that contribute to the violations. This may help you to:
+
+* Notice patterns, which may lead you to change your theory
+* Remove problematic cases
+* Improve your research design
+
+
+## What are residuals?
+
+```{r}
+#| code-fold: true
+library(ggplot2)
+ggplot(aug_1, aes(x = Support, y = Anxiety)) +
+  #geom_smooth(method = "lm", se = FALSE, color = "lightgrey") +  # Plot regression slope
+  geom_segment(aes(xend = Support, yend = .fitted), alpha = .2) +  # alpha to fade lines
+  geom_point(size = 3) +
+  geom_point(aes(y = .fitted), shape = 1, size = 3) +
+  scale_y_continuous(limits = c(-10, 15)) +
+  labs(title = "Support Predicting Anxiety",
+       subtitle = "Univariate") + 
+  theme_bw(base_size = 20)
+```
+
+
+
+
+
+## 1. Measurement Error
+
+Assumption 1: No measurement error in our independent variables
+
+* How does measurement error affect our coefficient estimates?
+
+* How does measurement error affect our the standard errors of the coefficients?
+
+* How can we check this assumption?
+
+
+
+## Reliability Can Help!
+
+If there is measurement error, our coefficient estimates will always *UNDER*-estimate the true parameter. This is because
+$$r_{xy} = \rho\sqrt{r_{xx}r_{yy}}$$
+Measurement error inflates our standard errors, because they add...error
+
+There is ALWAYS measurement error. What do we do about this?
+
+
+## 2. Form
+
+Assumption 2: Correctly specified form
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 5, message=FALSE, warning=FALSE}
+library(ggplot2)
+ggplot(data = aug_1, aes(x=.fitted, y=.resid)) + 
+  geom_hline(yintercept = 0) +
+  geom_point() + geom_smooth(method = "loess", se = FALSE) + 
+  theme_bw(base_size = 20)
+```
+
+Don't use linear models on non-linear data! This will underestimate $R^2$
+
+
+## 3. Model
+
+Assumption 3: Correctly specified model
+- This is especially important for multiple regression.
+
+- Two problems: 
+  
+> "Over control" and your coefficient is no longer interpretable
+  
+> "Under control" and your coefficient is no longer interpretable
+  
+
+## 3. Model
+
+> "Over control" and your coefficient is no longer interpretable
+
+Cohen and Cohen (1983) discuss several problems associated with the inclusion of covariates/multiple independent predictors in a model. Those problems were:
+
+1. Computational accuracy (not a problem now, because computers)
+2. Sampling stability (tolerance)
+3. Interpretation
+
+---------
+
+
+> "Over control" and your coefficient is no longer interpretable
+
+Including multiple predictors in your model requires adjusting for the overlap in these predictors. 
+
+$$se_{b} = \frac{s_{Y}}{s_{X}}\sqrt{\frac {1-R_{Y\hat{Y}}^2}{n-p-1}}\sqrt{\frac{1}{1-R_{12}^2}}$$
+
+Tolerance (in a two-predictor regression) is: 
+
+$$1-R_{12}^2$$
+
+----------
+
+If your two independent predictors are highly correlated, tolerance gets smaller.
+
+* As tolerance gets smaller, the standard error gets larger. This is referred to as _variance inflation_. The **variance inflation factor** is an index to assess this problem. 
+
+$$\text{VIF} = \frac{1}{\text{Tolerance}} = \frac{1}{1-R^2_{12}}$$
+
+* As the standard error becomes larger, the CIs around coefficients becomes larger. When CIs around estimates are large, then we say the coefficients are *unstable.*
+
+------
+
+VIF is not bounded, but generally large numbers (greater than 5 or 10, based on who's giving you the heuristic) indicates a problem.
+
+```{r, message = F}
+#| code-fold: true
+library(car)
+model.2 <- lm(Anxiety ~ Support + Stress, a_data)
+vif(model.2)
+```
+
+The lesson from tolerance is that, as you add predictors to your model, it is best to select predictors that are not correlated or minimally correlated with each other. 
+
+What about interpretation?
+
+-------
+
+* What construct does an independent variable represent once the shared variance with other constructs has been removed?
+
+* Partialling changes the meaning and interpretation of a variable.
+
+* Partialling only takes variance away from the reliable $(r_{xx})$ part of a measurement.
+
+  - If a scale has reliability .7 and correlates with another variable at .3, the partialling out the covariate removes .3 of the valid .7 variance or 9% out of 49%
+
+[[Lynam et al., 2016](../readings/Lynam-2006-Assessment.pdf)]
+
+
+## Lessons from [Lynam et al., 2006]
+
+
+*  Heterogeneous measures run the risk of greater dissimilarity following partialling. They showed this empirically. 
+
+  - partialling out sub-scales -- some correlations are even negative
+
+* **Nothing is a good substitute for good theory and reliable measurement.**
+
+* Always present zero-order correlations.
+
+
+## 3. Model
+
+Assumption 3: Correctly specified model
+- This is especially important for multiple regression.
+
+- Two problems: 
+  
+> "Over control" and your coefficient is no longer interpretable
+  
+> **"Under control" and your coefficient is no longer interpretable
+**
+
+
+## Endogeniety 
+
+
+> "Under control" and your coefficient is no longer interpretable
+
+
+**Endogeniety** is when your your error term is associated with a predictor. 
+
+- Typically when you leave out an important predictor.  
+    
+
+
+---------
+
+
+If this is the true model:
+
+$$Y_i = b_0 + b_{1}X_{1} + b_{2}X_{2} + \epsilon_{i}$$
+But you only model this:
+
+$$Y_i = b_0 + b_{1}X_{1} + \epsilon_{i}$$
+
+
+The extra term is absorbed into the error so that
+
+$$Y_i = b_0 + b_{1}X_{1} + (\epsilon_{i} + X_2)$$
+
+If $X_1$ and $X_2$ are correlated, and $X_2$ is associated with $Y_i$ above and beyond $X_1$, then the residual and predictor in the model you ran will be correlated! ( $r_{x_1,\epsilon} \neq 0$ )
+
+
+## Condition on a collider
+
+
+Many ways this can happen but one common one is selecting a sample (clinical students, college students) that is associated with your variables of interest (e.g., emotion regulation, memory ability)
+
+
+![](collider.png){}
+
+
+
+## 4. Homoscedasticity
+
+
+**Homogeneity of variance**
+
+* the variance of an outcome is the same across two (or more) groups
+
+* Levene's test
+
+**Homoscedasticity**
+
+* the variance of an outcome is the same across all levels of all continuous predictor variables
+
+* visual inspection of residuals by fitted values 
+
+
+
+
+
+## 4. Homoscedasticity
+
+```{r,warning = FALSE, message= FALSE, fig.align='center'}
+#| code-fold: true
+ggplot(data = aug_1, aes(x=.fitted, y=.resid)) + 
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  theme_bw(base_size = 20) +
+  geom_smooth(method = "lm")
+```
+
+
+
+
+## 5. Independence among the errors
+
+
+```{r independence, message = F}
+#| code-fold: true
+aug_1$ID <- c(1:118)
+ggplot(data = aug_1, 
+       aes(x=ID, y = .resid)) + 
+  geom_point() +  
+  geom_smooth(se = F) +
+  geom_hline(yintercept = 0) +
+  theme_bw(base_size = 20)
+
+```
+
+
+
+## 6. Normality of the errors
+
+```{r, fig.width = 10, echo = FALSE}
+#| code-fold: true
+ggplot(data = aug_1, aes(x= .resid)) + 
+  geom_density(fill = "#DD3E3E") +   
+  xlim(-10, 10) +
+  theme_bw(base_size = 20)
+```
+
+
+
+---
+
+
+
+```{r}
+#| code-fold: true
+ggplot(model.1) +
+  stat_qq(aes(sample = .stdresid)) +
+  geom_abline() +
+  labs(title = "Q-Q Plot",
+       subtitle = "for Normality of Errors") +
+  theme_bw(base_size = 20)
+```
+
+
+## 6. Normality of the errors
+
+
+```{r, message = F, fig.width=10}
+#| code-fold: true
+library(car)
+qqPlot(model.1)
+```
+
+
+-------------
+
+
+|       Assumption              |       	Fix                      |
+|-------------------------------|----------------------------------|
+|1. Measured without error	    |	SEM, factor scores, more data, better design    |
+|2. Correctly specified form 		|	Different model                  |
+|3. Correctly specified model		|	 ¯`\_`(ツ)`_`/¯  & specificity analyses|
+|4. Homoscedasticity 						|	Bootstraps, WLS, transformations  |
+|5. Independent Errors 				 	| Use different analysis method                |
+|6. Normality of the Errors     | Additional IVs, different form    |
+
+
+## Robustness
+
+Regression models are considered **robust** meaning that even when you violate assumptions, you can still use the same models with some safety.
+
+* E.g., *t*-tests are robust to violations of normality, because we can fall back on the central limit theorem. 
+
+Regression is robust to violations of *some* assumptions, primarily
+
+  * Homoscedasticity
+  * Normality of errors
+
+-------
+
+
+There's also an underlying assumption that our models are developed independent of the data. 
+
+- Changing the model based on assumptions does violate the data-model-independence assumption, but it's unclear how this affects the inferences. In general, it's a good idea to validate the new model using a new dataset. 
+
+- Changing the model based on the significance tests is *bad* and it's fairly clear how this affects our inferences. 
+
+
+
+
+
+```{r, echo = F, results = 'hide', message=FALSE}
+library(tidyverse)
+library(here)
+a_data <- read.csv(here("anxiety.csv"))
+library(broom)
+```
+
+
+## Screening your data
+
+1) Calculate univariate and bivariate descriptive stats
+
+  + Check the min and max to make sure data were entered correctly
+  + Check the class of the variable
+      + is your grouping variable a factor or numeric?
+  + Check for skew or compare the mean and median
+  + Compare correlation matrices with pairwise and listwise deletion for bias in missingness.
+  + Calculate reliability for your scales. 
+  
+
+
+## Screening your data
+
+
+2) Plot univariate and bivariate distributions
+  
+  + Look for skew and outliers
+  
+  + Check correlation heat maps for expected and unexpected patterns in items
+  
+
+## Screening your data
+
+
+3) Test  assumptions of your model(s)
+
+  + Calculate the VIF of each term 
+  + Graph residuals by predictors to check for endogeneity.
+  + Graph residuals by fitted values to check for homoscedasticity.
+  + Graph residuals by ID number (or date, or another variable not in your model) to check for independence.
+  + Graph the distribution of residuals or the Q-Q plot to check for normality. 
+  
+
+
+## Screening your data
+
+4) Look for univariate or multivariate **outliers**. 
+
+
+- Broadly defined as atypical or highly influential data point(s)
+
+- Due to contamination (e.g. recording error) or accurate observation of a rare case
+
+- Univariate vs. Multivariate
+
+How do we typically describe or identify outliers? 
+
+
+
+--------
+
+Outliers can be described in terms of three different metrics. Each  conveys a sense of the magnitude of outliery-ness the case exhibits. However, some metrics also describe the degree to which your inferences will change: 
+
+1. Leverage
+    + How unusual is this case from the rest of the cases in terms of predictors?
+2. Distance
+    + How distant is the observed case from the predicted value?
+3. Influence
+    + How much the does regression coefficient change if case were removed?
+
+
+## Outliers
+
+
+**Leverage** tells us how far observed values for a case are from mean values on the set of IVs (centroid). 
+
+- Not dependent on Y values
+
+- High leverage cases have greater potential to influence regression results
+
+```{r, results='hide', echo = FALSE}
+model.1 <- lm(Anxiety ~ Support, a_data)
+aug_1<- augment(model.1)
+model.2 <- lm(Anxiety ~ Support + Stress, a_data)
+aug_2<- augment(model.2)
+```
+
+
+
+## Leverage
+
+```{r,message = F, warning = F}
+#| code-fold: true
+library(car)
+leveragePlots(model.2)
+```
+
+
+
+## Outliers
+
+One common metric for describing leverage is **Mahalanobis Distance**, which is the multidimensional extension of Euclidean distance where vectors are non-orthogonal. Given a set of variables, $\mathbf{X}$ with means $\mathbf{\mu}$ and covariance $\Sigma$:
+
+$$\large D^2 = (x - \mu)' \Sigma^{-1} (x - \mu)$$ 
+
+
+## Outliers
+
+```{r message=FALSE, warning=FALSE}
+#| code-fold: true
+m = colMeans(a_data[c("Stress", "Support")], na.rm = T)
+cov = cov(a_data[c("Stress", "Support")])
+MD = mahalanobis(x = a_data[,c("Stress", "Support")], center = m, cov = cov)
+
+cutoff <- qchisq(p = 0.95 , df = ncol(a_data))
+cutoff
+
+## Display observation whose distance greater than cutoff value
+a_data[MD > cutoff ,]
+```
+
+----------
+
+```{r}
+#| code-fold: true
+data.frame(x = 1:length(MD), MD = MD) %>%
+  ggplot(aes(x = x, y = MD)) +
+  geom_point() +
+  geom_segment(aes(xend = x, yend = 0)) +
+  scale_x_continuous("ID")+
+  ylim(c(0, 12)) +
+  theme_bw(base_size = 20)
+```
+
+
+
+## Outliers
+
+- **Distance** is the distance from prediction, or how far a case's observed value is from its predicted value 
+
+  * i.e., residual
+  
+  * In units of Y.
+  
+What might be problematic at looking at residuals in order to identify outliers?
+
+
+  
+
+## Distance
+
+Raw residuals come from a model that is influenced by the outliers, making it harder to detect the outliers in the first place. To avoid this issue, it is advisable to examine the **deleted residuals.**
+
+  - This value represents the distance between the observed value from a predicted value _that is calculated from a regression model based on all data except the case at hand_
+  
+  - The leave-one-out procedure is often referred to as a "jack-knife" procedure.
+
+
+## Outliers
+
+**Influence** refers to how much a regression equation would change if the extreme case (outlier) is removed.
+
+$\text{Influence} = \text{Leverage} \times \text{Distance}$
+
+The most common are:
+
+- Cook's Distance (change in model fit)
+- DFFITS (change in model fit, standardized)
+- DFBETAS (change in coefficient estimate without the outlier)
+
+
+
+## Outliers
+
+**Cook’s Distance** is calculated by removing the $i$th data point from the model and recalculating the regression. It summarizes how much all the values in the regression model change when the $i$th observation is removed.
+
+$$CD_i = \frac{\sum_{j=1}^n(\hat{Y}_j-\hat{Y}_{j(1)})^2}{(p+1)MSE}$$
+
+
+## Cook's Distance
+
+```{r}
+#| code-fold: true
+aug_1$ID = 1:nrow(aug_1)
+ggplot(aug_1, aes(x = ID, y = .cooksd)) +
+geom_point() +
+geom_text(aes(label = rownames(aug_1)), vjust = -1) +
+  theme_bw(base_size = 20)
+```
+
+
+----------
+
+
+
+**DFFITS** indexes how much the predicted value for a case changes if you remove the case from the equation. 
+
+**DFBETAs** index how much the estimate for a coefficient changes if you remove a case from the equation.
+
+```{r}
+head(dffits(model.2))
+head(dfbeta(model.2))
+```
+
+
+---------------
+
+
+```{r, echo = FALSE}
+aug_2$ID = 1:nrow(aug_2)
+aug_2$dfbetastress <- dfbeta(model.2)[,"Stress"]
+
+ggplot(data = aug_2, aes(x = ID, y = dfbetastress)) + geom_point() +
+geom_text(aes(label = rownames(aug_2), vjust = -1)) + cowplot::theme_cowplot(font_size = 20)
+```
+
+
+
+## Recommendations
+
+- Analyze data with/without outliers and see how results change
+
+- If you throw out cases you must believe it is not representative of population of interest or have appropriate explanation. You need to be able to **defend your decision** to the readers, your colleagues, and yourself. You also need to tell people what the hell you did
+
+- Don't throw out data just to be "safe". Data are hard to collect and outliers are expected!
+
+
+
+
+## Multicollinearity
+
+**Multicollinearity** occurs when predictor variables are highly related to each other. 
+- This can be a simple relationship, such as when X1 is strongly correlated with X2. This is easy to recognize, interpret, and correct for.
+
+- Sometimes multicollinearity is difficult to detect, such as when X1 is not strongly correlated with X2, X3, or X4, but the combination of the latter three is a strong predictor of X1. 
+
+
+
+
+## Addressing Multicollinearity
+
+Increase sample size
+
+Remove a variable from your model.
+
+Composite or factor scores
+  - If variables are highly correlated because they index the same underlying construct, why not just use them to create a more precise measure of that construct?
+  
+* Centering (esp important if your model includes interaction terms)
+
+
+## Suppression
+
+Multicollinearity is related to suppression. Normally our standardized partial regression coefficients fall between 0 and $r_{Y1}$. However, it is possible for $b_{Y1}$ to be larger than $r_{Y1}$. We refer to this phenomenon as **suppression.**
+* A non-significant $r_{Y1}$ can become a significant $b_{Y1}$ when additional variables are added to the model.
+
+* A *positive* $r_{Y1}$ can become a *negative* and significant $b_{Y1}$.
+
+
