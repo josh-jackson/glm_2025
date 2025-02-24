@@ -19,14 +19,16 @@ editor: source
 
 8. [Diagnostics](diagnostics.qmd)
 
-9. [MLM](7-mlm.qmd)
+9. [Power and poly](power.qmd)
 
-10. [SEM](8-sem.pdf)
+10. [MLM](7-mlm.qmd)
 
-11. [logistic](9-logistic.qmd)
+12. [SEM](8-sem.pdf)
 
-12. [Bayes](10-bayes.qmd)
+13. [logistic](9-logistic.qmd)
 
-13. [Machine learning 1](11-ml.qmd)
+14. [Bayes](10-bayes.qmd)
 
-14. [Machine learning 2](12-ml.qmd)
+15. [Machine learning 1](11-ml.qmd)
+
+16. [Machine learning 2](12-ml.qmd)

@@ -1278,7 +1278,7 @@
     "href": "lectures.html",
     "title": "Lectures",
     "section": "",
-    "text": "What are models?\nGLM basics\nGLM basics - 2\nGLM basics - 3\nInteractions\nInteractions - 2\nReview\nDiagnostics\nMLM\nSEM\nlogistic\nBayes\nMachine learning 1\nMachine learning 2"
+    "text": "What are models?\nGLM basics\nGLM basics - 2\nGLM basics - 3\nInteractions\nInteractions - 2\nReview\nDiagnostics\nPower and poly\nMLM\nSEM\nlogistic\nBayes\nMachine learning 1\nMachine learning 2"
   },
   {
     "objectID": "homework.html",
@@ -2917,5 +2917,194 @@
     "title": "Diagnostics",
     "section": "What happens if we violate assumptions?",
     "text": "What happens if we violate assumptions?\n\nBiased regression coefficients\nBiased standard errors"
+  },
+  {
+    "objectID": "power.html#anova-vs-regression",
+    "href": "power.html#anova-vs-regression",
+    "title": "Power",
+    "section": "ANOVA vs Regression",
+    "text": "ANOVA vs Regression"
+  },
+  {
+    "objectID": "power.html#anova-and-regression",
+    "href": "power.html#anova-and-regression",
+    "title": "Power",
+    "section": "ANOVA and regression",
+    "text": "ANOVA and regression\nAnova Interaction tests whether there are differences in differences.\nSimple main effect – the effect of Factor A at a specific level of Factor B\nRegression Interaction tests whether slope changes.\nSimple slopes – the slope of Variable A at a specific level of Variable B"
+  },
+  {
+    "objectID": "power.html#power",
+    "href": "power.html#power",
+    "title": "Power",
+    "section": "Power",
+    "text": "Power\nThe likelihood of finding an effect if the effect actually exists.\nWhen calculating power for the omnibus test, use the expected multiple \\(R^2\\) value to calculate an effect size: \\(f^2 = \\frac{R^2}{1-R^2}\\)\nTo estimate power for a single coefficient, you need to consider (1) how much variance is accounted for by just the variable and (2) how much variance you’ll account for in Y overall. \\(f^2 = \\frac{R^2_Y-R^2_{Y.X}}{1-R_Y^2}\\)"
+  },
+  {
+    "objectID": "power.html#effect-sizes-interactions",
+    "href": "power.html#effect-sizes-interactions",
+    "title": "Power",
+    "section": "Effect sizes (interactions)",
+    "text": "Effect sizes (interactions)\nTo start our discussion on powering interaction terms, we need to first consider the effect size of an interaction.\nHow big can we reasonably expect an interaction to be?\n\nInteractions are always partialled effects; that is, we examine the relationship between the product of variables X and Z only after we have controlled for X and controlled for Z. How does this affect the size of the relationship between XZ and Y?"
+  },
+  {
+    "objectID": "power.html#effect-sizes-interactions-1",
+    "href": "power.html#effect-sizes-interactions-1",
+    "title": "Power",
+    "section": "Effect sizes (interactions)",
+    "text": "Effect sizes (interactions)\nThe effect of XZ and Y will get smaller as \\(X\\) or \\(Z\\) (or both) is related to the product\nThe semi-partial correlation is always smaller than or equal to the zero-order correlation."
+  },
+  {
+    "objectID": "power.html#mcclelland-and-judd-1993",
+    "href": "power.html#mcclelland-and-judd-1993",
+    "title": "Power",
+    "section": "McClelland and Judd (1993)",
+    "text": "McClelland and Judd (1993)\nIs it more difficult to find interaction effects in experimental studies or observational studies?\nWhat factors make it relatively easier to find interactions in experimental work?"
+  },
+  {
+    "objectID": "power.html#influencing-power-in-experimental-studies",
+    "href": "power.html#influencing-power-in-experimental-studies",
+    "title": "Power",
+    "section": "Influencing power in experimental studies",
+    "text": "Influencing power in experimental studies\n\nNo measurement error of IV\n\ndon’t have to guess what condition a participant is in\nmeasurement error is exacerbated when two variables measured with error are multiplied by each other\n\nExperimentalists are more likely to find cross-over interactions; observational studies may be restricted to fan interactions\n\ncross-over interactions are easier to detect than fan interactions"
+  },
+  {
+    "objectID": "power.html#influencing-power-in-experimental-studies-1",
+    "href": "power.html#influencing-power-in-experimental-studies-1",
+    "title": "Power",
+    "section": "Influencing power in experimental studies",
+    "text": "Influencing power in experimental studies\n\nExperimentalists can concentrate scores on extreme ends on both X and Z\n\nin observational studies, data tends to cluster around the mean\nincreases variability in both X and Z, and in XZ\n\nExperimentalists can also force orthognality in X and Z\nExperimentalists can study the full range of X in an experiment"
+  },
+  {
+    "objectID": "power.html#mcclelland-and-judds-simulation",
+    "href": "power.html#mcclelland-and-judds-simulation",
+    "title": "Power",
+    "section": "McClelland and Judd’s simulation",
+    "text": "McClelland and Judd’s simulation\nFor the experiment simulations, we used 2 X 2 factorial designs, with values of X and Z equal to +1 and —1 and an equal number of observations at each of the four combinations of X and Z values.\n\nX = rep(c(-1,1), each = 50)\nZ = rep(c(-1,1), times = 50)\ntable(X,Z)\n\n    Z\nX    -1  1\n  -1 25 25\n  1  25 25"
+  },
+  {
+    "objectID": "power.html#mcclelland-and-judds-simulation-1",
+    "href": "power.html#mcclelland-and-judds-simulation-1",
+    "title": "Power",
+    "section": "McClelland and Judd’s simulation",
+    "text": "McClelland and Judd’s simulation\nFor the field study simulations, they used values of X and Z that varied between the extreme values of +1 and —1. More specifically, in the field study simulations, values of X and Z were each sampled independently from a normal distribution with a mean of 0 and a standard deviation of 0.5. Values of X and Z were rounded to create equally spaced 9-point scales ranging from -1 to +1 because ranges in field studies are always finite and because ratings are often on scales with discrete intervals."
+  },
+  {
+    "objectID": "power.html#mcclelland-and-judds-simulation-2",
+    "href": "power.html#mcclelland-and-judds-simulation-2",
+    "title": "Power",
+    "section": "McClelland and Judd’s simulation",
+    "text": "McClelland and Judd’s simulation\nFor field studies\n\nX = rnorm(n = 100, mean = 0, sd = .5)\nZ = rnorm(n = 100, mean = 0, sd = .5)\nX = round(X/.2)*.2\nZ = round(Z/.2)*.2\n\npsych::describe(data.frame(X,Z), fast = T)\n\n  vars   n  mean  sd median  min max range  skew kurtosis   se\nX    1 100 -0.05 0.5      0 -1.2 1.2   2.4  0.04    -0.41 0.05\nZ    2 100  0.03 0.5      0 -1.6 1.2   2.8 -0.44     0.63 0.05"
+  },
+  {
+    "objectID": "power.html#efficiency",
+    "href": "power.html#efficiency",
+    "title": "Power",
+    "section": "Efficiency",
+    "text": "Efficiency\n\nEfficiency = the ratio of the variance of XZ (controlling for X and Z) of a design to the best possible design (upper left corner). High efficiency is better; best efficiency is 1."
+  },
+  {
+    "objectID": "power.html#efficiency-1",
+    "href": "power.html#efficiency-1",
+    "title": "Power",
+    "section": "Efficiency",
+    "text": "Efficiency\nIf the optimal design has N observations, then to have the same power, any other design needs to have N*(1/efficiency).\nSo a design with .06 efficiency needs \\(\\frac{1}{.06} = 16.67\\) times the sample size to detect the effect."
+  },
+  {
+    "objectID": "power.html#efficiency-2",
+    "href": "power.html#efficiency-2",
+    "title": "Power",
+    "section": "Efficiency",
+    "text": "Efficiency\nThis particular point has been “rediscovered” as recently as 2018:\n\nyou need 16 times the sample size to detect an interaction as you need for a main effect of the same size.\nThis generalizes to higher-order interactions as well. If you have a three-way interaction, you need 16*16 (256 times the number of people)."
+  },
+  {
+    "objectID": "power.html#observational-studies-what-not-to-do",
+    "href": "power.html#observational-studies-what-not-to-do",
+    "title": "Power",
+    "section": "Observational studies: What NOT to do",
+    "text": "Observational studies: What NOT to do\nRe-code X and Z into more extreme values (e.g., median splits)\n\nwhile this increases variance in X and Z, it also increases measurement error\n\nCollect a random sample and then only perform analyses on the sub sample with extreme values\n\nreduces sample size and also generalizability"
+  },
+  {
+    "objectID": "power.html#observational-studies-what-not-to-do-1",
+    "href": "power.html#observational-studies-what-not-to-do-1",
+    "title": "Power",
+    "section": "Observational studies: What NOT to do",
+    "text": "Observational studies: What NOT to do\nWhat can be done? M&J suggest oversampling extremes and using weighted and unweighted samples"
+  },
+  {
+    "objectID": "power.html#experimental-studies-what-not-to-do",
+    "href": "power.html#experimental-studies-what-not-to-do",
+    "title": "Power",
+    "section": "Experimental studies: What NOT to do",
+    "text": "Experimental studies: What NOT to do\nBe mean to field researchers\nForget about lack of external validity and generalizability\nIgnore power when comparing interaction between covariate and experimental predictors (ANCOVA or multiple regression with categorical and continuous predictors)"
+  },
+  {
+    "objectID": "power.html#polynomials",
+    "href": "power.html#polynomials",
+    "title": "Power",
+    "section": "Polynomials",
+    "text": "Polynomials\nNon-linear relationships\nLinear lines often make bad predictions – very few processes that we study actually have linear relationships. For example, effort had diminishing returns (e.g., log functions), or small advantages early in life can have significant effects on mid-life outcones (e.g., exponentional functions). In cases where the direction of the effect is constant but changing in magnitude, the best way to handle the data is to transform a variable (usually the outcome) and run linear analyses.\n\nlog_y = log(y)\nlm(log_y ~ x)"
+  },
+  {
+    "objectID": "power.html#polynomial-regression",
+    "href": "power.html#polynomial-regression",
+    "title": "Power",
+    "section": "Polynomial regression",
+    "text": "Polynomial regression\nPolynomial regression is most often a form of hierarchical regressoin that systematically tests a series of higher order functions for a single variable.\n\\[\n\\begin{aligned}\n\\large \\textbf{Linear: } \\hat{Y} &= b_0 + b_1X \\\\\n\\large \\textbf{Quadtratic: } \\hat{Y} &= b_0 + b_1X + b_2X^2 \\\\\n\\large \\textbf{Cubic: } \\hat{Y} &= b_0 + b_1X + b_2X^2 + b_3X^3\\\\\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "power.html#can-a-team-have-too-much-talent",
+    "href": "power.html#can-a-team-have-too-much-talent",
+    "title": "Power",
+    "section": "Can a team have too much talent?",
+    "text": "Can a team have too much talent?\nResearchers hypothesized that teams with too many talented players have poor intra-team coordination and perform worse than teams with a moderate amount of talent. They looked at 208 international football teams. Talent was the percentage of players during the 2010 and 2014 World Cup Qualifications phases who also had contracts with elite club teams. Performance was the number of points the team earned during these same qualification phases.\nSwaab, R.I., Schaerer, M, Anicich, E.M., Ronay, R., and Galinsky, A.D. (2014). [The too-much-talent effect: Team interdependence determines when more talent is too much or not enough.](https://www8.gsb.columbia.edu/cbs-directory/sites/cbs-directory/files/publications/Too%20much%20talent%20PS.pdf Psychological Science 25(8), 1581-1591."
+  },
+  {
+    "objectID": "power.html#interpretation",
+    "href": "power.html#interpretation",
+    "title": "Power",
+    "section": "Interpretation",
+    "text": "Interpretation\nThe intercept is the predicted value of \\(Y\\) when \\(X = 0\\)\n\\(b_1\\) coefficient is the tangent to the curve when \\(X = 0\\). In other words, this is the rate of change when \\(X\\) is equal to \\(0\\). If \\(0\\) is not a meaningful value on your \\(X\\), you may want to center, as this will tell you the rate of change at the mean of \\(X\\).\n\n\nCode\nfootball$talent_c = football$talent - mean(football$talent)\nmod2_c = lm(points ~ talent_c + I(talent_c^2), data = football)"
+  },
+  {
+    "objectID": "power.html#interpretation-1",
+    "href": "power.html#interpretation-1",
+    "title": "Power",
+    "section": "Interpretation",
+    "text": "Interpretation\nThe \\(b_2\\) coefficient indexes the acceleration, which is how much the slope is going to change. More specifically, \\(2 \\times b_2\\) is the acceleration: the rate of change in \\(b_1\\) for a 1-unit change in X.\nYou can use this to calculate the slope of the tangent line at any value of X you’re interested in: \\[\\large b_1 + (2\\times b_2\\times X)\\]"
+  },
+  {
+    "objectID": "power.html#polynomials-are-interactions",
+    "href": "power.html#polynomials-are-interactions",
+    "title": "Power",
+    "section": "Polynomials are interactions",
+    "text": "Polynomials are interactions\nAn term for \\(X^2\\) is a term for \\(X \\times X\\) or the multiplication of two independent variables holding the same values.\n\nfootball$talent_2 = football$talent*football$talent\ntidy(lm(points ~ talent + talent_2, data = football))\n\n# A tibble: 3 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)  305.      17.6        17.3  5.22e-42\n2 talent        54.9      5.47       10.0  1.53e-19\n3 talent_2      -0.570    0.0750     -7.60 1.01e-12"
+  },
+  {
+    "objectID": "power.html#polynomials-are-interactions-1",
+    "href": "power.html#polynomials-are-interactions-1",
+    "title": "Power",
+    "section": "Polynomials are interactions",
+    "text": "Polynomials are interactions\nPut another way:\n\\[\\large \\hat{Y} = b_0 + b_1X + b_2X^2\\]\n\\[\\large \\hat{Y} = b_0 + \\frac{b_1}{2}X + \\frac{b_1}{2}X + b_2(X \\times X)\\]\nThe interaction term in another model would be interpreted as “how does the slope of X change as I move up in Z?” – here, we ask “how does the slope of X change as we move up in X?”"
+  },
+  {
+    "objectID": "power.html#when-should-you-use-polynomial-terms",
+    "href": "power.html#when-should-you-use-polynomial-terms",
+    "title": "Power",
+    "section": "When should you use polynomial terms?",
+    "text": "When should you use polynomial terms?\nYou may choose to fit a polynomial term after looking at a scatterplot of the data or looking at residual plots. A U-shaped curve may be indicative that you need to fit a quadratic form – although, as we discussed before, you may actually be measuring a different kind of non-linear relationship.\nPolynomial terms should mostly be dictated by theory – if you don’t have a good reason for thinking there will be a change in sign, then a polynomial is not right for you."
+  },
+  {
+    "objectID": "power.html#three-way-interactions-and-beyond",
+    "href": "power.html#three-way-interactions-and-beyond",
+    "title": "Power",
+    "section": "Three-way interactions and beyond",
+    "text": "Three-way interactions and beyond\nRegression equation\n\\[\\tiny \\hat{Y} = b_{0} + b_{1}X + b_{2}Z + b_{3}W + b_{4}XZ + b_{5}XW + b_{6}ZW + b_{7}XZW\\] The three-way interaction qualifies the three main effects (and any two-way interactions).\nLike a two-way interaction, the three-way interaction is a conditional effect. And it is symmetrical, meaning there are several equally correct ways of interpreting it.\nHow do we describe a 3-way ANOVA?"
+  },
+  {
+    "objectID": "power.html#four-way",
+    "href": "power.html#four-way",
+    "title": "Power",
+    "section": "Four-way?",
+    "text": "Four-way?\n\\[\n\\begin{aligned}\n\\hat{Y} &= b_0 + b_1X + b_{2}Z + b_{3}W + b_{4}Q + b_{5}XW\\\\\n&+ b_{6}ZW + b_{7}XZ + b_{8}QX + b_{9}QZ + b_{10}QW\\\\\n&+ b_{11}XZQ + b_{12}XZW + b_{13}XWQ + b_{14}ZWQ\\\\\n&+ b_{15}XZWQ\\\\\n\\end{aligned}\n\\]\n3-way (and higher) interactions are incredibly difficult to interpret, in part because they represent incredibly complicated processes. If you have a solid theoretical rationale for conducting a 3-day interaction, be sure you’ve collected enough subjects to power your test."
   }
 ]
