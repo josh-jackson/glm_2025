@@ -2,7 +2,7 @@
 title: "HW 6 MLM"
 ---
 
-**Data:** Data are the same as presented in class. They are repeated measures data where daily observations of negative and positive affect are nested within participant. Participants could have up to 100 observations. Data can be found here:
+**Data:** Data are the same as presented in class. They are repeated measures data where daily observations of negative and positive affect are nested within participant. Participants could have up to 100 observations. Data can be found here: <https://raw.githubusercontent.com/josh-jackson/glm_2025/refs/heads/main/data_mlm_HW.csv>
 
 1.  What situations would you need to use MLM? What are two benefits to MLMs?
 
