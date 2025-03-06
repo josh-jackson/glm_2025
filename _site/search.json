@@ -1285,7 +1285,7 @@
     "href": "homework.html",
     "title": "homework",
     "section": "",
-    "text": "R Refresher\nHW #2\nHW #3\nHW #4\nHW #5"
+    "text": "R Refresher\nHW #2\nHW #3\nHW #4\nHW #5\nHW #6"
   },
   {
     "objectID": "1-HW.html",
@@ -3106,5 +3106,12 @@
     "title": "Power",
     "section": "Four-way?",
     "text": "Four-way?\n\\[\n\\begin{aligned}\n\\hat{Y} &= b_0 + b_1X + b_{2}Z + b_{3}W + b_{4}Q + b_{5}XW\\\\\n&+ b_{6}ZW + b_{7}XZ + b_{8}QX + b_{9}QZ + b_{10}QW\\\\\n&+ b_{11}XZQ + b_{12}XZW + b_{13}XWQ + b_{14}ZWQ\\\\\n&+ b_{15}XZWQ\\\\\n\\end{aligned}\n\\]\n3-way (and higher) interactions are incredibly difficult to interpret, in part because they represent incredibly complicated processes. If you have a solid theoretical rationale for conducting a 3-day interaction, be sure you’ve collected enough subjects to power your test."
+  },
+  {
+    "objectID": "mlm-hw.html",
+    "href": "mlm-hw.html",
+    "title": "HW 6 MLM",
+    "section": "",
+    "text": "Data: Data are the same as presented in class. They are repeated measures data where daily observations of negative and positive affect are nested within participant. Participants could have up to 100 observations. Data can be found here:\n\nWhat situations would you need to use MLM? What are two benefits to MLMs?\nFor this example, what types of variables can be considered “level 1” and what types of variables can be considered “level 2”?\nA researcher is interested in how exercise (operationalized as number of steps) is related to a person’s level of positive affect, with positive affect serving as the DV and exercise as the IV. However the researcher knows that she could think of exercise both as a between subjects variable (some people exercise more than others), as well as a within person variable (some days you exercise, sometimes you don’t). Write out a level 1 equation and level 2 equation that tests the hypothesis that these two forms of exercise are related to positive affect, describing how to interpret each coefficient.\nUsing the data, run a model where daily levels of positive affect (P_A.std) are predicted by both person mean centered daily steps (steps.pmd) and person mean average steps (steps.pm).\n\n\n\nInterpret the coefficient for the level 1 effect of steps\nWhat coefficient tests whether people who take more steps on average have higher levels of positive affect?\nInterpret the random effect for intercept.\n\n\n\nHow would you change the model to test the hypothesis that those who take more steps on average (lets call them athletes) don’t benefit from daily steps in the same way as those who take less steps on average do (lets call them couch potatoes)? In other words, how could we test whether couch potatoes feel higher levels of positive affect after taking more steps than they typically do whereas if an athlete has a day of higher than typical steps they do not have higher levels of positive affect."
   }
 ]
