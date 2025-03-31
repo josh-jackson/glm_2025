@@ -16,4 +16,4 @@ title: "homework"
 
 -   [HW #8](sem-hw.qmd)
 
-
+-   [HW #9](glm-hw.qmd)

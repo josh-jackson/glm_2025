@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GLM 2024 - homework</title>
+<title>GLM 2024 - Untitled</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Lectures</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./homework.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./homework.html" rel="" target="">
  <span class="menu-text">homework</span></a>
   </li>  
   <li class="nav-item">
@@ -116,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">homework</h1>
+<h1 class="title">Untitled</h1>
 </div>
 
 
@@ -131,16 +131,14 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<ul>
-<li><p><a href="./R-Refresher.html">R Refresher</a></p></li>
-<li><p><a href="./2-hw.html">HW #2</a></p></li>
-<li><p><a href="./3-hw.html">HW #3</a></p></li>
-<li><p><a href="./4-hw.html">HW #4</a></p></li>
-<li><p><a href="./6-hw.html">HW #5</a></p></li>
-<li><p><a href="./mlm-hw.html">HW #6/7</a></p></li>
-<li><p><a href="./sem-hw.html">HW #8</a></p></li>
-<li><p><a href="./glm-hw.html">HW #9</a></p></li>
-</ul>
+<p><strong>Data:</strong> Use this mortality dataset to answer the questions below. <a href="mortality.csv"><code>mortality.csv</code></a></p>
+<ol type="1">
+<li><p>Using the <code>glm</code> function, run a multiple regression with IQ to predict and mortality status. Past studies have found that higher levels of IQ are associated with longer life.</p></li>
+<li><p>Then run the same function using the <code>lm</code> function. What are the similarities, what are the differences between these two approaches? Look at both the <code>anova</code> and the <code>summary</code> outputs.</p></li>
+<li><p>Plot the data with <code>ggplot2</code>. Fit a linear best fit line and a logistic curve (the S shape). You will need to google how to do the latter, but here’s a hint: it’s very similar to what you know, but you need to change some arguments! Make sure each line is a different color to make it easier to see.</p></li>
+<li><p>Now control for risky behavior using the most appropriate model (is it linear model or the generalized linear model?). Interpret all of the coefficients to the best of your ability.</p></li>
+<li><p>Instead of using a logit link function, rerun the analysis in #4 using a probit link function. What differences do you notice?</p></li>
+</ol>
 
 
 
