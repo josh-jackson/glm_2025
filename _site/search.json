@@ -3131,7 +3131,7 @@
   {
     "objectID": "glm-hw.html",
     "href": "glm-hw.html",
-    "title": "Untitled",
+    "title": "GLM",
     "section": "",
     "text": "Data: Use this mortality dataset to answer the questions below. mortality.csv\n\nUsing the glm function, run a multiple regression with IQ to predict and mortality status. Past studies have found that higher levels of IQ are associated with longer life.\nThen run the same function using the lm function. What are the similarities, what are the differences between these two approaches? Look at both the anova and the summary outputs.\nPlot the data with ggplot2. Fit a linear best fit line and a logistic curve (the S shape). You will need to google how to do the latter, but here’s a hint: it’s very similar to what you know, but you need to change some arguments! Make sure each line is a different color to make it easier to see.\nNow control for risky behavior using the most appropriate model (is it linear model or the generalized linear model?). Interpret all of the coefficients to the best of your ability.\nInstead of using a logit link function, rerun the analysis in #4 using a probit link function. What differences do you notice?"
   }
