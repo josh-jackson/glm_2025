@@ -593,3 +593,245 @@ data_grid(parent = seq_range(parent, n = 101)) %>%
 -   Why don't we do this already? Isn't frequentist better? Historical accident due to computation limitations
 -   Bayes Factors. Mostly garbage (imho) as they can be easily manipulated. But they have their place. BFs =/= Bayesian.
 :::
+
+## First bayes example
+
+```{r}
+#| code-fold: true
+
+library(tidyverse)
+galton.data <- psychTools::galton
+```
+
+```{r, echo = FALSE}
+galton.data %>% 
+  ggplot(aes(x = parent, y = child)) +
+  geom_jitter(alpha = 1/2) 
+
+```
+
+## model we want to fit
+
+$$ child_i \sim Normal( \mu_i , \sigma )\ $$
+
+$$\mu_i = \beta_0 + \beta_1  parent_i $$
+
+
+## regression with brms
+
+```{r}
+#| code-fold: true
+library(brms)
+fit.1.bayesian <- brm(child ~ parent, data = galton.data,
+                      backend = "cmdstanr",
+                      file = "fit.1.b")
+```
+
+
+--------
+
+```{r}
+summary(fit.1.bayesian)
+```
+
+----------
+
+```{r}
+#| code-fold: true
+library(tidybayes)
+fit.1.bayesian %>% 
+spread_draws(b_Intercept, b_parent) %>% 
+ggplot(aes(x = b_parent)) +
+  stat_halfeye()
+```
+
+
+----------
+
+## Prior for intercept
+
+```{r}
+#| code-fold: true
+
+  tibble(x = seq(from = 0, to = 100, by = .1)) %>% 
+  ggplot(aes(x = x, y = dnorm(x, mean = 68, sd = 5))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 10)) +
+  labs(title = "mu ~ dnorm(68, 5)",
+       y = "density")
+
+```
+
+## Prior for regression coefficent
+
+```{r}
+#| code-fold: true
+  tibble(x = seq(from = -15, to = 15, by = .1)) %>% 
+  ggplot(aes(x = x, y = dnorm(x, mean = 0, sd = 5))) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = -15, to = 15, by = 3)) +
+  labs(title = "mu ~ dnorm(0, 5)",
+       y = "density")
+```
+
+## Prior for sigma
+
+```{r}
+#| code-fold: true
+p.s <- ggplot(data.frame(x = c(0, 10)), aes(x)) +
+  stat_function(fun = dcauchy, n = 200, args = list(0, 1)) +
+  labs(title = "sigma ~ HalfCauchy(0,1)")
+p.s
+```
+
+-   We know that variances are going to be positive.
+
+-   What is an upper bound possibility?
+
+-----------------
+
+```{r}
+#| code-fold: true
+tibble(n = 1:100,
+         a = rnorm(100, mean = 68, sd = 5),
+         b = rnorm(100, mean = 0,   sd = 5)) %>% 
+  expand(nesting(n, a, b), height = range(galton.data$parent)) %>% 
+  mutate(c.height = a + b * (height - mean(galton.data$parent))) %>% 
+   ggplot(aes(x = height, y = c.height, group = n)) +
+  geom_line(alpha = 1/10) +
+  coord_cartesian(ylim = c(36, 96)) 
+```
+
+-----------
+
+```{r}
+
+galton.data <- galton.data %>% 
+  mutate(parent.c = parent - mean(parent))
+
+fit.2 <- 
+  brm(family = gaussian,
+      child ~ 1 + parent.c,
+      prior = c(prior(normal(68, 5), class = Intercept),
+                prior(normal(0, 5), class = b),
+                prior(cauchy(0, 1), class = sigma)),
+      data = galton.data, 
+      backend = "cmdstanr",
+      iter = 1000, warmup = 500, chains = 2, cores = 2, 
+      file = "fit.2")
+```
+
+
+------
+
+```{r}
+plot(fit.2)
+```
+
+
+
+--------
+
+```{r}
+#| code-fold: true
+plot(conditional_effects(fit.2), points = TRUE)
+
+```
+
+
+## What is in the brms object?
+
+The posterior!
+
+```{r}
+#| code-fold: true
+as_draws(fit.2)
+```
+
+## What is in the brms object?
+
+```{r}
+#| code-fold: true
+library(tidybayes)
+get_variables(fit.2)
+
+```
+
+
+------------------------------------------------------------------------
+
+```{r}
+#| code-fold: true
+fit.2 %>% 
+spread_draws(b_Intercept, b_parent.c) %>%  
+  select(b_parent.c) %>% 
+  mean_qi(.width = c(.5, .89, .95, .99))
+```
+
+-------
+```{r}
+#| code-fold: true
+  fit.2 %>% 
+  spread_draws(b_parent.c) %>% 
+  mean_qi(.width = c(.50, .89, .95, .99)) %>%  
+ggplot(aes(y = as.factor(.width), x = b_parent.c, xmin = .lower, xmax = .upper)) + geom_pointinterval() 
+```
+
+
+
+## prior and posterior plotted together
+
+```{r}
+#| code-fold: true
+fit.2 %>% 
+  spread_draws(b_parent.c) %>% 
+  ggplot(aes(x = b_parent.c)) +
+  stat_slab() +
+  stat_function(data = data.frame(x = c(-10, 10)), aes(x), fun = dnorm, n = 100, args = list(0, 5)) 
+```
+
+
+## Predicted/fitted values
+
+::: columns
+::: {.column width="50%"}
+If we examine a expected/predicted mean at a certain value across all of our samples we directly compute our uncertainty. In contrast to frequentist where we have to use an ugly equation, which has big assumptions.
+:::
+
+::: {.column width="50%"}
+```{r}
+#| code-fold: true
+fit.2 %>% 
+  spread_draws(b_Intercept,b_parent.c) %>% 
+  select(b_Intercept,b_parent.c) %>% 
+  mutate(mu_at_64 = b_Intercept + (b_parent.c * -4.3))
+```
+
+:::
+:::
+
+## Predicted/fitted values
+
+We can calculate not only the mean but also the dispersion. In lm land we had to use a funky equation to calculate the CI around some predicted value of X. Now we can use samples. It is just counting up where the xx% of samples fall.
+
+```{r}
+#| code-fold: true
+fit.2 %>% 
+  spread_draws(b_Intercept,b_parent.c) %>% 
+  select(b_Intercept,b_parent.c) %>% 
+  mutate(mu_at_64 = b_Intercept + (b_parent.c * -4.3)) %>% 
+  ggplot(aes(x = mu_at_64)) +
+  stat_slab() +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab(expression(mu["Child-height at parent 64"])) 
+
+```
+
+
+## Predicted/fitted values
+
+-   What did we do? We calculated the value of our DV when our predictor = -4.3 units under the mean (64 inches). (Basically a slice of the regression band from a few slides ago)
+
+-   How did we do it? We fed our model an X that we were interested in to calculate a Y-hat.
+
+-   We will be using this idea A. LOT. This isn't Bayesian specific. Instead it is a way you should think about all models. It is often VERY useful to use (e.g., getting group values when using dummy's, testing contrasts, etc).

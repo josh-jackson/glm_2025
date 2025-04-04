@@ -3134,5 +3134,271 @@
     "title": "GLM",
     "section": "",
     "text": "Data: Use this mortality dataset to answer the questions below. mortality.csv\n\nUsing the glm function, run a multiple regression with IQ to predict and mortality status. Past studies have found that higher levels of IQ are associated with longer life.\nThen run the same function using the lm function. What are the similarities, what are the differences between these two approaches? Look at both the anova and the summary outputs.\nPlot the data with ggplot2. Fit a linear best fit line and a logistic curve (the S shape). You will need to google how to do the latter, but here’s a hint: it’s very similar to what you know, but you need to change some arguments! Make sure each line is a different color to make it easier to see.\nNow control for risky behavior using the most appropriate model (is it linear model or the generalized linear model?). Interpret all of the coefficients to the best of your ability.\nInstead of using a logit link function, rerun the analysis in #4 using a probit link function. What differences do you notice?"
+  },
+  {
+    "objectID": "5067_bayes.html#a-working-mental-model",
+    "href": "5067_bayes.html#a-working-mental-model",
+    "title": "5067 Bayes",
+    "section": "A working mental model",
+    "text": "A working mental model\nWhat are Bayesian models?\n\n“Standard” regression with a different estimation algorithm.\nResults that represent a distribution rather than a point estimate and some uncertainty.\nPriors that incorporate existing knowledge."
+  },
+  {
+    "objectID": "5067_bayes.html#step-1-is-easy",
+    "href": "5067_bayes.html#step-1-is-easy",
+    "title": "5067 Bayes",
+    "section": "Step 1 is easy",
+    "text": "Step 1 is easy\n\n\nOLS i.e. \\(min\\sum(Y_{i}-\\hat{Y})^{2}\\)\nR uses QR decomposition, Newton Raphson, Fisher Scoring, SVR, etc – not this equation.\nMore advanced stats use an even different algorithm (e.g., maximum likelihood)\nSo why use bayesian algo? Always works. Fewer assumptions. Lots o’ tricks: Regularization in model, imputation in model, etc."
+  },
+  {
+    "objectID": "5067_bayes.html#think-of-results-in-terms-of-distributions",
+    "href": "5067_bayes.html#think-of-results-in-terms-of-distributions",
+    "title": "5067 Bayes",
+    "section": "2. Think of results in terms of distributions",
+    "text": "2. Think of results in terms of distributions\n\n\nResults are typically thought of as an estimate and an SE\nIndicates a “best guess” ie mean/median/mode and the imprecision related to it\nIf this guess is far away from zero (and imprecision not large), then it is “significant”\nWe know that if we repeated this again we won’t get the same answer (estimate), but likely in between our CIs"
+  },
+  {
+    "objectID": "5067_bayes.html#first-bayes-example",
+    "href": "5067_bayes.html#first-bayes-example",
+    "title": "5067 Bayes",
+    "section": "First bayes example",
+    "text": "First bayes example\n\n\nCode\nlibrary(tidyverse)\ngalton.data &lt;- psychTools::galton"
+  },
+  {
+    "objectID": "5067_bayes.html#regression-with-brms",
+    "href": "5067_bayes.html#regression-with-brms",
+    "title": "5067 Bayes",
+    "section": "regression with brms",
+    "text": "regression with brms\n\n\nCode\nlibrary(brms)\nfit.1.bayesian &lt;- brm(child ~ parent, data = galton.data,\n                      backend = \"cmdstanr\",\n                      file = \"fit.1.b\")\n\n\n\nsummary(fit.1.bayesian)\n\n Family: gaussian \n  Links: mu = identity; sigma = identity \nFormula: child ~ parent \n   Data: galton.data (Number of observations: 928) \n  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;\n         total post-warmup draws = 4000\n\nRegression Coefficients:\n          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nIntercept    24.00      2.79    18.54    29.38 1.00     3554     3112\nparent        0.65      0.04     0.57     0.73 1.00     3545     3112\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma     2.24      0.05     2.14     2.34 1.00     3880     3058\n\nDraws were sampled using sample(hmc). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1)."
+  },
+  {
+    "objectID": "5067_bayes.html#what-do-these-estimates-mean",
+    "href": "5067_bayes.html#what-do-these-estimates-mean",
+    "title": "5067 Bayes",
+    "section": "what do these estimates mean?",
+    "text": "what do these estimates mean?\n\n\nCode\nlibrary(tidybayes)\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nggplot(aes(x = b_parent)) +\n  stat_halfeye()"
+  },
+  {
+    "objectID": "5067_bayes.html#posterior-distribution-ie-results",
+    "href": "5067_bayes.html#posterior-distribution-ie-results",
+    "title": "5067 Bayes",
+    "section": "Posterior distribution (ie results)",
+    "text": "Posterior distribution (ie results)\n\nIs made up of a series of educated guesses (via our algorithm), each of which is consistent with the data.\nGreater density, greater likelihood of our parameter.\nUnlike CI which every value is equally plausible until it is implausible because it is out of the CI. Not just a best guess and an SE around the best guess (as with Maximum Likelihood).\nIn standard practice we can assume this distribution (typically normal), but with bayes it can be flexible!"
+  },
+  {
+    "objectID": "5067_bayes.html#posterior-distribution-ie-results-1",
+    "href": "5067_bayes.html#posterior-distribution-ie-results-1",
+    "title": "5067 Bayes",
+    "section": "Posterior distribution (ie results)",
+    "text": "Posterior distribution (ie results)\nIs made of up of a series of educated guesses. Each dot represents a particular guess. Guesses that occur more often are considered more likely.\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nggplot(aes(x = b_parent)) +\n  stat_dotsinterval()"
+  },
+  {
+    "objectID": "5067_bayes.html#posterior-distribution-ie-results-2",
+    "href": "5067_bayes.html#posterior-distribution-ie-results-2",
+    "title": "5067 Bayes",
+    "section": "Posterior distribution (ie results)",
+    "text": "Posterior distribution (ie results)\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent)\n\n\n# A tibble: 4,000 × 5\n   .chain .iteration .draw b_Intercept b_parent\n    &lt;int&gt;      &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;    &lt;dbl&gt;\n 1      1          1     1        21.4    0.684\n 2      1          2     2        22.5    0.667\n 3      1          3     3        18.2    0.730\n 4      1          4     4        27.0    0.602\n 5      1          5     5        20.3    0.699\n 6      1          6     6        27.7    0.592\n 7      1          7     7        25.6    0.622\n 8      1          8     8        25.9    0.618\n 9      1          9     9        24.4    0.638\n10      1         10    10        23.9    0.648\n# ℹ 3,990 more rows"
+  },
+  {
+    "objectID": "5067_bayes.html#how-does-the-algorithm-work",
+    "href": "5067_bayes.html#how-does-the-algorithm-work",
+    "title": "5067 Bayes",
+    "section": "How does the algorithm work?",
+    "text": "How does the algorithm work?\n\nBayes formula is analytically intractable (due to complex differential equations) so one needs to use an algorithm\nPlayed a role in developing the thermonuclear bomb with one of the earliest computers. Published in 1953 but ignored within stats b/c it was published within a physics/chemistry journal. Took about until 1990 for desktop computers to run fast enough to do at home."
+  },
+  {
+    "objectID": "5067_bayes.html#bayes-is-just-counting",
+    "href": "5067_bayes.html#bayes-is-just-counting",
+    "title": "5067 Bayes",
+    "section": "Bayes is just counting",
+    "text": "Bayes is just counting\n\n\n\nWhat p is consistent with our data? The most consistent are more likely, but the less consistent are possible\n\n\n\n\nCode\np &lt;- seq(0.01, 0.99, by = 0.01)\nloglike &lt;- dbinom(2, size = 10, prob = p)\nas.tibble(loglike) %&gt;% \n  mutate(p = row_number()/100) %&gt;% \nggplot(aes(y = value, x=p)) + \n     geom_line() + ylab(\"likelihood\")"
+  },
+  {
+    "objectID": "5067_bayes.html#bayesian-analysis-is-just-counting",
+    "href": "5067_bayes.html#bayesian-analysis-is-just-counting",
+    "title": "5067 Bayes",
+    "section": "Bayesian analysis is just counting",
+    "text": "Bayesian analysis is just counting\n\nBayesian analysis counts all ways that something can happen (according to assumptions/model). Assumptions with more ways that are consistent with data are more plausible.\nThis method is not demonstrably different than standard approaches. Standard likelihood approaches use the values that are most consistent with the data as an estimate. Try out all possible numbers and then tells you which one is most likely.\nWhere Bayes differs, is that there is no ONE result, that there are many possible results that are consistent with the data"
+  },
+  {
+    "objectID": "5067_bayes.html#be-comfortable-integrating-prior-knowledge",
+    "href": "5067_bayes.html#be-comfortable-integrating-prior-knowledge",
+    "title": "5067 Bayes",
+    "section": "3. Be comfortable integrating prior knowledge",
+    "text": "3. Be comfortable integrating prior knowledge\n\nPriors insert knowledge you have outside of your data into your model\nThis can seem “subjective” as opposed to the more “objective” way of letting the data speak.\n\n\n\nWe will mostly not “tip the scales” towards an outcome we want.\nMost of the time the prior knowledge constrains plausible or implausible range of values e.g. we know an effect size of a million is very unlikely.\nOften priors don’t matter…"
+  },
+  {
+    "objectID": "5067_bayes.html#okay-so-what-does-this-mean",
+    "href": "5067_bayes.html#okay-so-what-does-this-mean",
+    "title": "5067 Bayes",
+    "section": "Okay so what does this mean?",
+    "text": "Okay so what does this mean?\nIt means, BEFORE WE SEE THE DATA we are comfortable with different regression lines. For N(0,5) this is what we would expect:\n\n\nCode\npp &lt;-\n  tibble(n = 1:100,\n         a = rnorm(100, mean = 68, sd = 5),\n         b = rnorm(100, mean = 0,   sd = 5)) %&gt;% \n  expand(nesting(n, a, b), height = range(galton.data$parent)) %&gt;%   \n  mutate(c.height = a + b * (height - mean(galton.data$parent))) \n\ng.pp &lt;- pp %&gt;% \n  ggplot(aes(x = height, y = c.height, group = n)) +\n  geom_line(alpha = 1/10) +\n  coord_cartesian(ylim = c(36, 96)) \n\ng.pp"
+  },
+  {
+    "objectID": "5067_bayes.html#okay-so-why-is-this-important",
+    "href": "5067_bayes.html#okay-so-why-is-this-important",
+    "title": "5067 Bayes",
+    "section": "Okay so why is this important?",
+    "text": "Okay so why is this important?\n\nA model that makes impossible predictions prior to seeing the data isn’t too useful. Why waste the effort? We often know what values are likely, given what we know about effect sizes\nWe entertain impossible values with standard “frequentist” methods. They have implicit priors such that all values, from negative infinity to positive infinity are equally likely.\nIf we use priors from a uniform distribution we will get the EXACT same results as a frequentist method."
+  },
+  {
+    "objectID": "5067_bayes.html#model",
+    "href": "5067_bayes.html#model",
+    "title": "5067 Bayes",
+    "section": "model",
+    "text": "model\n\\[ child_i \\sim Normal( \\mu_i , \\sigma )\\ \\]\n\\[\\mu_i = \\beta_0 + \\beta_1  (parent_i - \\bar{parent_i} ) \\] \\[\\beta_0 \\sim Normal(66, 5)\\ \\] \\[\\beta_1 \\sim Normal(0, 5)\\ \\] \\[\\sigma \\sim HalfCauchy(0,10) \\]"
+  },
+  {
+    "objectID": "5067_bayes.html#tying-it-together",
+    "href": "5067_bayes.html#tying-it-together",
+    "title": "5067 Bayes",
+    "section": "Tying it together",
+    "text": "Tying it together\n\nBe comfortable with a different estimation algorithm\nThink of results in terms of distributions\nBe comfortable integrating prior knowledge"
+  },
+  {
+    "objectID": "5067_bayes.html#tying-it-together-1",
+    "href": "5067_bayes.html#tying-it-together-1",
+    "title": "5067 Bayes",
+    "section": "Tying it together",
+    "text": "Tying it together\n\\[p(\\theta | data) \\propto \\frac{p(data | \\theta) \\times p(\\theta )}{p(data)}\\] P(θ|data) is the posterior probability.\nP(θ) is the prior probability.\np(data| \\(\\theta\\) ) is the likelihood (really no different than ML).\np(data) can be ignored, it is just a normalized coefficient"
+  },
+  {
+    "objectID": "5067_bayes.html#tying-it-together-2",
+    "href": "5067_bayes.html#tying-it-together-2",
+    "title": "5067 Bayes",
+    "section": "Tying it together",
+    "text": "Tying it together\n\np(data | \\(\\theta\\)) is what we typically work with. What is the definition of a p-value?\nWe (scientists and those wanting to make decisions based on the science) don’t want that, but rather they want p(\\(\\theta\\) | data). Inverse probability - working backwards from the data to determine the most likely underlying condition\nBayes gives us this."
+  },
+  {
+    "objectID": "5067_bayes.html#combining-the-three-components",
+    "href": "5067_bayes.html#combining-the-three-components",
+    "title": "5067 Bayes",
+    "section": "Combining the three components",
+    "text": "Combining the three components\nPriors influencing Posterior"
+  },
+  {
+    "objectID": "5067_bayes.html#sample-size-influence",
+    "href": "5067_bayes.html#sample-size-influence",
+    "title": "5067 Bayes",
+    "section": "sample size influence",
+    "text": "sample size influence"
+  },
+  {
+    "objectID": "5067_bayes.html#going-from-prior-to-posterior",
+    "href": "5067_bayes.html#going-from-prior-to-posterior",
+    "title": "5067 Bayes",
+    "section": "Going from prior to posterior",
+    "text": "Going from prior to posterior\nWhat is our regression estimate again?\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \nselect(b_parent) %&gt;% \n  mode_hdi(.width = c(.95))\n\n\n# A tibble: 1 × 6\n  b_parent .lower .upper .width .point .interval\n     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    \n1    0.640  0.564  0.722   0.95 mode   hdi"
+  },
+  {
+    "objectID": "5067_bayes.html#going-from-prior-to-posterior-1",
+    "href": "5067_bayes.html#going-from-prior-to-posterior-1",
+    "title": "5067 Bayes",
+    "section": "Going from prior to posterior",
+    "text": "Going from prior to posterior\nWith a prior for b0 of N(0, .5)\n\n\nCode\nfit.1.bayesian %&gt;% \nspread_draws(b_Intercept, b_parent) %&gt;% \n  ggplot(aes(x = b_parent)) +\n  stat_slab() +\n  stat_function(data = data.frame(x = c(-2, 2)), aes(x), fun = dnorm, n = 100, args = list(0, .5))"
+  },
+  {
+    "objectID": "5067_bayes.html#going-from-prior-to-posterior-2",
+    "href": "5067_bayes.html#going-from-prior-to-posterior-2",
+    "title": "5067 Bayes",
+    "section": "Going from prior to posterior",
+    "text": "Going from prior to posterior\n\nplusible lines prior to data –&gt; plausible lines after data"
+  },
+  {
+    "objectID": "5067_bayes.html#what-is-confusing",
+    "href": "5067_bayes.html#what-is-confusing",
+    "title": "5067 Bayes",
+    "section": "What is confusing:",
+    "text": "What is confusing:\n\n\nIs it a philosophically different framework? p( \\({H_0}\\) | D) vs p(D | \\({H_0}\\) ) but it doesn’t really matter. Bayesian just means using the algorithm, and again, most of us don’t have strong algo preferences. Assuming a flat prior basically makes p( \\({H_0}\\) |d) = p( D | \\({H_0}\\) ) so if you want (don’t tell Bayesians) you can interpret frequentist stats as Bayesian. And that means CIs too! (don’t tell frequentists)\nWhy don’t we do this already? Isn’t frequentist better? History doesn’t progress due to fair and even fights (i.e. the correct doesn’t always prevail). Computation limitations and Fisher held progress back."
+  },
+  {
+    "objectID": "5067_bayes.html#what-is-confusing-1",
+    "href": "5067_bayes.html#what-is-confusing-1",
+    "title": "5067 Bayes",
+    "section": "What is confusing:",
+    "text": "What is confusing:\n\n\nTechnically, we don’t have p-values, but Bayesian has analogues.\nTechnically, there isn’t NHST (because no null distribution to create sampling distribution) but you can easily do “it”. Remember how model comparisons are equivalent to typical NHST tests?\nBayes Factors. Mostly garbage (imho) as they can be easily manipulated. But they have their place. BFs =/= Bayesian."
+  },
+  {
+    "objectID": "10-bayes.html#first-bayes-example",
+    "href": "10-bayes.html#first-bayes-example",
+    "title": "Bayes",
+    "section": "First bayes example",
+    "text": "First bayes example\n\n\nCode\nlibrary(tidyverse)\ngalton.data &lt;- psychTools::galton"
+  },
+  {
+    "objectID": "10-bayes.html#model-we-want-to-fit",
+    "href": "10-bayes.html#model-we-want-to-fit",
+    "title": "Bayes",
+    "section": "model we want to fit",
+    "text": "model we want to fit\n\\[ child_i \\sim Normal( \\mu_i , \\sigma )\\ \\]\n\\[\\mu_i = \\beta_0 + \\beta_1  parent_i \\]"
+  },
+  {
+    "objectID": "10-bayes.html#regression-with-brms",
+    "href": "10-bayes.html#regression-with-brms",
+    "title": "Bayes",
+    "section": "regression with brms",
+    "text": "regression with brms\n\n\nCode\nlibrary(brms)\nfit.1.bayesian &lt;- brm(child ~ parent, data = galton.data,\n                      backend = \"cmdstanr\",\n                      file = \"fit.1.b\")"
+  },
+  {
+    "objectID": "10-bayes.html#prior-for-intercept",
+    "href": "10-bayes.html#prior-for-intercept",
+    "title": "Bayes",
+    "section": "Prior for intercept",
+    "text": "Prior for intercept\n\n\nCode\n  tibble(x = seq(from = 0, to = 100, by = .1)) %&gt;% \n  ggplot(aes(x = x, y = dnorm(x, mean = 68, sd = 5))) +\n  geom_line() +\n  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 10)) +\n  labs(title = \"mu ~ dnorm(68, 5)\",\n       y = \"density\")"
+  },
+  {
+    "objectID": "10-bayes.html#prior-for-regression-coefficent",
+    "href": "10-bayes.html#prior-for-regression-coefficent",
+    "title": "Bayes",
+    "section": "Prior for regression coefficent",
+    "text": "Prior for regression coefficent\n\n\nCode\n  tibble(x = seq(from = -15, to = 15, by = .1)) %&gt;% \n  ggplot(aes(x = x, y = dnorm(x, mean = 0, sd = 5))) +\n  geom_line() +\n  scale_x_continuous(breaks = seq(from = -15, to = 15, by = 3)) +\n  labs(title = \"mu ~ dnorm(0, 5)\",\n       y = \"density\")"
+  },
+  {
+    "objectID": "10-bayes.html#prior-for-sigma",
+    "href": "10-bayes.html#prior-for-sigma",
+    "title": "Bayes",
+    "section": "Prior for sigma",
+    "text": "Prior for sigma\n\n\nCode\np.s &lt;- ggplot(data.frame(x = c(0, 10)), aes(x)) +\n  stat_function(fun = dcauchy, n = 200, args = list(0, 1)) +\n  labs(title = \"sigma ~ HalfCauchy(0,1)\")\np.s\n\n\n\n\nWe know that variances are going to be positive.\nWhat is an upper bound possibility?"
+  },
+  {
+    "objectID": "10-bayes.html#what-is-in-the-brms-object",
+    "href": "10-bayes.html#what-is-in-the-brms-object",
+    "title": "Bayes",
+    "section": "What is in the brms object?",
+    "text": "What is in the brms object?\nThe posterior!\n\n\nCode\nas_draws(fit.2)\n\n\n# A draws_list: 500 iterations, 2 chains, and 6 variables\n\n[chain = 1]\n$b_Intercept\n [1] 68 68 68 68 68 68 68 68 68 68\n\n$b_parent.c\n [1] 0.63 0.69 0.67 0.63 0.66 0.62 0.67 0.62 0.62 0.68\n\n$sigma\n [1] 2.3 2.2 2.2 2.3 2.2 2.3 2.2 2.3 2.2 2.3\n\n$Intercept\n [1] 68 68 68 68 68 68 68 68 68 68\n\n\n[chain = 2]\n$b_Intercept\n [1] 68 68 68 68 68 68 68 68 68 68\n\n$b_parent.c\n [1] 0.66 0.56 0.74 0.56 0.59 0.67 0.66 0.63 0.63 0.59\n\n$sigma\n [1] 2.2 2.2 2.3 2.3 2.2 2.2 2.3 2.2 2.2 2.2\n\n$Intercept\n [1] 68 68 68 68 68 68 68 68 68 68\n\n# ... with 490 more iterations, and 2 more variables"
+  },
+  {
+    "objectID": "10-bayes.html#what-is-in-the-brms-object-1",
+    "href": "10-bayes.html#what-is-in-the-brms-object-1",
+    "title": "Bayes",
+    "section": "What is in the brms object?",
+    "text": "What is in the brms object?\n\n\nCode\nlibrary(tidybayes)\nget_variables(fit.2)\n\n\n [1] \"b_Intercept\"   \"b_parent.c\"    \"sigma\"         \"Intercept\"    \n [5] \"lprior\"        \"lp__\"          \"accept_stat__\" \"treedepth__\"  \n [9] \"stepsize__\"    \"divergent__\"   \"n_leapfrog__\"  \"energy__\""
+  },
+  {
+    "objectID": "10-bayes.html#prior-and-posterior-plotted-together",
+    "href": "10-bayes.html#prior-and-posterior-plotted-together",
+    "title": "Bayes",
+    "section": "prior and posterior plotted together",
+    "text": "prior and posterior plotted together\n\n\nCode\nfit.2 %&gt;% \n  spread_draws(b_parent.c) %&gt;% \n  ggplot(aes(x = b_parent.c)) +\n  stat_slab() +\n  stat_function(data = data.frame(x = c(-10, 10)), aes(x), fun = dnorm, n = 100, args = list(0, 5))"
+  },
+  {
+    "objectID": "10-bayes.html#predictedfitted-values",
+    "href": "10-bayes.html#predictedfitted-values",
+    "title": "Bayes",
+    "section": "Predicted/fitted values",
+    "text": "Predicted/fitted values\n\n\nIf we examine a expected/predicted mean at a certain value across all of our samples we directly compute our uncertainty. In contrast to frequentist where we have to use an ugly equation, which has big assumptions.\n\n\n\nCode\nfit.2 %&gt;% \n  spread_draws(b_Intercept,b_parent.c) %&gt;% \n  select(b_Intercept,b_parent.c) %&gt;% \n  mutate(mu_at_64 = b_Intercept + (b_parent.c * -4.3))\n\n\n# A tibble: 1,000 × 3\n   b_Intercept b_parent.c mu_at_64\n         &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;\n 1        68.0      0.631     65.3\n 2        68.2      0.692     65.2\n 3        67.9      0.668     65.0\n 4        68.3      0.628     65.6\n 5        67.9      0.665     65.0\n 6        68.3      0.625     65.6\n 7        68.1      0.672     65.2\n 8        68.1      0.620     65.4\n 9        68.1      0.624     65.4\n10        68.2      0.680     65.3\n# ℹ 990 more rows"
+  },
+  {
+    "objectID": "10-bayes.html#predictedfitted-values-1",
+    "href": "10-bayes.html#predictedfitted-values-1",
+    "title": "Bayes",
+    "section": "Predicted/fitted values",
+    "text": "Predicted/fitted values\nWe can calculate not only the mean but also the dispersion. In lm land we had to use a funky equation to calculate the CI around some predicted value of X. Now we can use samples. It is just counting up where the xx% of samples fall.\n\n\nCode\nfit.2 %&gt;% \n  spread_draws(b_Intercept,b_parent.c) %&gt;% \n  select(b_Intercept,b_parent.c) %&gt;% \n  mutate(mu_at_64 = b_Intercept + (b_parent.c * -4.3)) %&gt;% \n  ggplot(aes(x = mu_at_64)) +\n  stat_slab() +\n  scale_y_continuous(NULL, breaks = NULL) +\n  xlab(expression(mu[\"Child-height at parent 64\"]))"
+  },
+  {
+    "objectID": "10-bayes.html#predictedfitted-values-2",
+    "href": "10-bayes.html#predictedfitted-values-2",
+    "title": "Bayes",
+    "section": "Predicted/fitted values",
+    "text": "Predicted/fitted values\n\nWhat did we do? We calculated the value of our DV when our predictor = -4.3 units under the mean (64 inches). (Basically a slice of the regression band from a few slides ago)\nHow did we do it? We fed our model an X that we were interested in to calculate a Y-hat.\nWe will be using this idea A. LOT. This isn’t Bayesian specific. Instead it is a way you should think about all models. It is often VERY useful to use (e.g., getting group values when using dummy’s, testing contrasts, etc)."
   }
 ]

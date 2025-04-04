@@ -974,6 +974,339 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <li class="fragment">Bayes Factors. Mostly garbage (imho) as they can be easily manipulated. But they have their place. BFs =/= Bayesian.</li>
 </ul>
 </div>
+</section>
+<section id="first-bayes-example" class="slide level2">
+<h2>First bayes example</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb27-2"><a href="#cb27-2"></a>galton.data <span class="ot">&lt;-</span> psychTools<span class="sc">::</span>galton</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch"></section>
+<section id="model-we-want-to-fit" class="slide level2">
+<h2>model we want to fit</h2>
+<p><span class="math display">\[ child_i \sim Normal( \mu_i , \sigma )\ \]</span></p>
+<p><span class="math display">\[\mu_i = \beta_0 + \beta_1  parent_i \]</span></p>
+</section>
+<section id="regression-with-brms" class="slide level2">
+<h2>regression with brms</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb28-2"><a href="#cb28-2"></a>fit.<span class="fl">1.</span>bayesian <span class="ot">&lt;-</span> <span class="fu">brm</span>(child <span class="sc">~</span> parent, <span class="at">data =</span> galton.data,</span>
+<span id="cb28-3"><a href="#cb28-3"></a>                      <span class="at">backend =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4"></a>                      <span class="at">file =</span> <span class="st">"fit.1.b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">summary</span>(fit.<span class="fl">1.</span>bayesian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: gaussian 
+  Links: mu = identity; sigma = identity 
+Formula: child ~ parent 
+   Data: galton.data (Number of observations: 928) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Regression Coefficients:
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept    24.00      2.79    18.54    29.38 1.00     3554     3112
+parent        0.65      0.04     0.57     0.73 1.00     3545     3112
+
+Further Distributional Parameters:
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sigma     2.24      0.05     2.14     2.34 1.00     3880     3058
+
+Draws were sampled using sample(hmc). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb31-2"><a href="#cb31-2"></a>fit.<span class="fl">1.</span>bayesian <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="fu">spread_draws</span>(b_Intercept, b_parent) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> b_parent)) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="fu">stat_halfeye</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-31-1.png" width="960" class="r-stretch"></section>
+<section id="prior-for-intercept" class="slide level2">
+<h2>Prior for intercept</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">100</span>, <span class="at">by =</span> .<span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">68</span>, <span class="at">sd =</span> <span class="dv">5</span>))) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"mu ~ dnorm(68, 5)"</span>,</span>
+<span id="cb32-6"><a href="#cb32-6"></a>       <span class="at">y =</span> <span class="st">"density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-32-1.png" width="960" class="r-stretch"></section>
+<section id="prior-for-regression-coefficent" class="slide level2">
+<h2>Prior for regression coefficent</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">15</span>, <span class="at">to =</span> <span class="dv">15</span>, <span class="at">by =</span> .<span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">5</span>))) <span class="sc">+</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">15</span>, <span class="at">to =</span> <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"mu ~ dnorm(0, 5)"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6"></a>       <span class="at">y =</span> <span class="st">"density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-33-1.png" width="960" class="r-stretch"></section>
+<section id="prior-for-sigma" class="slide level2">
+<h2>Prior for sigma</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>p.s <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>)), <span class="fu">aes</span>(x)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dcauchy, <span class="at">n =</span> <span class="dv">200</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"sigma ~ HalfCauchy(0,1)"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4"></a>p.s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-34-1.png" width="960" class="r-stretch"><ul>
+<li><p>We know that variances are going to be positive.</p></li>
+<li><p>What is an upper bound possibility?</p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">tibble</span>(<span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb35-2"><a href="#cb35-2"></a>         <span class="at">a =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">68</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb35-3"><a href="#cb35-3"></a>         <span class="at">b =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>,   <span class="at">sd =</span> <span class="dv">5</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="fu">expand</span>(<span class="fu">nesting</span>(n, a, b), <span class="at">height =</span> <span class="fu">range</span>(galton.data<span class="sc">$</span>parent)) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="fu">mutate</span>(<span class="at">c.height =</span> a <span class="sc">+</span> b <span class="sc">*</span> (height <span class="sc">-</span> <span class="fu">mean</span>(galton.data<span class="sc">$</span>parent))) <span class="sc">%&gt;%</span> </span>
+<span id="cb35-6"><a href="#cb35-6"></a>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> height, <span class="at">y =</span> c.height, <span class="at">group =</span> n)) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">36</span>, <span class="dv">96</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-35-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>galton.data <span class="ot">&lt;-</span> galton.data <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="fu">mutate</span>(<span class="at">parent.c =</span> parent <span class="sc">-</span> <span class="fu">mean</span>(parent))</span>
+<span id="cb36-3"><a href="#cb36-3"></a></span>
+<span id="cb36-4"><a href="#cb36-4"></a>fit<span class="fl">.2</span> <span class="ot">&lt;-</span> </span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="fu">brm</span>(<span class="at">family =</span> gaussian,</span>
+<span id="cb36-6"><a href="#cb36-6"></a>      child <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> parent.c,</span>
+<span id="cb36-7"><a href="#cb36-7"></a>      <span class="at">prior =</span> <span class="fu">c</span>(<span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">68</span>, <span class="dv">5</span>), <span class="at">class =</span> Intercept),</span>
+<span id="cb36-8"><a href="#cb36-8"></a>                <span class="fu">prior</span>(<span class="fu">normal</span>(<span class="dv">0</span>, <span class="dv">5</span>), <span class="at">class =</span> b),</span>
+<span id="cb36-9"><a href="#cb36-9"></a>                <span class="fu">prior</span>(<span class="fu">cauchy</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">class =</span> sigma)),</span>
+<span id="cb36-10"><a href="#cb36-10"></a>      <span class="at">data =</span> galton.data, </span>
+<span id="cb36-11"><a href="#cb36-11"></a>      <span class="at">backend =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb36-12"><a href="#cb36-12"></a>      <span class="at">iter =</span> <span class="dv">1000</span>, <span class="at">warmup =</span> <span class="dv">500</span>, <span class="at">chains =</span> <span class="dv">2</span>, <span class="at">cores =</span> <span class="dv">2</span>, </span>
+<span id="cb36-13"><a href="#cb36-13"></a>      <span class="at">file =</span> <span class="st">"fit.2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="fu">plot</span>(fit<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-37-1.png" width="960" class="r-stretch"></section>
+<section class="slide level2">
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">plot</span>(<span class="fu">conditional_effects</span>(fit<span class="fl">.2</span>), <span class="at">points =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-38-1.png" width="960" class="r-stretch"></section>
+<section id="what-is-in-the-brms-object" class="slide level2">
+<h2>What is in the brms object?</h2>
+<p>The posterior!</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">as_draws</span>(fit<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A draws_list: 500 iterations, 2 chains, and 6 variables
+
+[chain = 1]
+$b_Intercept
+ [1] 68 68 68 68 68 68 68 68 68 68
+
+$b_parent.c
+ [1] 0.63 0.69 0.67 0.63 0.66 0.62 0.67 0.62 0.62 0.68
+
+$sigma
+ [1] 2.3 2.2 2.2 2.3 2.2 2.3 2.2 2.3 2.2 2.3
+
+$Intercept
+ [1] 68 68 68 68 68 68 68 68 68 68
+
+
+[chain = 2]
+$b_Intercept
+ [1] 68 68 68 68 68 68 68 68 68 68
+
+$b_parent.c
+ [1] 0.66 0.56 0.74 0.56 0.59 0.67 0.66 0.63 0.63 0.59
+
+$sigma
+ [1] 2.2 2.2 2.3 2.3 2.2 2.2 2.3 2.2 2.2 2.2
+
+$Intercept
+ [1] 68 68 68 68 68 68 68 68 68 68
+
+# ... with 490 more iterations, and 2 more variables</code></pre>
+</div>
+</div>
+</section>
+<section id="what-is-in-the-brms-object-1" class="slide level2">
+<h2>What is in the brms object?</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb41-2"><a href="#cb41-2"></a><span class="fu">get_variables</span>(fit<span class="fl">.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "b_Intercept"   "b_parent.c"    "sigma"         "Intercept"    
+ [5] "lprior"        "lp__"          "accept_stat__" "treedepth__"  
+ [9] "stepsize__"    "divergent__"   "n_leapfrog__"  "energy__"     </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> </span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="fu">spread_draws</span>(b_Intercept, b_parent.c) <span class="sc">%&gt;%</span>  </span>
+<span id="cb43-3"><a href="#cb43-3"></a>  <span class="fu">select</span>(b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb43-4"><a href="#cb43-4"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">89</span>, .<span class="dv">95</span>, .<span class="dv">99</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 6
+  b_parent.c .lower .upper .width .point .interval
+       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    
+1      0.648  0.622  0.674   0.5  mean   qi       
+2      0.648  0.586  0.712   0.89 mean   qi       
+3      0.648  0.568  0.728   0.95 mean   qi       
+4      0.648  0.532  0.749   0.99 mean   qi       </code></pre>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>  fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> </span>
+<span id="cb45-2"><a href="#cb45-2"></a>  <span class="fu">spread_draws</span>(b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-3"><a href="#cb45-3"></a>  <span class="fu">mean_qi</span>(<span class="at">.width =</span> <span class="fu">c</span>(.<span class="dv">50</span>, .<span class="dv">89</span>, .<span class="dv">95</span>, .<span class="dv">99</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">as.factor</span>(.width), <span class="at">x =</span> b_parent.c, <span class="at">xmin =</span> .lower, <span class="at">xmax =</span> .upper)) <span class="sc">+</span> <span class="fu">geom_pointinterval</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-42-1.png" width="960" class="r-stretch"></section>
+<section id="prior-and-posterior-plotted-together" class="slide level2">
+<h2>prior and posterior plotted together</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="#cb46-2"></a>  <span class="fu">spread_draws</span>(b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-3"><a href="#cb46-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> b_parent.c)) <span class="sc">+</span></span>
+<span id="cb46-4"><a href="#cb46-4"></a>  <span class="fu">stat_slab</span>() <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5"></a>  <span class="fu">stat_function</span>(<span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>)), <span class="fu">aes</span>(x), <span class="at">fun =</span> dnorm, <span class="at">n =</span> <span class="dv">100</span>, <span class="at">args =</span> <span class="fu">list</span>(<span class="dv">0</span>, <span class="dv">5</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-43-1.png" width="960" class="r-stretch"></section>
+<section id="predictedfitted-values" class="slide level2">
+<h2>Predicted/fitted values</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>If we examine a expected/predicted mean at a certain value across all of our samples we directly compute our uncertainty. In contrast to frequentist where we have to use an ugly equation, which has big assumptions.</p>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="#cb47-2"></a>  <span class="fu">spread_draws</span>(b_Intercept,b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-3"><a href="#cb47-3"></a>  <span class="fu">select</span>(b_Intercept,b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-4"><a href="#cb47-4"></a>  <span class="fu">mutate</span>(<span class="at">mu_at_64 =</span> b_Intercept <span class="sc">+</span> (b_parent.c <span class="sc">*</span> <span class="sc">-</span><span class="fl">4.3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,000 × 3
+   b_Intercept b_parent.c mu_at_64
+         &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+ 1        68.0      0.631     65.3
+ 2        68.2      0.692     65.2
+ 3        67.9      0.668     65.0
+ 4        68.3      0.628     65.6
+ 5        67.9      0.665     65.0
+ 6        68.3      0.625     65.6
+ 7        68.1      0.672     65.2
+ 8        68.1      0.620     65.4
+ 9        68.1      0.624     65.4
+10        68.2      0.680     65.3
+# ℹ 990 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="predictedfitted-values-1" class="slide level2">
+<h2>Predicted/fitted values</h2>
+<p>We can calculate not only the mean but also the dispersion. In lm land we had to use a funky equation to calculate the CI around some predicted value of X. Now we can use samples. It is just counting up where the xx% of samples fall.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>fit<span class="fl">.2</span> <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="#cb49-2"></a>  <span class="fu">spread_draws</span>(b_Intercept,b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-3"><a href="#cb49-3"></a>  <span class="fu">select</span>(b_Intercept,b_parent.c) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-4"><a href="#cb49-4"></a>  <span class="fu">mutate</span>(<span class="at">mu_at_64 =</span> b_Intercept <span class="sc">+</span> (b_parent.c <span class="sc">*</span> <span class="sc">-</span><span class="fl">4.3</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb49-5"><a href="#cb49-5"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> mu_at_64)) <span class="sc">+</span></span>
+<span id="cb49-6"><a href="#cb49-6"></a>  <span class="fu">stat_slab</span>() <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb49-8"><a href="#cb49-8"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(mu[<span class="st">"Child-height at parent 64"</span>])) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+
+</div>
+<img data-src="10-bayes_files/figure-revealjs/unnamed-chunk-45-1.png" width="960" class="r-stretch"></section>
+<section id="predictedfitted-values-2" class="slide level2">
+<h2>Predicted/fitted values</h2>
+<ul>
+<li><p>What did we do? We calculated the value of our DV when our predictor = -4.3 units under the mean (64 inches). (Basically a slice of the regression band from a few slides ago)</p></li>
+<li><p>How did we do it? We fed our model an X that we were interested in to calculate a Y-hat.</p></li>
+<li><p>We will be using this idea A. LOT. This isn’t Bayesian specific. Instead it is a way you should think about all models. It is often VERY useful to use (e.g., getting group values when using dummy’s, testing contrasts, etc).</p></li>
+</ul>
 
 <div class="footer footer-default">
 
